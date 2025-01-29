@@ -6,6 +6,20 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  daisyui: {
+    themes: [
+      {
+        Hairstheme: {
+          primary: "#F9A000",
+          secondary: "#FFFFFF",
+          accent: "#FE5B65",
+          neutral: "#F8F8F9",
+          "base-100": "#ffffff",
+        },
+      },
+      "dark",
+    ],
+  },
   theme: {
     extend: {
       colors: {
@@ -14,5 +28,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 } satisfies Config;
