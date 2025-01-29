@@ -26,13 +26,13 @@ export default function RootLayout({
             <LuCalendar1 className="text-[24px] text-[#505766]" />
             <div className="relative">
               <TbMessage2 className="text-[24px] text-[#505766]" />
-              <div className="absolute bg-accent -top-2 -right-3 py-[2px] px-[6px] text-white text-[10px] font-semibold rounded-[100px]">
+              <div className="absolute bg-[#FE5B65] -top-2 -right-3 py-[2px] px-[6px] text-white text-[10px] font-semibold rounded-[100px]">
                 99
               </div>
             </div>
             <div className="relative">
               <IoNotificationsOutline className="text-[24px] text-[#505766]" />
-              <div className="absolute bg-accent -top-2 -right-3 py-[2px] px-[6px] text-white text-[10px] font-semibold rounded-[100px]">
+              <div className="absolute bg-[#FE5B65] -top-2 -right-3 py-[2px] px-[6px] text-white text-[10px] font-semibold rounded-[100px]">
                 99
               </div>
             </div>
@@ -40,7 +40,7 @@ export default function RootLayout({
         </div>
       </div>
       <SideBar />
-      {children}
+      <div className="ml-[275px] px-[32px]">{children}</div>
     </div>
   );
 }
