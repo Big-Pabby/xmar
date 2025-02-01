@@ -9,7 +9,7 @@ const Wallet = () => {
         <h3 className="text-[20px] font-medium">Wallet Balance</h3>
         <BsThreeDotsVertical className="text-[16px] text-accent" />
       </div>
-      <p className="text-accent mt-4 text-[14px]">
+      <p className="text-accent mt-1 text-[14px]">
         Admin estimated wallet Balance
       </p>
       <div className="mt-6 rounded-[12px] bg-primary w-full h-[180px] p-[12px] flex flex-col justify-between">

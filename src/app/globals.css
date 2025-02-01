@@ -20,6 +20,16 @@
   display: none !important;
 }
 
+/* Hide scrollbar for Webkit (Chrome, Safari) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);

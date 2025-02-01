@@ -4,6 +4,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { RiLinkM } from "react-icons/ri";
 import Wallet from "@/components/Wallet";
 import UsersEstimated from "@/components/UsersEstimated";
+import ChatBox from "@/components/ChatBox";
+import QuickAction from "@/components/QuickAction";
+import Expenses from "@/components/Expenses";
 
 const page = () => {
   return (
@@ -28,6 +31,11 @@ const page = () => {
         <div className="md:w-4/12 w-full flex flex-col gap-5">
           <Wallet />
           <UsersEstimated />
+          <ChatBox />
+        </div>
+        <div className="md:w-8/12 w-full flex flex-col gap-5">
+          <QuickAction />
+          <Expenses />
         </div>
       </div>
     </div>
