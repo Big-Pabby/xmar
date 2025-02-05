@@ -7,6 +7,7 @@ import UsersEstimated from "@/components/UsersEstimated";
 import ChatBox from "@/components/ChatBox";
 import QuickAction from "@/components/QuickAction";
 import Expenses from "@/components/Expenses";
+import Statistics from "@/components/Statistics";
 
 const page = () => {
   return (
@@ -36,6 +37,7 @@ const page = () => {
         <div className="md:w-8/12 w-full flex flex-col gap-5">
           <QuickAction />
           <Expenses />
+          <Statistics />
         </div>
       </div>
     </div>
