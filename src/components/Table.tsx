@@ -23,6 +23,16 @@ const Table = <T extends Record<string, any>>({
     const date = dayjs(isoString);
     return `${date.format("HH:mm")} `;
   };
+  const getDaysLeft = (date1: string, date2: string) => {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+
+    const diffInMs = d1.getTime() - d2.getTime(); // Difference in milliseconds
+    const daysLeft = diffInMs / (1000 * 60 * 60 * 24); // Convert ms to days
+
+    return Math.ceil(daysLeft); // Round up to nearest day
+  };
+
   return (
     <table className="border-collapse w-full">
       <thead>
@@ -84,12 +94,23 @@ const Table = <T extends Record<string, any>>({
                   >
                     {row[col.key]}
                   </div>
-                ) : col.key === "date" ? (
+                ) : col.key === "entry_date" ? (
                   <div className="font-medium">
                     <h3>{formatDate(row[col.key])}</h3>
                     <p className="text-[12px] text-[#707A8F]">
                       {formatTime(row[col.key])}
                     </p>
+                  </div>
+                ) : col.key === "expiry_date" ? (
+                  <div className="font-medium">
+                    <h3>{formatDate(row[col.key])}</h3>
+                    <p className="text-[12px] text-[#707A8F]">
+                      {formatTime(row[col.key])}
+                    </p>
+                  </div>
+                ) : col.key === "days_left" ? (
+                  <div className="font-medium">
+                    <h3>{getDaysLeft(row.expiry_date, row.entry_date)}</h3>
                   </div>
                 ) : (
                   row[col.key]

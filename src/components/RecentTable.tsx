@@ -7,7 +7,7 @@ const RecentTable = () => {
     { key: "name", label: "Name" },
     { key: "amount", label: "Amount" },
     { key: "title", label: "Title" },
-    { key: "date", label: "Date" },
+    { key: "entry_date", label: "Date" },
     { key: "status", label: "Status" },
   ];
 
@@ -19,7 +19,7 @@ const RecentTable = () => {
       accountType: "Specialist",
       title: "Subscription",
       titleBy: "Admin",
-      date: "2025-02-01T13:46:45.553Z",
+      entry_date: "2025-02-01T13:46:45.553Z",
       image: "images/chat/bot-3.svg",
       status: "Success",
     },
@@ -31,7 +31,7 @@ const RecentTable = () => {
       title: "Card",
       image: "images/chat/bot-4.svg",
       titleBy: "*9090",
-      date: "2025-02-01T13:46:45.553Z",
+      entry_date: "2025-02-01T13:46:45.553Z",
       status: "Success",
     },
     {
@@ -42,7 +42,7 @@ const RecentTable = () => {
       accountType: "Customer",
       title: "Transfer",
       titleBy: "*8080",
-      date: "2025-02-01T13:46:45.553Z",
+      entry_date: "2025-02-01T13:46:45.553Z",
       status: "Pending",
     },
     {
@@ -53,7 +53,7 @@ const RecentTable = () => {
       accountType: "Specialist",
       title: "Subscription",
       titleBy: "Admin",
-      date: "2025-02-01T13:46:45.553Z",
+      entry_date: "2025-02-01T13:46:45.553Z",
       status: "Success",
     },
     {
@@ -64,7 +64,7 @@ const RecentTable = () => {
       accountType: "Business",
       title: "Transfer",
       titleBy: "*9090",
-      date: "2025-02-01T13:46:45.553Z",
+      entry_date: "2025-02-01T13:46:45.553Z",
       status: "Pending",
     },
   ];

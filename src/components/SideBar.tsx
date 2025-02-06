@@ -10,13 +10,13 @@ import {
 } from "react-icons/hi";
 import { TbArrowsExchange2, TbReceipt } from "react-icons/tb";
 import React from "react";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 // Defined menu items with icons
 const SideMenu = [
-  { href: "/dashboard", icon: <LuLayoutGrid />, label: "Dashboard" },
+  { href: "", icon: <LuLayoutGrid />, label: "Dashboard" },
   { href: "/management", icon: <HiOutlineCreditCard />, label: "Managements" },
-  { href: "/subscription", icon: <LuWallet />, label: "Subscription" },
+  { href: "subscription", icon: <LuWallet />, label: "Subscription" },
   { href: "/products", icon: <TbArrowsExchange2 />, label: "Products" },
   { href: "/analytics", icon: <HiOutlineChartPie />, label: "Analytics" },
   { href: "/notifications", icon: <TbReceipt />, label: "Notifications" },
@@ -24,7 +24,7 @@ const SideMenu = [
 ];
 
 const SideBar = () => {
-  const router = useRouter();
+  const pathname = usePathname();
   return (
     <div className="fixed w-[275px] z-[120] top-0 h-[100vh] left-0 bg-white py-8 px-6">
       {/* Logo and Collapse Button */}
@@ -43,14 +43,18 @@ const SideBar = () => {
       {/* Menu Items mapped from the SideMenu Array above */}
       <div className="flex flex-col gap-1">
         {SideMenu.map(({ href, icon, label }, index) => (
-          <div
+          <Link
             key={index}
-            className="hover:bg-[#F9A000] hover:text-white text-[#505766] py-[8px] md:font-bold font-medium px-[10px] rounded-[8px] flex items-center gap-3 cursor-pointer"
-            onClick={() => router.push(`/admin/${href}`)}
+            href={`/admin/${href}`}
+            className={` ${
+              pathname === `/admin/${href}`
+                ? "bg-primary text-white hover:bg-[#F9A000]  hover:text-white  py-[8px] md:font-bold font-medium px-[10px] rounded-[8px] flex items-center gap-3 cursor-pointer"
+                : "text-[#505766] hover:bg-[#F9A000]  hover:text-white  py-[8px] md:font-bold font-medium px-[10px] rounded-[8px] flex items-center gap-3 cursor-pointer"
+            }`}
           >
             {/* Applied class dynamically to icons */}
             {React.cloneElement(icon, { className: "text-[24px]" })} {label}
-          </div>
+          </Link>
         ))}
       </div>
 
