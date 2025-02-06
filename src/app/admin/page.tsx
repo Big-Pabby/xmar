@@ -8,6 +8,7 @@ import ChatBox from "@/components/ChatBox";
 import QuickAction from "@/components/QuickAction";
 import Expenses from "@/components/Expenses";
 import Statistics from "@/components/Statistics";
+import RecentTable from "@/components/RecentTable";
 
 const page = () => {
   return (
@@ -32,12 +33,15 @@ const page = () => {
         <div className="md:w-4/12 w-full flex flex-col gap-5">
           <Wallet />
           <UsersEstimated />
-          <ChatBox />
+          <div className="flex-1 flex">
+            <ChatBox />
+          </div>
         </div>
         <div className="md:w-8/12 w-full flex flex-col gap-5">
           <QuickAction />
           <Expenses />
           <Statistics />
+          <RecentTable />
         </div>
       </div>
     </div>
