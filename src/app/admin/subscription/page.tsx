@@ -5,6 +5,8 @@ import { useState } from "react";
 import Pagination from "@/components/Pagination";
 import { FaPlus } from "react-icons/fa6";
 import Table from "@/components/Table";
+import { TiArrowSortedUp } from "react-icons/ti";
+import { CiSearch } from "react-icons/ci";
 
 const mockData = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
@@ -643,8 +645,56 @@ const subscription = () => {
           <FaPlus className="text-[20px] text-white" /> Update Subscription Fee
         </button>
       </div>
+      <div className="flex gap-6 mt-8">
+        <div className="flex-1 border-[1px] border-[#A2A1A833] bg-white rounded-[10px] p-4">
+          <p className="font-light mb-2">Download Subscriptions</p>
+          <div className="flex items-stretch gap-4">
+            <div className="flex-1 border-[1px] border-[#A2A1A833] rounded-[8px] p-3">
+              <select
+                className="border-none w-full bg-transparent m-0 p-0 outline-none"
+                name=""
+                id=""
+              >
+                <option value="All Account">All Accounts</option>
+              </select>
+            </div>
+            <button className="font-medium  btn btn-primary h-full text-white rounded-[8px] py-4 px-8">
+              Download Subscriptions
+            </button>
+          </div>
+        </div>
+        <div className="w-[310px] border-[1px] border-[#A2A1A833] bg-white rounded-[10px]">
+          <div className="border-b-[1px] border-[#A2A1A833] p-3">
+            <p className="font-light mb-1">Subscription Fee</p>
+            <div className="flex items-center justify-between">
+              <h4 className="font-semibold text-lg">$1,500</h4>
+              <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
+                <TiArrowSortedUp /> 5.0% Discount
+              </div>
+            </div>
+          </div>
+          <div className="p-3">
+            <p className="text-[12px] font-light text-[#A2A1A8]">
+              Updated: July 16, 2023
+            </p>
+          </div>
+        </div>
+      </div>
       <div className="mt-8">
         <div className="bg-white rounded-[10px] border-[1px] border-[#A2A1A833] p-3">
+          <div className="flex justify-between items-center mb-4">
+            <div className="py-[13px] w-[330px] px-[16px] rounded-[10px] border-[1px] border-[#A2A1A81A] flex items-center gap-1">
+              <CiSearch className="text-[24px]" />
+              <input
+                type="text"
+                className="w-full border-none m-0 p-0 outline-none bg-transparent"
+                placeholder="Search"
+              />
+            </div>
+            <div className="  p-[15px] btn btn-outline flex items-center gap-2 font-light text-[16px] rounded-[10px] border-[1px] border-[#A2A1A81A]">
+              Filter
+            </div>
+          </div>
           <Table columns={columns} rows={currentItems} />
           <div className="mt-4 flex w-full justify-between items-center">
             <div className="flex items-center gap-4">
