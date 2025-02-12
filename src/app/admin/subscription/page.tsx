@@ -1,4 +1,5 @@
 "use client"; // Required for Next.js App Router
+import Image from "next/image";
 
 import React from "react";
 import { useState } from "react";
@@ -691,8 +692,16 @@ const subscription = () => {
                 placeholder="Search"
               />
             </div>
-            <div className="  p-[15px] btn btn-outline flex items-center gap-2 font-light text-[16px] rounded-[10px] border-[1px] border-[#A2A1A81A]">
-              Filter
+            <div className="btn btn-secondary bg-none border-[1px] border-[#E8E8E9] p-[15px] flex items-center gap-2 font-medium text-[16px] rounded-[10px]">
+              <div className="w-[20px] h-[20px]">
+                <img
+                  src="/images/filter.svg"
+                  alt="Filter Icon"
+                  width={20}
+                  height={20}
+                />
+              </div>
+              <h4> Filter</h4>
             </div>
           </div>
           <Table columns={columns} rows={currentItems} />

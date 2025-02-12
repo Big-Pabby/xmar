@@ -1,6 +1,14 @@
+"use client"; // Required for Next.js App RouterDate.now()
+
 import React from "react";
 import Image from "next/image";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+
 
 interface Column {
   key: string;
@@ -16,21 +24,18 @@ const Table = <T extends Record<string, any>>({
   rows,
 }: TableProps<T>) => {
   const formatDate = (isoString: string) => {
-    const date = dayjs(isoString);
-    return `${date.format("DD")} ${date.format("MMM")} ${date.format("YYYY")}`;
+    return dayjs.utc(isoString).format("DD MMM YYYY"); // Ensures UTC consistency
   };
+  
   const formatTime = (isoString: string) => {
-    const date = dayjs(isoString);
-    return `${date.format("HH:mm")} `;
+    return dayjs.utc(isoString).format("HH:mm"); // Ensures UTC consistency
   };
+  
   const getDaysLeft = (date1: string, date2: string) => {
-    const d1 = new Date(date1);
-    const d2 = new Date(date2);
-
-    const diffInMs = d1.getTime() - d2.getTime(); // Difference in milliseconds
-    const daysLeft = diffInMs / (1000 * 60 * 60 * 24); // Convert ms to days
-
-    return Math.ceil(daysLeft); // Round up to nearest day
+    const d1 = dayjs(date1);
+    const d2 = dayjs(date2);
+  
+    return d1.diff(d2, "day"); // Directly get the difference in days
   };
 
   return (
