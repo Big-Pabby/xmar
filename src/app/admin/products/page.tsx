@@ -6,6 +6,7 @@ import { CiSearch } from "react-icons/ci";
 import { useState } from "react";
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
+import Link from "next/link";
 
 const rows = [
   {
@@ -208,9 +209,9 @@ const page = () => {
         </div>
         <div className="grid grid-cols-3 gap-4">
           {currentItems.map((item, index) => (
-            <div key={index}>
+            <Link href={`/admin/products/${item.product_name}`} key={index}>
               <ProductCard product={item} />
-            </div>
+            </Link>
           ))}
         </div>
         <div className="mt-4 flex w-full justify-between items-center">
