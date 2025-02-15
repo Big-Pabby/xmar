@@ -168,7 +168,14 @@ const SetProductForm = ({ product }: { product: Product }) => {
           className="mt-4 border-[1px] rounded-[10px] border-dotted border-primary w-full h-[180px] flex flex-col items-center justify-center bg-[#FFFBF5] p-[20px]"
         >
           <div className="bg-primary w-[40px] h-[40px] flex items-center justify-center rounded-[10px] p-[20px]">
-            <Image src={"/images/upload.svg"} alt="icon" width={0} height={0} />
+            <div className="w-[60px] h-[60px]">
+              <Image
+                src={"/images/upload.svg"}
+                alt="icon"
+                width={60}
+                height={60}
+              />
+            </div>
           </div>
           <p className="my-3 font-light">
             Drag & Drop or <span className="text-primary">choose file</span> to

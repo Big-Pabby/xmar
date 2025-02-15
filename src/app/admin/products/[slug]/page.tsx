@@ -3,6 +3,7 @@ import React from "react";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import SetProductForm from "@/components/SetProductForm";
+import Reviews from "@/components/Review";
 
 const product = {
   product_name: "Bumble Shampoos",
@@ -36,6 +37,7 @@ const page = () => {
       <div className="mt-8 grid grid-cols-4 gap-6">
         {navList.map((item, index) => (
           <div
+            onClick={() => setCurrentNav(item)}
             key={index}
             className={`w-full  rounded-[12px] ${
               currentNav === item
@@ -51,6 +53,10 @@ const page = () => {
         {currentNav === "Product Details" ? (
           <div>
             <SetProductForm product={product} />
+          </div>
+        ) : currentNav === "Reviews" ? (
+          <div>
+            <Reviews />
           </div>
         ) : (
           <div></div>
