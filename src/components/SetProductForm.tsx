@@ -1,5 +1,9 @@
-import React from "react";
+"use client";
+
+import React, { useState, useCallback } from "react";
 import Image from "next/image";
+import { IoMdClose } from "react-icons/io";
+import { FaCircleCheck } from "react-icons/fa6";
 
 interface Product {
   product_name: string;
@@ -13,10 +17,74 @@ interface Product {
   banner: string;
 }
 
+interface ImagePreview {
+  url: string;
+  file: File;
+}
+
 const SetProductForm = ({ product }: { product: Product }) => {
+  const [bannerPreview, setBannerPreview] = useState<string>(product.banner);
+  const [imagePreviews, setImagePreviews] = useState<ImagePreview[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+
+  const handleBannerUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBannerPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImagesUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const newPreviews = Array.from(files).map((file) => ({
+        url: URL.createObjectURL(file),
+        file,
+      }));
+      setImagePreviews((prev) => [...prev, ...newPreviews]);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setImagePreviews((prev) => {
+      const newPreviews = [...prev];
+      URL.revokeObjectURL(newPreviews[index].url);
+      newPreviews.splice(index, 1);
+      return newPreviews;
+    });
+  };
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files) {
+      const newPreviews = Array.from(files)
+        .filter((file) => file.type.startsWith("image/"))
+        .map((file) => ({
+          url: URL.createObjectURL(file),
+          file,
+        }));
+      setImagePreviews((prev) => [...prev, ...newPreviews]);
+    }
+  }, []);
+
+  const toggleSize = (size: string) => {
+    setSelectedSizes((prev) =>
+      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
+    );
+  };
+
   return (
-    <form className="flex gap-4">
-      <div className="md:w-7/12 w-full bg-secondary rounded-[8px] border-[1px] border-[#A2A1A833] p-[20px]">
+    <form className="flex flex-col items-start md:flex-row gap-4">
+      <div className="md:w-7/12 w-full bg-white rounded-lg border border-border p-5">
         <div className="mb-6">
           <label
             htmlFor="product_name"
@@ -24,14 +92,12 @@ const SetProductForm = ({ product }: { product: Product }) => {
           >
             Product Name
           </label>
-          <div className="w-full h-[48px] border-[1px] border-[#A2A1A833] rounded-[8px] px-[16px]">
-            <input
-              id="product_name"
-              name="product_name"
-              type="text"
-              className="w-full h-full bg-transparent border-none outline-none p-0 m-0"
-            />
-          </div>
+          <input
+            id="product_name"
+            name="product_name"
+            type="text"
+            className="w-full h-12 bg-background border border-input rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-ring"
+          />
         </div>
         <div className="mb-6">
           <label
@@ -40,14 +106,12 @@ const SetProductForm = ({ product }: { product: Product }) => {
           >
             Brand Name
           </label>
-          <div className="w-full h-[48px] border-[1px] border-[#A2A1A833] rounded-[8px] px-[16px]">
-            <input
-              id="brand_name"
-              name="brand_name"
-              type="text"
-              className="w-full h-full bg-transparent border-none outline-none p-0 m-0"
-            />
-          </div>
+          <input
+            id="brand_name"
+            name="brand_name"
+            type="text"
+            className="w-full h-12 bg-background border border-input rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-ring"
+          />
         </div>
         <div className="mb-6">
           <label
@@ -56,14 +120,13 @@ const SetProductForm = ({ product }: { product: Product }) => {
           >
             Description
           </label>
-
           <textarea
             id="description"
             name="description"
-            className="w-full h-[115px] bg-white border-[1px] border-[#A2A1A833] rounded-[8px] p-[16px] outline-none"
+            className="w-full h-28 bg-background border border-input rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-ring resize-none"
           />
         </div>
-        <div className="mb-6 flex gap-8">
+        <div className="mb-6 flex flex-col md:flex-row gap-8">
           <div className="md:w-6/12">
             <label
               htmlFor="category"
@@ -71,121 +134,209 @@ const SetProductForm = ({ product }: { product: Product }) => {
             >
               Category
             </label>
-            <div className="w-full h-[48px] border-[1px] border-[#A2A1A833] rounded-[8px] px-[16px]">
-              <select
-                name="category"
-                id="category"
-                className="w-full h-full bg-transparent border-none outline-none p-0 m-0"
-              >
-                <option value="Facials">Facials</option>
-                <option value="Facials">Facials</option>
-                <option value="Facials">Facials</option>
-                <option value="Facials">Facials</option>
-                <option value="Facials">Facials</option>
-              </select>
-            </div>
+            <select
+              name="category"
+              id="category"
+              className="w-full h-12 bg-background border border-input rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              <option value="Facials">Facials</option>
+              <option value="Skincare">Skincare</option>
+              <option value="Haircare">Haircare</option>
+              <option value="Bodycare">Bodycare</option>
+              <option value="Makeup">Makeup</option>
+            </select>
           </div>
           <div className="md:w-6/12">
             <label htmlFor="stock" className="text-sm block mb-2 font-medium">
               Stock Quantity
             </label>
-            <div className="w-full h-[48px] border-[1px] border-[#A2A1A833] rounded-[8px] px-[16px]">
-              <input
-                id="stock"
-                name="stock"
-                type="text"
-                className="w-full h-full bg-transparent border-none outline-none p-0 m-0"
-              />
-            </div>
+            <input
+              id="stock"
+              name="stock"
+              type="number"
+              min="0"
+              className="w-full h-12 bg-background border border-input rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-ring"
+            />
           </div>
         </div>
-        <div className="mb-6 flex gap-8">
+        <div className="mb-6 flex flex-col md:flex-row gap-8">
           <div className="md:w-6/12">
             <label htmlFor="price" className="text-sm block mb-2 font-medium">
               Regular Price
             </label>
-            <div className="w-full h-[48px] border-[1px] border-[#A2A1A833] flex items-center gap-2 rounded-[8px] px-[16px]">
-              <h5 className="text-sm font-medium">$</h5>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-medium">
+                $
+              </span>
               <input
                 id="price"
                 name="price"
-                type="text"
-                className="w-full h-full bg-transparent border-none outline-none p-0 m-0"
+                type="number"
+                min="0"
+                step="0.01"
+                className="w-full h-12 bg-background border border-input rounded-lg pl-8 pr-4 focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
           </div>
           <div className="md:w-6/12">
-            <div className="flex justify-between items-center mb-2 w-full">
-              <label htmlFor="discount" className="text-sm block  font-medium">
+            <div className="flex justify-between items-center mb-2">
+              <label htmlFor="discount" className="text-sm font-medium">
                 Discount Price
               </label>
-              <h5 className="text-sm block text-primary font-medium">
-                Optional
-              </h5>
+              <span className="text-sm text-muted-foreground">Optional</span>
             </div>
-
-            <div className="w-full h-[48px] border-[1px] border-[#A2A1A833] flex items-center gap-2 rounded-[8px] px-[16px]">
-              <h5 className="text-sm font-medium">$</h5>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-medium">
+                $
+              </span>
               <input
                 id="discount"
                 name="discount"
-                type="text"
-                className="w-full h-full bg-transparent border-none outline-none p-0 m-0"
+                type="number"
+                min="0"
+                step="0.01"
+                className="w-full h-12 bg-background border border-input rounded-lg pl-8 pr-4 focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
           </div>
         </div>
         <div className="mb-6">
-          <div className="flex justify-between items-center mb-2 w-full">
-            <label
-              htmlFor="additional_note"
-              className="text-sm block  font-medium"
-            >
+          <div className="flex justify-between items-center mb-2">
+            <label htmlFor="additional_note" className="text-sm font-medium">
               Additional Note
             </label>
-            <h5 className="text-sm block text-primary font-medium">Optional</h5>
+            <span className="text-sm text-muted-foreground">Optional</span>
           </div>
-
           <textarea
             id="additional_note"
             name="additional_note"
-            className="w-full h-[200px] bg-white border-[1px] border-[#A2A1A833] rounded-[8px] p-[16px] outline-none"
+            className="w-full h-48 bg-background border border-input rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-ring resize-none"
           />
         </div>
       </div>
-      <div className="md:w-5/12 w-full bg-secondary rounded-[8px] border-[1px] border-[rgba(162,161,168,0.2)] p-[20px]">
-        <div className="w-full h-[220px] rounded-[8px] overflow-hidden">
+
+      <div className="md:w-5/12 w-full bg-white rounded-lg border border-border p-5">
+        <div className="w-full h-[220px] rounded-lg overflow-hidden relative group">
           <Image
-            src={product.banner}
+            src={bannerPreview}
             alt="product banner"
-            width={0}
+            width={500}
             height={220}
-            className="w-full h-full object-cover rounded-[8px]"
+            className="w-full h-full object-cover"
           />
+          <label
+            htmlFor="banner"
+            className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+          >
+            <Image
+              src="/images/upload.svg"
+              alt="Upload icon"
+              width={24}
+              height={24}
+              className="text-primary-foreground"
+            />
+            <input
+              type="file"
+              id="banner"
+              name="banner"
+              className="hidden"
+              accept="image/*"
+              onChange={handleBannerUpload}
+            />
+          </label>
         </div>
-        <label
-          htmlFor="images"
-          className="mt-4 border-[1px] rounded-[10px] border-dotted border-primary w-full h-[180px] flex flex-col items-center justify-center bg-[#FFFBF5] p-[20px]"
-        >
-          <div className="bg-primary w-[40px] h-[40px] flex items-center justify-center rounded-[10px] p-[20px]">
-            <div className="w-[60px] h-[60px]">
+
+        <div className="mt-4">
+          <div className="grid grid-cols-1 gap-3 mb-4">
+            {imagePreviews.map((preview, index) => (
+              <div
+                key={index}
+                className="relative bg-[#FAFAFA] w-full rounded-[7px] p-[14px] flex gap-4"
+              >
+                <Image
+                  src={preview.url}
+                  width={66}
+                  height={75}
+                  alt={`Product image ${index + 1}`}
+                  className="object-cover rounded-lg"
+                />
+                <button
+                  type="button"
+                  onClick={() => removeImage(index)}
+                  className="absolute top-[14px] right-[14px] font-bold  w-[20px] h-[20px] bg-[#FF5252] flex items-center justify-center text-white rounded-full "
+                >
+                  <IoMdClose />
+                </button>
+                <div className="flex-1">
+                  <h4 className="font-semibold text-sm ">
+                    {preview.file.name}
+                  </h4>
+                  <div className="bg-[#F9A000] w-full h-[5px] rounded-full my-4"></div>
+                  <p className="text-sm font-semibold flex gap-2 items-center  text-primary">
+                    Select as cover photo {/*  <FaCircleCheck /> */}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <label
+            htmlFor="images"
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            className="border-2 border-dashed border-primary rounded-lg w-full h-[180px] flex flex-col items-center justify-center bg-[#FFFBF5] p-5 cursor-pointer hover:bg-secondary/50 transition-colors"
+          >
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <Image
-                src={"/images/upload.svg"}
-                alt="icon"
-                width={60}
-                height={60}
+                src="/images/upload.svg"
+                alt="Upload icon"
+                width={24}
+                height={24}
+                className="text-primary-foreground"
               />
             </div>
+            <p className="mt-3 mb-1 text-sm">
+              Drag & Drop or{" "}
+              <span className="text-primary font-medium">choose file</span> to
+              upload
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Supported formats: JPEG, PNG, JPG
+            </p>
+            <input
+              type="file"
+              name="images"
+              id="images"
+              className="hidden"
+              accept=".jpg,.jpeg,.png"
+              multiple
+              onChange={handleImagesUpload}
+            />
+          </label>
+
+          <div className="mt-8">
+            <h3 className=" font-medium mb-4">Select sizes</h3>
+            <div className="flex gap-2">
+              {["S", "M", "L"].map((size) => (
+                <button
+                  key={size}
+                  type="button"
+                  onClick={() => toggleSize(size)}
+                  className={`w-12 h-12 rounded-lg border ${
+                    selectedSizes.includes(size)
+                      ? "border-primary bg-primary text-white"
+                      : "border-input bg-background text-foreground"
+                  } transition-colors`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
           </div>
-          <p className="my-3 font-light">
-            Drag & Drop or <span className="text-primary">choose file</span> to
-            upload
-          </p>
-          <p className="text-[11px] text-[#A2A1A8] font-light m-0 p-0">
-            Supported formats : jpeg, png, jpg
-          </p>
-          <input type="file" name="images" id="images" className="hidden" />
-        </label>
+          <button className="btn btn-primary w-full text-white mt-12">
+            Save
+          </button>
+        </div>
       </div>
     </form>
   );

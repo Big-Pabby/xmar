@@ -4,6 +4,8 @@ import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import SetProductForm from "@/components/SetProductForm";
 import Reviews from "@/components/Review";
+import OrderScreen from "@/components/OrderScreen";
+import { Question } from "@/components/Question";
 
 const product = {
   product_name: "Bumble Shampoos",
@@ -58,8 +60,14 @@ const page = () => {
           <div>
             <Reviews />
           </div>
+        ) : currentNav === "Orders" ? (
+          <div>
+            <OrderScreen />
+          </div>
         ) : (
-          <div></div>
+          <div>
+            <Question />
+          </div>
         )}
       </div>
     </div>
