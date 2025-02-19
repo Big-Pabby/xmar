@@ -6,6 +6,7 @@ import SetProductForm from "@/components/SetProductForm";
 import Reviews from "@/components/Review";
 import OrderScreen from "@/components/OrderScreen";
 import { Question } from "@/components/Question";
+import Link from "next/link";
 
 const product = {
   product_name: "Bumble Shampoos",
@@ -32,9 +33,12 @@ const page = () => {
             {product.product_type}
           </h4>
         </div>
-        <button className="btn btn-primary text-white rounded-[8px]">
+        <Link
+          href={`admin/products/add`}
+          className="btn btn-primary text-white rounded-[8px]"
+        >
           <FaPlus className="text-[20px] text-white" /> ADD NEW PRODUCT
-        </button>
+        </Link>
       </div>
       <div className="mt-8 grid grid-cols-4 gap-6">
         {navList.map((item, index) => (

@@ -181,9 +181,12 @@ const page = () => {
             View all Products
           </h4>
         </div>
-        <button className="btn btn-primary text-white rounded-[8px]">
+        <Link
+          href={`admin/products/add`}
+          className="btn btn-primary text-white rounded-[8px]"
+        >
           <FaPlus className="text-[20px] text-white" /> ADD NEW PRODUCT
-        </button>
+        </Link>
       </div>
       <div className="mt-8">
         <div className="flex justify-between items-center mb-4">
