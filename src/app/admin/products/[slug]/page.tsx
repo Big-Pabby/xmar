@@ -34,7 +34,7 @@ const page = () => {
           </h4>
         </div>
         <Link
-          href={`admin/products/add`}
+          href={`/admin/products/add`}
           className="btn btn-primary text-white rounded-[8px]"
         >
           <FaPlus className="text-[20px] text-white" /> ADD NEW PRODUCT
