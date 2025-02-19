@@ -1,5 +1,7 @@
 import React from "react";
 import SetProductForm from "@/components/SetProductForm";
+import { IoChevronForward } from "react-icons/io5";
+import Link from "next/link";
 
 const page = () => {
   const product = {
@@ -19,8 +21,11 @@ const page = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-[28px] font-medium">New Products</h2>
-          <h4 className="text-[#707A8F] text-[14px] font-medium mt-2">
-            Add New Products
+          <h4 className="text-[#707A8F] text-[14px] font-medium mt-2 flex gap-2 items-center">
+            <Link href={`/admin/products`} className="text-primary">
+              All Products
+            </Link>{" "}
+            <IoChevronForward /> Add New Products
           </h4>
         </div>
       </div>
