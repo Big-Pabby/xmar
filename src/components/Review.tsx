@@ -45,7 +45,7 @@ const mockReviews: Review[] = [
   },
 ];
 
-export default function Reviews() {
+export default function Reviews({ type }: { type: string }) {
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const averageRating = 4.0;
@@ -60,93 +60,101 @@ export default function Reviews() {
   };
 
   return (
-    <div className="">
-      <div className="flex gap-8 mb-8">
-        <div className="md:w-7/12 w-full p-[20px] bg-secondary rounded-[10px]">
-          <div className="bg-[#FFF9EF] p-[16px] flex items-center justify-between rounded-[8px]">
-            <div className="md:w-4/12">
-              {Object.entries(ratingDistribution)
-                .sort(([a], [b]) => Number(b) - Number(a))
-                .map(([stars, percentage]) => (
-                  <div key={stars} className="flex items-center mb-2 gap-2">
-                    <span className=" text-[15px] font-medium">{stars}</span>
-                    <FaStar
-                      className={`text-[16px] fill-[#E4A70A] text-[#E4A70A]`}
-                    />
-                    <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-[#F9A000]"
-                        style={{ width: `${percentage}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-5xl font-bold">
-                {averageRating.toFixed(1)}
-              </span>
-              <div className="flex gap-2 items-center">
-                {[1, 2, 3, 4, 5].map((star) => (
+    <div className={`${type === "Recent" ? "w-full" : "flex gap-8 mb-8"}`}>
+      <div
+        className={`${
+          type === "Recent" ? "w-full" : "md:w-7/12 w-full"
+        } p-[20px] bg-secondary rounded-[10px]`}
+      >
+        {type === "Recent" ? (
+          <h2 className="font-semibold text-base text-[#0D0D12] mb-6">
+            Recent Reviews
+          </h2>
+        ) : (
+          <h2></h2>
+        )}
+        <div className="bg-[#FFF9EF] p-[16px] flex items-center justify-between rounded-[8px]">
+          <div className="md:w-5/12">
+            {Object.entries(ratingDistribution)
+              .sort(([a], [b]) => Number(b) - Number(a))
+              .map(([stars, percentage]) => (
+                <div key={stars} className="flex items-center mb-2 gap-2">
+                  <span className=" text-[15px] font-medium">{stars}</span>
                   <FaStar
-                    key={star}
-                    className={`w-4 h-4 ${
-                      star <= averageRating
-                        ? "fill-[#E4A70A] text-[#E4A70A]"
-                        : "text-gray-300"
-                    }`}
+                    className={`text-[16px] fill-[#E4A70A] text-[#E4A70A]`}
                   />
-                ))}
-              </div>
-              <span className="text-[16px] font-semibold text-[#333333]">
-                {totalReviews} Reviews
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            {mockReviews.map((review) => (
-              <div key={review.id} className="flex gap-4 p-4">
-                <img
-                  className="rounded-full w-[40px] h-[40px]"
-                  src={review.avatarUrl}
-                  alt={review.author}
-                />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-medium text-[17px]">
-                        {review.author}
-                      </h3>
-                      <div className="flex items-center gap-2">
-                        <div className="flex">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <FaStar
-                              key={star}
-                              className={`w-4 h-4 ${
-                                star <= review.rating
-                                  ? "fill-[#E4A70A] text-[#E4A70A]"
-                                  : "text-gray-300"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <span className="text-sm text-gray-500">
-                          {review.createdAt}
-                        </span>
-                      </div>
-                    </div>
-                    <button className="text-gray-500 hover:text-gray-700">
-                      ⋮
-                    </button>
+                  <div className="flex-1 h-[6px] bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-[#F9A000]"
+                      style={{ width: `${percentage}%` }}
+                    />
                   </div>
-                  <p className="mt-2 text-gray-600">{review.content}</p>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
+          <div className="flex flex-col gap-4">
+            <span className="text-5xl font-bold">
+              {averageRating.toFixed(1)}
+            </span>
+            <div className="flex gap-2 items-center">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <FaStar
+                  key={star}
+                  className={`w-4 h-4 ${
+                    star <= averageRating
+                      ? "fill-[#E4A70A] text-[#E4A70A]"
+                      : "text-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-[16px] font-semibold text-[#333333]">
+              {totalReviews} Reviews
+            </span>
           </div>
         </div>
 
+        <div className="mt-8">
+          {mockReviews.map((review) => (
+            <div key={review.id} className="flex gap-4 p-4">
+              <img
+                className="rounded-full w-[40px] h-[40px]"
+                src={review.avatarUrl}
+                alt={review.author}
+              />
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-medium text-[17px]">{review.author}</h3>
+                    <div className="flex items-center gap-2">
+                      <div className="flex">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <FaStar
+                            key={star}
+                            className={`w-4 h-4 ${
+                              star <= review.rating
+                                ? "fill-[#E4A70A] text-[#E4A70A]"
+                                : "text-gray-300"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        {review.createdAt}
+                      </span>
+                    </div>
+                  </div>
+                  <button className="text-gray-500 hover:text-gray-700">
+                    ⋮
+                  </button>
+                </div>
+                <p className="mt-2 text-gray-600">{review.content}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {type !== "Recent" ? (
         <div className="md:w-5/12 p-[16px] bg-secondary rounded-[10px]">
           <h2 className="text-xl font-semibold mb-4">Write a Review</h2>
           <form className="space-y-4">
@@ -210,7 +218,9 @@ export default function Reviews() {
             <button className="w-full btn btn-primary text-white">Post</button>
           </form>
         </div>
-      </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }

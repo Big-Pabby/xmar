@@ -15,12 +15,12 @@ import { usePathname } from "next/navigation";
 // Defined menu items with icons
 const SideMenu = [
   { href: "", icon: <LuLayoutGrid />, label: "Dashboard" },
-  { href: "management", icon: <HiOutlineCreditCard />, label: "Managements" },
+  { href: "managements", icon: <HiOutlineCreditCard />, label: "Managements" },
   { href: "subscription", icon: <LuWallet />, label: "Subscription" },
   { href: "products", icon: <TbArrowsExchange2 />, label: "Products" },
   { href: "analytics", icon: <HiOutlineChartPie />, label: "Analytics" },
   { href: "notifications", icon: <TbReceipt />, label: "Notifications" },
-  { href: "support", icon: <FiUsers />, label: "Chats & Support" },
+  { href: "chats", icon: <FiUsers />, label: "Chats & Support" },
 ];
 
 const SideBar = () => {

@@ -62,7 +62,7 @@ const page = () => {
           </div>
         ) : currentNav === "Reviews" ? (
           <div>
-            <Reviews />
+            <Reviews type={""} />
           </div>
         ) : currentNav === "Orders" ? (
           <div>
