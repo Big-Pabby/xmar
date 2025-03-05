@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 // Defined menu items with icons
 const SideMenu = [
   { href: "", icon: <LuLayoutGrid />, label: "Dashboard" },
+  { href: "kyc", icon: <FiUsers />, label: "KYC Verification" },
   { href: "managements", icon: <HiOutlineCreditCard />, label: "Managements" },
   { href: "subscription", icon: <LuWallet />, label: "Subscription" },
   { href: "products", icon: <TbArrowsExchange2 />, label: "Products" },

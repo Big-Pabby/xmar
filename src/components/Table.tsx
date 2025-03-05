@@ -5,41 +5,64 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { IoMdMore } from "react-icons/io";
 dayjs.extend(utc);
 dayjs.extend(timezone);
-
-
 
 interface Column {
   key: string;
   label: string;
 }
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  entry_date: string; // ISO string format
+  last_seen: string; // ISO string format
+  image: string;
+  kyc_validation: "Verified" | "Unverified"; // Assuming possible values
+  no_of_trades: number;
+  account_status: "Active" | "Inactive" | "Suspended"; // Assuming possible values
+  gender: "Male" | "Female" | "Other"; // Assuming possible values
+  date_of_birth: string; // ISO string format
+  address: string;
+  bank_details: {
+    bank_name: string;
+    account_no: string;
+    account_name: string;
+  };
+  phone_no: string;
+}
 interface TableProps<T> {
   columns: Column[];
   rows: T[];
+  onselect?: (data: any) => void;
+  selectedUser?: User;
 }
 
 const Table = <T extends Record<string, any>>({
   columns,
   rows,
+  onselect,
+  selectedUser,
 }: TableProps<T>) => {
   const formatDate = (isoString: string) => {
     return dayjs.utc(isoString).format("DD MMM YYYY"); // Ensures UTC consistency
   };
-  
+
   const formatTime = (isoString: string) => {
     return dayjs.utc(isoString).format("HH:mm"); // Ensures UTC consistency
   };
-  
+
   const getDaysLeft = (date1: string, date2: string) => {
     const d1 = dayjs(date1);
     const d2 = dayjs(date2);
-  
+
     return d1.diff(d2, "day"); // Directly get the difference in days
   };
 
   return (
-    <table className="border-collapse w-full">
+    <table className="border-collapse min-w-[1000px] w-full">
       <thead>
         <tr className="bg-none ">
           {columns.map((col) => (
@@ -59,6 +82,13 @@ const Table = <T extends Record<string, any>>({
               <td key={col.key} className="border-b px-4 py-4">
                 {col.key === "name" ? (
                   <div className="flex items-center gap-2">
+                    <input
+                      id={row.id}
+                      onClick={() => onselect?.(row)}
+                      checked={selectedUser?.id === row.id}
+                      type="radio"
+                      className="w-[20] h-[20] accent-primary border-[2px] border-[#D3D6DC]"
+                    />
                     <div className="h-[44px] w-[44px]">
                       <Image
                         src={row.image}
@@ -71,9 +101,15 @@ const Table = <T extends Record<string, any>>({
 
                     <div>
                       <h4 className="text-medium">{row[col.key]}</h4>
-                      <div className="bg-[#F1F2F4] mt-1 border-[1px] border-[#D3D6DC] rounded-full py-[2px] px-[8px] text-[12px] font-medium text-[#666F82]">
-                        {row.accountType}
-                      </div>
+                      {row.email ? (
+                        <div className="mt-1 text-[12px] text-[#707A8F]">
+                          {row.email}
+                        </div>
+                      ) : (
+                        <div className="bg-[#F1F2F4] mt-1 border-[1px] border-[#D3D6DC] rounded-full py-[2px] px-[8px] text-[12px] font-medium text-[#666F82]">
+                          {row.accountType}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ) : col.key === "amount" ? (
@@ -117,6 +153,32 @@ const Table = <T extends Record<string, any>>({
                   <div className="font-medium">
                     <h3>{getDaysLeft(row.expiry_date, row.entry_date)}</h3>
                   </div>
+                ) : col.key === "kyc_validation" ? (
+                  <div
+                    className={`py-[2px] px-[10px] text-center rounded-full border-[1px] font-semibold ${
+                      row[col.key] === "Verified"
+                        ? "bg-[#E8F7F1] border-[#B6E5D5] text-[#15AC77]"
+                        : row[col.key] === "Pending"
+                        ? "bg-[#FFF4EA] border-[#FFDEBF] text-[#F48534]"
+                        : "bg-[#F1F2F4] border-[#D3D6DC] text-[#666F82]"
+                    }`}
+                  >
+                    {row[col.key]}
+                  </div>
+                ) : col.key === "no_of_trades" ? (
+                  <div className={``}>{row[col.key]}</div>
+                ) : col.key === "account_status" ? (
+                  <div
+                    className={`font-medium ${
+                      row[col.key] === "Active"
+                        ? "text-[#15AC77]"
+                        : "text-[#9FA6B4]"
+                    }`}
+                  >
+                    {row[col.key]}
+                  </div>
+                ) : col.key === "action" ? (
+                  <IoMdMore />
                 ) : (
                   row[col.key]
                 )}
