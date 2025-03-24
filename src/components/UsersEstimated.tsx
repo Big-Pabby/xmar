@@ -5,7 +5,19 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import GaugeChart from "react-gauge-chart";
 import { FaArrowUp } from "react-icons/fa";
 
-const UsersEstimated = () => {
+interface DashBoard {
+  totalUsers: number;
+  totalCustomers: number;
+  totalSpecialists: number;
+  totalBusinesses: number;
+  totalAdmins: number;
+  verifiedSpecialists: number;
+  verifiedBusinesses: number;
+  totalBookings: number;
+  totalRevenue: number;
+  totalActiveSubscriptions: number;
+}
+const UsersEstimated = ({ user_data }: { user_data: DashBoard }) => {
   return (
     <div className="w-full bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
       <div className="flex items-center justify-between">
@@ -42,7 +54,7 @@ const UsersEstimated = () => {
             needleBaseColor="transparent" // Hide needle base
           />
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-2 mt-4">
-            <h4 className="text-[20px] font-medium">75k</h4>
+            <h4 className="text-[20px] font-medium">{user_data?.totalUsers}</h4>
             <div className="flex items-center gap-2">
               <p className="text-[#15AC77] font-bold flex gap-1 items-center">
                 10% <FaArrowUp className="text-[#009DA2] text-sm" />
@@ -53,9 +65,17 @@ const UsersEstimated = () => {
         </div>
 
         <div className="flex justify-center gap-2 items-center flex-wrap mt-4">
-          <p className="text-accent font-bold">Specialist: 7854</p>
-          <p className="text-accent font-bold"> Business: 745</p>
-          <p className="text-accent font-bold"> Customers: 786478</p>
+          <p className="text-accent font-bold">
+            Specialist: {user_data?.totalSpecialists}
+          </p>
+          <p className="text-accent font-bold">
+            {" "}
+            Business: {user_data?.totalBusinesses}
+          </p>
+          <p className="text-accent font-bold">
+            {" "}
+            Customers: {user_data?.totalCustomers}
+          </p>
         </div>
       </div>
     </div>

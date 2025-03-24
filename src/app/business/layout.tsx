@@ -39,7 +39,7 @@ export default function RootLayout({
           </div>
         </div>
       </div>
-      <SideBar type="Admin" />
+      <SideBar type="Business" />
       <div className="ml-[275px] px-[32px]">{children}</div>
     </div>
   );

@@ -8,6 +8,7 @@ import { FaPlus } from "react-icons/fa6";
 import Table from "@/components/Table";
 import { TiArrowSortedUp } from "react-icons/ti";
 import { CiSearch } from "react-icons/ci";
+import Modal from "@/components/Modal";
 
 const mockData = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
@@ -619,6 +620,7 @@ const rows = [
 const subscription = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [isOpen, setIsOpen] = useState(false);
 
   const totalPages = Math.ceil(rows.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -642,9 +644,51 @@ const subscription = () => {
             View all Subscriptions
           </h4>
         </div>
-        <button className="btn btn-primary text-white rounded-[8px]">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="btn btn-primary text-white rounded-[8px]"
+        >
           <FaPlus className="text-[20px] text-white" /> Update Subscription Fee
         </button>
+        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <h2 className="text-2xl text-center">Subscription Fee</h2>
+          <p className="mt-2 text-center">Set subscription fee</p>
+          <form>
+            <div className="mb-4">
+              <label htmlFor="account_type" className="block mb-1">
+                Account Type
+              </label>
+              <input
+                type="text"
+                className="outline-none w-full bg-[#F1F1F1] rounded-[5px] p-[18px]"
+                placeholder="Select account type"
+              />
+            </div>
+            <div className="mb-4 ">
+              <label htmlFor="account_type" className="block mb-1">
+                Amount
+              </label>
+              <input
+                type="text"
+                className="outline-none bg-[#F1F1F1] w-full rounded-[5px] p-[18px]"
+                placeholder="Amount"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="account_type" className="block mb-1">
+                Discount
+              </label>
+              <input
+                type="text"
+                className="outline-none bg-[#F1F1F1] w-full rounded-[5px] p-[18px]"
+                placeholder="15%"
+              />
+            </div>
+            <button className="btn btn-primary w-full text-white rounded-[8px]">
+              Save
+            </button>
+          </form>
+        </Modal>
       </div>
       <div className="flex gap-6 mt-8">
         <div className="flex-1 border-[1px] border-[#A2A1A833] bg-white rounded-[10px] p-4">

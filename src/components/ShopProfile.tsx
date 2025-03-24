@@ -4,6 +4,7 @@ import { BiMessageDetail } from "react-icons/bi";
 import { IoLocationOutline, IoPlay } from "react-icons/io5";
 import Image from "next/image";
 import Reviews from "./Review";
+import Modal from "@/components/Modal";
 
 interface Profile {
   shop_name: string;
@@ -41,6 +42,13 @@ interface Profile {
 const ShopProfile = ({ profile }: { profile: Profile }) => {
   const [currentNav, setCurrentNav] = useState<string>("Services");
   const product_nav = ["Services", "Packages", "Gallery"];
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const openModal = (index: number) => {
+    setCurrentIndex(index);
+    setIsOpen(true);
+  };
   return (
     <div className="flex justify-between gap-8">
       <div className="md:w-6/12">
@@ -212,6 +220,7 @@ const ShopProfile = ({ profile }: { profile: Profile }) => {
               <div className="grid grid-cols-2 gap-3">
                 {profile.gallery.map((item, index) => (
                   <div
+                    onClick={() => openModal(index)}
                     key={index}
                     className="w-full h-[228px] rounded-[10px] overflow-hidden"
                   >
@@ -220,10 +229,41 @@ const ShopProfile = ({ profile }: { profile: Profile }) => {
                       alt={`${index}`}
                       width={0}
                       height={228}
-                      className=" w-full h-full object-cover"
+                      className=" w-full h-full cursor-pointer object-cover"
                     />
                   </div>
                 ))}
+                <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                  <div className="flex items-center justify-between">
+                    <button
+                      disabled={currentIndex === 0}
+                      onClick={() =>
+                        setCurrentIndex((prev) => Math.max(prev - 1, 0))
+                      }
+                      className="p-2 text-lg"
+                    >
+                      ◀
+                    </button>
+                    <Image
+                      src={profile.gallery[currentIndex]}
+                      alt={`Image ${currentIndex}`}
+                      width={0}
+                      height={400}
+                      className="flex-1 h-[400px] rounded-[12px] object-cover"
+                    />
+                    <button
+                      disabled={currentIndex === profile.gallery.length - 1}
+                      onClick={() =>
+                        setCurrentIndex((prev) =>
+                          Math.min(prev + 1, profile.gallery.length - 1)
+                        )
+                      }
+                      className="p-2 text-lg"
+                    >
+                      ▶
+                    </button>
+                  </div>
+                </Modal>
               </div>
             ) : (
               <div></div>

@@ -1,14 +1,12 @@
 "use client"; // Required for Next.js App Router
 import Image from "next/image";
-
+import UserMetrics from "@/components/UserMetrics";
 import React, { useState, useEffect } from "react";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import { CiSearch } from "react-icons/ci";
 import { IoChevronForward } from "react-icons/io5";
 import Link from "next/link";
-import { RiVerifiedBadgeFill } from "react-icons/ri";
-import { RxTimer } from "react-icons/rx";
 import { LuFilePlus2 } from "react-icons/lu";
 import { FiExternalLink } from "react-icons/fi";
 import SkeletonCard from "@/components/Skeleton";
@@ -417,6 +415,13 @@ interface User {
   phone_no: string;
 }
 
+interface BarSegment {
+  color: string;
+  size: number; // Percentage of the bar
+  name?: string;
+  value?: number;
+}
+
 const page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -438,8 +443,45 @@ const page = () => {
   const selectUser = (data: User) => {
     user ? setUser(undefined) : setUser(data);
   };
-  const [loading, setLoading] = useState(true);
+  const data = {
+    active_users: 38492,
+    inactive_users: 64,
+    suspended_users: 50,
+    deleted_account: 30,
+  };
+  const total =
+    data.active_users +
+    data.inactive_users +
+    data.suspended_users +
+    data.deleted_account;
+  const barSegments: BarSegment[] = [
+    {
+      color: "#F5AB3C",
+      size: (data.active_users / total) * 100,
+      name: "Active Users",
+      value: data.active_users,
+    },
+    {
+      color: "#FF7262",
+      size: (data.inactive_users / total) * 100,
+      name: "Inactive Users",
+      value: data.inactive_users,
+    },
+    {
+      color: "#48AE6D",
+      size: (data.suspended_users / total) * 100,
+      name: "Suspended Users",
+      value: data.suspended_users,
+    },
+    {
+      color: "#BDC0C4",
+      size: (data.deleted_account / total) * 100,
+      name: "Deleted Account",
+      value: data.deleted_account,
+    },
+  ];
 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -451,7 +493,7 @@ const page = () => {
     <div className="min-h-screen w-full pt-[100px] pb-10">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-[28px] font-medium">KYC Verification</h2>
+          <h2 className="text-[28px] font-medium">Users Log</h2>
           <h4 className="text-[#707A8F] text-[14px] font-medium mt-2 flex gap-2 items-center">
             <Link href={`/admin/products`} className="text-primary">
               Dashboard
@@ -468,44 +510,15 @@ const page = () => {
           <div className="mt-4">
             <SkeletonCard />
           </div>
+
           <div className="h-[500px] mt-8">
             <SkeletonCard />
           </div>
         </>
       ) : (
         <>
-          <div className="mt-4 bg-secondary border-[1px] border-[#E8E8E9] rounded-[8px] py-[32px] px-[24px]">
-            <div className="flex justify-between items-center">
-              <h3 className="text-[#39434F] font-medium">Users KYC</h3>
-              <div className="border-[1px] border-[#D7D9DC] py-[4px] px-[9px] rounded-[9px] text-sm text-[#39434F]">
-                Aug 31, 2023
-              </div>
-            </div>
-            <div className="mt-6 grid grid-cols-3 gap-4">
-              <div className="border-r-[1px] border-[#DFE1E5] p-[16px]">
-                <h3 className="text-sm text-[#39434F] mb-2">Total Users</h3>
-                <h4 className="text-primary text-3xl">
-                  32764{" "}
-                  <span className="text-xl text-[#48AE6D] -mt-3">+32</span>
-                </h4>
-              </div>
-              <div className="border-r-[1px] border-[#DFE1E5] p-[16px]">
-                <div className="mb-2 flex w-full items-center justify-between">
-                  <h3 className="text-sm text-[#39434F]">Verified Accounts</h3>
-                  <RiVerifiedBadgeFill className="text-[#48AE6D] text-xl" />
-                </div>
-
-                <h4 className="text-[#48AE6D] text-3xl">53 users </h4>
-              </div>
-              <div className=" p-[16px]">
-                <div className="mb-2 flex w-full items-center justify-between">
-                  <h3 className="text-sm text-[#39434F]">Pending Accounts</h3>
-                  <RxTimer className="text-primary text-xl" />
-                </div>
-
-                <h4 className="text-[#1F1F1F] text-3xl">53 users </h4>
-              </div>
-            </div>
+          <div className="mt-4">
+            <UserMetrics metric_data={barSegments} total_value={total} />
           </div>
           <div className="mt-8">
             <div className="">

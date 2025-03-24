@@ -1,4 +1,4 @@
-"use client"; // Required for Next.js App RouterDate.now()
+"use client"; // Required for Next.js App Router
 
 import React from "react";
 import Image from "next/image";
@@ -62,7 +62,7 @@ const Table = <T extends Record<string, any>>({
   };
 
   return (
-    <table className="border-collapse min-w-[1000px] w-full">
+    <table className="border-collapse w-full">
       <thead>
         <tr className="bg-none ">
           {columns.map((col) => (
@@ -84,7 +84,7 @@ const Table = <T extends Record<string, any>>({
                   <div className="flex items-center gap-2">
                     <input
                       id={row.id}
-                      onClick={() => onselect?.(row)}
+                      onChange={() => onselect?.(row)}
                       checked={selectedUser?.id === row.id}
                       type="radio"
                       className="w-[20] h-[20] accent-primary border-[2px] border-[#D3D6DC]"

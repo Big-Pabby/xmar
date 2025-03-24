@@ -13,18 +13,45 @@ import React from "react";
 import { usePathname } from "next/navigation";
 
 // Defined menu items with icons
-const SideMenu = [
-  { href: "", icon: <LuLayoutGrid />, label: "Dashboard" },
-  { href: "kyc", icon: <FiUsers />, label: "KYC Verification" },
-  { href: "managements", icon: <HiOutlineCreditCard />, label: "Managements" },
-  { href: "subscription", icon: <LuWallet />, label: "Subscription" },
-  { href: "products", icon: <TbArrowsExchange2 />, label: "Products" },
-  { href: "analytics", icon: <HiOutlineChartPie />, label: "Analytics" },
-  { href: "notifications", icon: <TbReceipt />, label: "Notifications" },
-  { href: "chats", icon: <FiUsers />, label: "Chats & Support" },
+const admin_side_menu = [
+  { href: "/admin/", icon: <LuLayoutGrid />, label: "Dashboard" },
+  { href: "/admin/kyc", icon: <FiUsers />, label: "KYC Verification" },
+  { href: "/admin/users", icon: <FiUsers />, label: "User Logs" },
+  {
+    href: "/admin/managements",
+    icon: <HiOutlineCreditCard />,
+    label: "Managements",
+  },
+  { href: "/admin/subscription", icon: <LuWallet />, label: "Subscription" },
+  { href: "/admin/products", icon: <TbArrowsExchange2 />, label: "Products" },
+  { href: "/admin/notification", icon: <TbReceipt />, label: "Notifications" },
+  { href: "/admin/chats", icon: <FiUsers />, label: "Chats & Support" },
+];
+const business_side_menu = [
+  { href: "/business/dashboard", icon: <LuLayoutGrid />, label: "Dashboard" },
+
+  {
+    href: "/business/managements",
+    icon: <HiOutlineCreditCard />,
+    label: "Managements",
+  },
+  { href: "/business/subscription", icon: <LuWallet />, label: "Subscription" },
+  {
+    href: "/business/products",
+    icon: <TbArrowsExchange2 />,
+    label: "Products",
+  },
+  {
+    href: "/business/notification",
+    icon: <TbReceipt />,
+    label: "Notifications",
+  },
+  { href: "/business/chats", icon: <FiUsers />, label: "Chats & Support" },
 ];
 
-const SideBar = () => {
+const SideBar = ({ type }: { type: string }) => {
+  const get_which_menu = () =>
+    type === "Admin" ? admin_side_menu : business_side_menu;
   const pathname = usePathname();
   return (
     <div className="fixed w-[275px] z-[120] top-0 h-[100vh] left-0 bg-white py-8 px-6">
@@ -43,12 +70,12 @@ const SideBar = () => {
 
       {/* Menu Items mapped from the SideMenu Array above */}
       <div className="flex flex-col gap-1">
-        {SideMenu.map(({ href, icon, label }, index) => (
+        {get_which_menu().map(({ href, icon, label }, index) => (
           <Link
             key={index}
-            href={`/admin/${href}`}
+            href={`${href}`}
             className={` ${
-              pathname === `/admin/${href}`
+              pathname === `${href}`
                 ? "bg-primary text-white hover:bg-[#F9A000]  hover:text-white  py-[8px] md:font-bold font-medium px-[10px] rounded-[8px] flex items-center gap-3 cursor-pointer"
                 : "text-[#505766] hover:bg-[#F9A000]  hover:text-white  py-[8px] md:font-bold font-medium px-[10px] rounded-[8px] flex items-center gap-3 cursor-pointer"
             }`}
