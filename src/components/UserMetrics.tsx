@@ -46,6 +46,7 @@ const UserMetrics = ({
         >
           <div className="flex items-center gap-3">
             <RiBarChartHorizontalFill
+              style={{ color: `${item.color}` }}
               className={`text-xl text-[${item.color}]`}
             />
             <h4 className="text-[12px] text-[#39434F]">{item.name}</h4>

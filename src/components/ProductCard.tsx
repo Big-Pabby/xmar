@@ -2,28 +2,17 @@ import React from "react";
 import Image from "next/image";
 import { TbDots } from "react-icons/tb";
 import { FaArrowUp } from "react-icons/fa";
-
-interface Product {
-  product_name: string;
-  product_type: string;
-  price: number;
-  discout: number;
-  description: string;
-  sales: number;
-  total_products: number;
-  image: string;
-}
+import { Product } from "@/store/useProductStore";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const remainingPercentage =
-    ((product.total_products - product.sales) / product.total_products) * 100;
+  const remainingPercentage = 0;
   return (
     <div className="w-full border-[1px] border-[#E8E8E9] bg-secondary rounded-[16px] p-[16px]">
       <div className="flex justify-between items-start gap-4">
         <div className="flex gap-2 items-center">
           <div className="w-[84px] h-[84px] rounded-[8px] overflow-hidden">
             <Image
-              src={product.image}
+              src={product?.images[0] || `/images/product.svg`}
               alt="product Image"
               width={84}
               height={84}
@@ -32,14 +21,16 @@ const ProductCard = ({ product }: { product: Product }) => {
           </div>
           <div>
             <h4 className="text-[16px] font-semibold text-[#0D0D12] mb-1">
-              {product.product_name}
+              {product?.name}
             </h4>
             <h6 className="text-sm font-semibold text-[#000] mb-3">
-              {product.product_type}
+              {product?.brand}
             </h6>
             <p className="font-semibold text-sm text-[#232321]">
-              ${product.price}{" "}
-              <span className="text-primary pl-2">-${product.discout}</span>
+              ${product?.price}{" "}
+              <span className="text-primary pl-2">
+                -${product?.discountPrice}
+              </span>
             </p>
           </div>
         </div>
@@ -52,8 +43,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           Description
         </h4>
         <p className="text-sm text-[#808080] line-clamp-2">
-          {product.description} Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Earum, ullam.
+          {product?.description}
         </p>
       </div>
       <div className="border-[0.75px] border-[#E8E8E9] rounded-[8px] p-[16px]">
@@ -62,7 +52,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           <div className="flex gap-1 items-center">
             <FaArrowUp className="text-primary text-[16px]" />
             <p className="text-sm text-[#232321] font-semibold">
-              {product.sales}
+              {product?.stock}
             </p>
           </div>
         </div>
@@ -77,9 +67,9 @@ const ProductCard = ({ product }: { product: Product }) => {
                 style={{ width: `${remainingPercentage}%` }}
               ></div>
             </div>
-            <p className="text-sm text-[#232321] font-semibold">
+            {/* <p className="text-sm text-[#232321] font-semibold">
               {product.total_products - product.sales}
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

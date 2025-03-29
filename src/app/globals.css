@@ -69,11 +69,17 @@
 }
 
 input:checked + .slider {
-  background-color: #F9A000;
+  background-color: #f9a000;
 }
 
 input:checked + .slider:before {
   transform: translateX(14px);
+}
+button:disabled {
+  opacity: 0.5; /* Makes it slightly transparent */
+  cursor: not-allowed; /* Changes the cursor */
+  filter: brightness(75%); /* Darkens the button */
+  color: black;
 }
 
 body {

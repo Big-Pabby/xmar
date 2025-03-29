@@ -2,12 +2,12 @@ export const setAuthInfo = (data: any) => {
   if (typeof window !== "undefined") {
     const userInfo = {
       token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE0ODQ5ZGNlLWQ1ZjctNGZlYi1hZDY4LWQ0NGExOGY2NzYzMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MjY1NjE0OSwiZXhwIjoxNzU4MjA4MTQ5fQ.H2Dcjg-a7vZuEHBPuoG8Hur9S-tILk399e5SsDtKpNE",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2NGZiY2RlLTQyZjUtNDgxMi05YTAxLWI4NThjNjM0ZGVkNiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MjkwODUxMSwiZXhwIjoxNzU4NDYwNTExfQ.XfyzZ1Z7b53ktUoBVlPqJ_9o3r78UrSBvgVOrSMLeyk",
       user: {
         id: "a4849dce-d5f7-4feb-ad68-d44a18f67631",
         firstName: "Jane",
         lastName: "Smith",
-        email: "hairsby@gmail.com",
+        email: "gabrielchibu@gmail.com",
         phone: "1234567890",
         role: "admin",
         photo: null,
@@ -54,6 +54,7 @@ export const setAuthInfo = (data: any) => {
 
 export const getAuthInfo = () => {
   if (typeof window !== "undefined") {
+    setAuthInfo(null);
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
     console.log("user", user);

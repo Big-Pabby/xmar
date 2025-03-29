@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import React, { useEffect } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import SetProductForm from "@/components/SetProductForm";
@@ -7,30 +8,64 @@ import Reviews from "@/components/Review";
 import OrderScreen from "@/components/OrderScreen";
 import { Question } from "@/components/Question";
 import Link from "next/link";
+import { fetchProduct, updateProduct } from "@/services/apiService";
+import { useQuery } from "react-query";
+import { useSearchParams } from "next/navigation";
+import { Product } from "@/store/useProductStore";
 
-const product = {
-  product_name: "Bumble Shampoos",
-  product_type: "DOVE",
-  price: 110.4,
-  discout: 24,
-  description:
-    "The name says it all, this products are well known for their quality and are frequently",
-  sales: 1269,
-  total_products: 3000,
-  image: "/images/product.svg",
-  banner: "/images/banner.svg",
-};
-const page = () => {
+const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const { slug } = await params; // Get the slug from query parameters
+
+  const {
+    data: productData,
+    isLoading,
+    error,
+  } = useQuery(
+    ["products", slug], // Ensure query key includes slug
+    () => fetchProduct(slug), // Use an arrow function to call fetchProduct
+    {
+      enabled: !!slug, // Only run query if slug is available
+    }
+  );
+
+  const [product, setProducts] = useState<Product | null>(null);
   const [currentNav, setCurrentNav] = useState<string>("Product Details");
   const navList = ["Product Details", "Orders", "Reviews", "Questions"];
+
+  const handleSubmit = async (formData: any) => {
+    try {
+      const { data } = await updateProduct(slug, formData);
+
+      // Optionally, you can fetch the updated categories list here
+    } catch (error) {
+      console.error("Failed to create category", error);
+    }
+  };
+
+  useEffect(() => {
+    if (productData) {
+      console.log(productData);
+      setProducts(productData.data);
+    }
+  }, [productData, setProducts]);
+
+  // Handle loading and error states
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading product details</div>;
+  }
 
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-[28px] font-medium">{product.product_name}</h2>
+          {slug}
+          <h2 className="text-[28px] font-medium">{product?.name}</h2>
           <h4 className="text-[#707A8F] text-[14px] font-medium mt-2">
-            {product.product_type}
+            {product?.brand}
           </h4>
         </div>
         <Link
@@ -58,7 +93,7 @@ const page = () => {
       <div className="mt-8">
         {currentNav === "Product Details" ? (
           <div>
-            <SetProductForm product={product} />
+            <SetProductForm product={product} handleSubmit={handleSubmit} />
           </div>
         ) : currentNav === "Reviews" ? (
           <div>

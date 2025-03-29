@@ -15,9 +15,8 @@ interface BarSegment {
 
 const Statistics = () => {
   const barSegments: BarSegment[] = [
-    { title: "Income", newRate: 7500, prevRate: 7750 },
-    { title: "Expenses", newRate: 10000, prevRate: 9000 },
-    { title: "Transactions", newRate: 1232, prevRate: 1000 },
+    { title: "Outflow", newRate: 7500, prevRate: 7750 },
+    { title: "Inflow", newRate: 10000, prevRate: 9000 },
   ];
 
   const calculatePercentageChange = (

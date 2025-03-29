@@ -1,31 +1,53 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IoMdClose } from "react-icons/io";
 import { FaCircleCheck } from "react-icons/fa6";
-
-interface Product {
-  product_name: string;
-  product_type: string;
-  price: number;
-  discout: number;
-  description: string;
-  sales: number;
-  total_products: number;
-  image: string;
-  banner: string;
-}
+import { ProductCategory, useProductStore } from "@/store/useProductStore";
+import UploadFile from "./UploadFile";
+import { fetchCategories } from "@/services/apiService";
+import { useQuery } from "react-query";
+import { Product } from "@/store/useProductStore";
 
 interface ImagePreview {
   url: string;
   file: File;
 }
 
-const SetProductForm = ({ product }: { product: Product }) => {
-  const [bannerPreview, setBannerPreview] = useState<string>(product.banner);
+const SetProductForm = ({
+  product,
+  handleSubmit,
+}: {
+  product?: Product | null;
+  handleSubmit: (formData: any) => void;
+}) => {
+  const { setCategories, category } = useProductStore();
+  const {
+    data: categoriesData,
+    isLoading,
+    error,
+  } = useQuery("products", fetchCategories, {
+    enabled: category.categories.length === 0, // Only fetch if products state is empty
+  });
+
+  const [bannerPreview, setBannerPreview] = useState<string>(
+    product?.banner || ""
+  );
   const [imagePreviews, setImagePreviews] = useState<ImagePreview[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const [formLoader, setFormLoader] = useState<boolean>(false);
+  const [form, setForm] = useState<Product>({
+    name: product?.name || "",
+    brand: product?.brand || "",
+    category: product?.category || "",
+    stock: product?.stock || 0,
+    price: product?.price || 0,
+    discountPrice: product?.discountPrice || 0,
+    description: product?.description || "",
+    images: product?.images || [""],
+    banner: product?.banner || "",
+  });
 
   const handleBannerUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -38,43 +60,29 @@ const SetProductForm = ({ product }: { product: Product }) => {
     }
   };
 
-  const handleImagesUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      const newPreviews = Array.from(files).map((file) => ({
-        url: URL.createObjectURL(file),
-        file,
-      }));
-      setImagePreviews((prev) => [...prev, ...newPreviews]);
-    }
+  const handleImage = (images: ImagePreview[]) => {
+    setImagePreviews((prev) => [...prev, ...images]);
+    console.log("Updated immediately:", imagePreviews);
   };
-
-  const removeImage = (index: number) => {
-    setImagePreviews((prev) => {
-      const newPreviews = [...prev];
-      URL.revokeObjectURL(newPreviews[index].url);
-      newPreviews.splice(index, 1);
-      return newPreviews;
-    });
-  };
-
-  const handleDragOver = useCallback((e: React.DragEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  }, []);
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    if (files) {
-      const newPreviews = Array.from(files)
-        .filter((file) => file.type.startsWith("image/"))
-        .map((file) => ({
-          url: URL.createObjectURL(file),
-          file,
-        }));
-      setImagePreviews((prev) => [...prev, ...newPreviews]);
+    if (imagePreviews.length === 0) {
+      alert("Please select at least one image.");
+      return;
     }
-  }, []);
+    setFormLoader(true);
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("brand", form.brand);
+    formData.append("category", form.category);
+    formData.append("stock", form.stock.toString());
+    formData.append("price", form.price.toString());
+    formData.append("discountPrice", form.discountPrice.toString());
+    formData.append("description", form.description);
+    formData.append("images", imagePreviews[0].file);
+    handleSubmit(formData);
+    setFormLoader(false);
+  };
 
   const toggleSize = (size: string) => {
     setSelectedSizes((prev) =>
@@ -82,8 +90,17 @@ const SetProductForm = ({ product }: { product: Product }) => {
     );
   };
 
+  useEffect(() => {
+    if (categoriesData) {
+      setCategories(categoriesData.data);
+    }
+  }, [categoriesData, setCategories]);
+
   return (
-    <form className="flex flex-col items-start md:flex-row gap-4">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col items-start md:flex-row gap-4"
+    >
       <div className="md:w-7/12 w-full bg-white rounded-lg border border-border p-5">
         <div className="mb-6">
           <label
@@ -95,6 +112,10 @@ const SetProductForm = ({ product }: { product: Product }) => {
           <input
             id="product_name"
             name="product_name"
+            value={form.name}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, name: e.target.value }))
+            }
             type="text"
             className="w-full h-12 bg-background border border-input rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-ring"
           />
@@ -109,6 +130,10 @@ const SetProductForm = ({ product }: { product: Product }) => {
           <input
             id="brand_name"
             name="brand_name"
+            value={form.brand}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, brand: e.target.value }))
+            }
             type="text"
             className="w-full h-12 bg-background border border-input rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-ring"
           />
@@ -123,6 +148,10 @@ const SetProductForm = ({ product }: { product: Product }) => {
           <textarea
             id="description"
             name="description"
+            value={form.description}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, description: e.target.value }))
+            }
             className="w-full h-28 bg-background border border-input rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-ring resize-none"
           />
         </div>
@@ -136,14 +165,18 @@ const SetProductForm = ({ product }: { product: Product }) => {
             </label>
             <select
               name="category"
+              value={form.category}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, category: e.target.value }))
+              }
               id="category"
               className="w-full h-12 bg-background border border-input rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-ring"
             >
-              <option value="Facials">Facials</option>
-              <option value="Skincare">Skincare</option>
-              <option value="Haircare">Haircare</option>
-              <option value="Bodycare">Bodycare</option>
-              <option value="Makeup">Makeup</option>
+              {category.categories.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="md:w-6/12">
@@ -152,6 +185,10 @@ const SetProductForm = ({ product }: { product: Product }) => {
             </label>
             <input
               id="stock"
+              value={form.stock}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, stock: Number(e.target.value) }))
+              }
               name="stock"
               type="number"
               min="0"
@@ -172,6 +209,13 @@ const SetProductForm = ({ product }: { product: Product }) => {
                 id="price"
                 name="price"
                 type="number"
+                value={form.price}
+                onChange={(e) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    price: Number(e.target.value),
+                  }))
+                }
                 min="0"
                 step="0.01"
                 className="w-full h-12 bg-background border border-input rounded-lg pl-8 pr-4 focus:outline-none focus:ring-2 focus:ring-ring"
@@ -193,6 +237,13 @@ const SetProductForm = ({ product }: { product: Product }) => {
                 id="discount"
                 name="discount"
                 type="number"
+                value={form.discountPrice}
+                onChange={(e) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    discountPrice: Number(e.target.value),
+                  }))
+                }
                 min="0"
                 step="0.01"
                 className="w-full h-12 bg-background border border-input rounded-lg pl-8 pr-4 focus:outline-none focus:ring-2 focus:ring-ring"
@@ -247,72 +298,7 @@ const SetProductForm = ({ product }: { product: Product }) => {
         </div>
 
         <div className="mt-4">
-          <div className="grid grid-cols-1 gap-3 mb-4">
-            {imagePreviews.map((preview, index) => (
-              <div
-                key={index}
-                className="relative bg-[#FAFAFA] w-full rounded-[7px] p-[14px] flex gap-4"
-              >
-                <Image
-                  src={preview.url}
-                  width={66}
-                  height={75}
-                  alt={`Product image ${index + 1}`}
-                  className="object-cover rounded-lg"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeImage(index)}
-                  className="absolute top-[14px] right-[14px] font-bold  w-[20px] h-[20px] bg-[#FF5252] flex items-center justify-center text-white rounded-full "
-                >
-                  <IoMdClose />
-                </button>
-                <div className="flex-1">
-                  <h4 className="font-semibold text-sm ">
-                    {preview.file.name}
-                  </h4>
-                  <div className="bg-[#F9A000] w-full h-[5px] rounded-full my-4"></div>
-                  <p className="text-sm font-semibold flex gap-2 items-center  text-primary">
-                    Select as cover photo {/*  <FaCircleCheck /> */}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <label
-            htmlFor="images"
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
-            className="border-2 border-dashed border-primary rounded-lg w-full h-[180px] flex flex-col items-center justify-center bg-[#FFFBF5] p-5 cursor-pointer hover:bg-secondary/50 transition-colors"
-          >
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <Image
-                src="/images/upload.svg"
-                alt="Upload icon"
-                width={24}
-                height={24}
-                className="text-primary-foreground"
-              />
-            </div>
-            <p className="mt-3 mb-1 text-sm">
-              Drag & Drop or{" "}
-              <span className="text-primary font-medium">choose file</span> to
-              upload
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Supported formats: JPEG, PNG, JPG
-            </p>
-            <input
-              type="file"
-              name="images"
-              id="images"
-              className="hidden"
-              accept=".jpg,.jpeg,.png"
-              multiple
-              onChange={handleImagesUpload}
-            />
-          </label>
+          <UploadFile handleImage={handleImage} />
 
           <div className="mt-8">
             <h3 className=" font-medium mb-4">Select sizes</h3>
@@ -333,8 +319,14 @@ const SetProductForm = ({ product }: { product: Product }) => {
               ))}
             </div>
           </div>
-          <button className="btn btn-primary w-full text-white mt-12">
-            Save
+          <button
+            disabled={formLoader}
+            className="btn btn-primary w-full text-white mt-12"
+          >
+            Save{" "}
+            {formLoader && (
+              <span className="loading loading-spin loading-sm text-black"></span>
+            )}
           </button>
         </div>
       </div>

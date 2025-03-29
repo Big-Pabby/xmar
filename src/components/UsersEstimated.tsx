@@ -30,16 +30,16 @@ const UsersEstimated = ({ user_data }: { user_data: DashBoard }) => {
           <GaugeChart
             id="gauge-chart2"
             colors={[
-              "#F9A000",
-              "#F9A000",
-              "#F9A000",
-              "#F9A000",
-              "#F9A000",
-              "#F9A000",
-              "#F9A000",
-              "#F9A000",
-              "#F9A000",
-              "#F9A000",
+              "#D94823",
+              "#D94823",
+              "#D94823",
+              "#D94823",
+              "#D94823",
+              "#D94823",
+              "#D94823",
+              "#D94823",
+              "#D94823",
+              "#D94823",
               "#F1F2F4",
               "#F1F2F4",
               "#F1F2F4",
@@ -65,16 +65,9 @@ const UsersEstimated = ({ user_data }: { user_data: DashBoard }) => {
         </div>
 
         <div className="flex justify-center gap-2 items-center flex-wrap mt-4">
-          <p className="text-accent font-bold">
-            Specialist: {user_data?.totalSpecialists}
-          </p>
-          <p className="text-accent font-bold">
-            {" "}
-            Business: {user_data?.totalBusinesses}
-          </p>
-          <p className="text-accent font-bold">
-            {" "}
-            Customers: {user_data?.totalCustomers}
+          <p className="text-accent font-bold text-center">
+            Hooray you success to earn $150 today and $1,470 this week, keep it
+            up
           </p>
         </div>
       </div>

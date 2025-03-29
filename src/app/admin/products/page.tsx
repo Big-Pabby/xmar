@@ -3,10 +3,13 @@
 import React from "react";
 import { FaPlus } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
+import { fetchProducts } from "@/services/apiService";
+import { useQuery } from "react-query";
+import { useProductStore } from "@/store/useProductStore";
 
 const rows = [
   {
@@ -166,10 +169,26 @@ const rows = [
 ];
 
 const page = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const { setProducts, productsDetail } = useProductStore();
+  const {
+    data: productsData,
+    isLoading,
+    error,
+  } = useQuery("products", fetchProducts, {
+    enabled: productsDetail.products.length === 0, // Only fetch if products state is empty
+  });
+
+  useEffect(() => {
+    if (productsData) {
+      setProducts(productsData.data);
+    }
+  }, [productsData, setProducts]);
+  const [currentPage, setCurrentPage] = useState(
+    productsDetail.pagination.page
+  );
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const totalPages = Math.ceil(rows.length / itemsPerPage);
+  const totalPages = productsDetail.pagination.totalPages;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = rows.slice(startIndex, startIndex + itemsPerPage);
   return (
@@ -211,8 +230,8 @@ const page = () => {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          {currentItems.map((item, index) => (
-            <Link href={`/admin/products/${item.product_name}`} key={index}>
+          {productsDetail.products.map((item, index) => (
+            <Link href={`/admin/products/${item?.id}`} key={index}>
               <ProductCard product={item} />
             </Link>
           ))}
@@ -234,7 +253,8 @@ const page = () => {
             </div>
           </div>
           <div className="text-[#A2A1A8] font-light">
-            Showing 1 to {itemsPerPage} out of {rows.length} records
+            Showing 1 to {itemsPerPage} out of {productsDetail.pagination.total}{" "}
+            records
           </div>
           <Pagination
             currentPage={currentPage}

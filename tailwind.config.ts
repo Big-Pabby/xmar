@@ -10,7 +10,7 @@ export default {
     themes: [
       {
         Hairstheme: {
-          primary: "#F9A000",
+          primary: "#D94823",
           secondary: "#FFFFFF",
           accent: "#707A8F",
           neutral: "#F8F8F9",

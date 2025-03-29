@@ -9,7 +9,11 @@ interface ImagePreview {
   file: File;
 }
 
-const UploadFile = () => {
+const UploadFile = ({
+  handleImage,
+}: {
+  handleImage: (image: ImagePreview[]) => void;
+}) => {
   const [imagePreviews, setImagePreviews] = useState<ImagePreview[]>([]);
   const handleImagesUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -18,7 +22,9 @@ const UploadFile = () => {
         url: URL.createObjectURL(file),
         file,
       }));
+      console.log(newPreviews);
       setImagePreviews((prev) => [...prev, ...newPreviews]);
+      handleImage(newPreviews);
     }
   };
 
@@ -29,6 +35,7 @@ const UploadFile = () => {
       newPreviews.splice(index, 1);
       return newPreviews;
     });
+    handleImage(imagePreviews);
   };
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -46,6 +53,7 @@ const UploadFile = () => {
           file,
         }));
       setImagePreviews((prev) => [...prev, ...newPreviews]);
+      handleImage(imagePreviews);
     }
   }, []);
   return (

@@ -1,6 +1,7 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
+import { LuEye } from "react-icons/lu";
 
 const Wallet = () => {
   return (
@@ -22,8 +23,8 @@ const Wallet = () => {
         </p>
       </div>
       <div className="mt-4 w-full border-[1px] btn btn-outline rounded-[8px] hover:bg-primary hover:border-none border-[#E8E8E9] text-accent font-semibold py-[10px] px-[14px] flex justify-center gap-4 items-center">
-        <FiPlus className="text-[20px]" />
-        Fund Admin Wallet
+        <LuEye className="text-[20px]" />
+        Hide Amount
       </div>
     </div>
   );

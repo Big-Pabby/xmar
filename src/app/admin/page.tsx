@@ -15,6 +15,7 @@ import SkeletonCard from "@/components/Skeleton";
 import { QueryClientProvider, useQuery } from "react-query";
 import { fetchAdminDashboard } from "@/services/apiService";
 import { getAuthInfo } from "@/services/authService";
+import { useAuthStore } from "@/store/useStore";
 
 interface User {
   firstName: string;
@@ -25,12 +26,8 @@ const page = () => {
     isLoading,
     error,
   } = useQuery("adminDashboard", fetchAdminDashboard);
-  const [user, setUser] = useState<User | null>(null);
+  const { user, setAuthInfo } = useAuthStore();
 
-  useEffect(() => {
-    const authInfo = getAuthInfo();
-    setUser(authInfo.user);
-  }, []);
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
       <h2 className="text-[28px] font-medium">
@@ -64,7 +61,7 @@ const page = () => {
           ) : (
             <>
               <Wallet />
-              <UsersEstimated user_data={dashboardData} />
+              <UsersEstimated user_data={dashboardData.data} />
               <div className="flex-1 flex">
                 <ChatBox />
               </div>
@@ -83,7 +80,6 @@ const page = () => {
             <>
               {" "}
               <QuickAction />
-              <Expenses />
               <Statistics />
               <RecentTable />
             </>

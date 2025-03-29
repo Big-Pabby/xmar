@@ -19,11 +19,15 @@ const admin_side_menu = [
   { href: "/admin/users", icon: <FiUsers />, label: "User Logs" },
   {
     href: "/admin/managements",
-    icon: <HiOutlineCreditCard />,
-    label: "Managements",
+    icon: <FiUsers />,
+    label: "Escrow Overview",
   },
-  { href: "/admin/subscription", icon: <LuWallet />, label: "Subscription" },
-  { href: "/admin/products", icon: <TbArrowsExchange2 />, label: "Products" },
+  { href: "/admin/subscription", icon: <LuWallet />, label: "Finance" },
+  {
+    href: "/admin/products",
+    icon: <TbArrowsExchange2 />,
+    label: "Transaction",
+  },
   { href: "/admin/notification", icon: <TbReceipt />, label: "Notifications" },
   { href: "/admin/chats", icon: <FiUsers />, label: "Chats & Support" },
 ];
@@ -33,13 +37,13 @@ const business_side_menu = [
   {
     href: "/business/managements",
     icon: <HiOutlineCreditCard />,
-    label: "Managements",
+    label: "Escrow Overview",
   },
-  { href: "/business/subscription", icon: <LuWallet />, label: "Subscription" },
+  { href: "/business/subscription", icon: <LuWallet />, label: "Finance" },
   {
     href: "/business/products",
     icon: <TbArrowsExchange2 />,
-    label: "Products",
+    label: "Transaction",
   },
   {
     href: "/business/notification",
@@ -76,8 +80,8 @@ const SideBar = ({ type }: { type: string }) => {
             href={`${href}`}
             className={` ${
               pathname === `${href}`
-                ? "bg-primary text-white hover:bg-[#F9A000]  hover:text-white  py-[8px] md:font-bold font-medium px-[10px] rounded-[8px] flex items-center gap-3 cursor-pointer"
-                : "text-[#505766] hover:bg-[#F9A000]  hover:text-white  py-[8px] md:font-bold font-medium px-[10px] rounded-[8px] flex items-center gap-3 cursor-pointer"
+                ? "bg-primary text-white hover:bg-primary  hover:text-white  py-[8px] md:font-bold font-medium px-[10px] rounded-[8px] flex items-center gap-3 cursor-pointer"
+                : "text-[#505766] hover:bg-primary  hover:text-white  py-[8px] md:font-bold font-medium px-[10px] rounded-[8px] flex items-center gap-3 cursor-pointer"
             }`}
           >
             {/* Applied class dynamically to icons */}

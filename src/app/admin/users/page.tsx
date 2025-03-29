@@ -444,7 +444,7 @@ const page = () => {
     user ? setUser(undefined) : setUser(data);
   };
   const data = {
-    active_users: 38492,
+    active_users: 100,
     inactive_users: 64,
     suspended_users: 50,
     deleted_account: 30,
@@ -456,25 +456,25 @@ const page = () => {
     data.deleted_account;
   const barSegments: BarSegment[] = [
     {
-      color: "#F5AB3C",
+      color: "#48AE6D",
       size: (data.active_users / total) * 100,
       name: "Active Users",
       value: data.active_users,
     },
     {
-      color: "#FF7262",
+      color: "#BDC0C4",
       size: (data.inactive_users / total) * 100,
       name: "Inactive Users",
       value: data.inactive_users,
     },
     {
-      color: "#48AE6D",
+      color: "#3C70F5",
       size: (data.suspended_users / total) * 100,
       name: "Suspended Users",
       value: data.suspended_users,
     },
     {
-      color: "#BDC0C4",
+      color: "#FF7262",
       size: (data.deleted_account / total) * 100,
       name: "Deleted Account",
       value: data.deleted_account,

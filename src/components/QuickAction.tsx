@@ -12,27 +12,27 @@ import {
 const QuickAction = () => {
   const actions = [
     {
-      name: "Send",
+      name: "Notification",
       icon: <TbCreditCardPay />,
     },
     {
-      name: "Recieve",
+      name: "Escrow",
       icon: <TbCreditCardRefund />,
     },
     {
-      name: "Subscribe",
+      name: "Transaction",
       icon: <TbFileDollar />,
     },
     {
-      name: "Product",
+      name: "Disputes",
       icon: <TbShoppingCart />,
     },
     {
-      name: "Tickets",
+      name: "Users Log",
       icon: <TbTicket />,
     },
     {
-      name: "Receipts",
+      name: "Kyc",
       icon: <TbReceipt2 />,
     },
   ];

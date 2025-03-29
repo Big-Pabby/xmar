@@ -44,8 +44,8 @@ const LineChart = () => {
       {
         label: "Income",
         data: [420, 500, 450, 470, 600, 650, 700, 750, 720, 500, 520, 430],
-        borderColor: "#8D95A5",
-        backgroundColor: "#8D95A5",
+        borderColor: "#15AC77",
+        backgroundColor: "#15AC77",
         tension: 0.4, // Smooth line
       },
       {
@@ -53,13 +53,6 @@ const LineChart = () => {
         data: [470, 480, 450, 440, 800, 734, 563, 678, 550, 744, 900, 430],
         borderColor: "#FE5B65",
         backgroundColor: "#FE5B65",
-        tension: 0.4,
-      },
-      {
-        label: "Transactions",
-        data: [500, 550, 600, 557, 800, 750, 600, 650, 900, 700, 701, 450],
-        borderColor: "#F9A000",
-        backgroundColor: "#F9A000",
         tension: 0.4,
       },
     ],
