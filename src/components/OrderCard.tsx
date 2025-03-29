@@ -1,7 +1,4 @@
 import React from "react";
-import Image from "next/image";
-import { TbDots } from "react-icons/tb";
-import { FaArrowUp } from "react-icons/fa";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";

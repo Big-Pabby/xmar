@@ -1,6 +1,5 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FiPlus } from "react-icons/fi";
 import { LuEye } from "react-icons/lu";
 
 const Wallet = () => {

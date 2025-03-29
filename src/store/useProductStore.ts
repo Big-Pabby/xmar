@@ -1,10 +1,4 @@
 import { create } from "zustand";
-import {
-  fetchProducts,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-} from "@/services/apiService";
 
 export type Provider = {
   id: string;

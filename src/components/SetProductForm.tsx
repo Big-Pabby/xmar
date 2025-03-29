@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { IoMdClose } from "react-icons/io";
-import { FaCircleCheck } from "react-icons/fa6";
-import { ProductCategory, useProductStore } from "@/store/useProductStore";
+import {  useProductStore } from "@/store/useProductStore";
 import UploadFile from "./UploadFile";
 import { fetchCategories } from "@/services/apiService";
 import { useQuery } from "react-query";
@@ -25,8 +23,7 @@ const SetProductForm = ({
   const { setCategories, category } = useProductStore();
   const {
     data: categoriesData,
-    isLoading,
-    error,
+   
   } = useQuery("products", fetchCategories, {
     enabled: category.categories.length === 0, // Only fetch if products state is empty
   });

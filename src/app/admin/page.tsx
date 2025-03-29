@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaChevronDown } from "react-icons/fa";
 import { RiLinkM } from "react-icons/ri";
@@ -8,19 +7,17 @@ import Wallet from "@/components/Wallet";
 import UsersEstimated from "@/components/UsersEstimated";
 import ChatBox from "@/components/ChatBox";
 import QuickAction from "@/components/QuickAction";
-import Expenses from "@/components/Expenses";
 import Statistics from "@/components/Statistics";
 import RecentTable from "@/components/RecentTable";
 import SkeletonCard from "@/components/Skeleton";
-import { QueryClientProvider, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { fetchAdminDashboard } from "@/services/apiService";
-import { getAuthInfo } from "@/services/authService";
 import { useAuthStore } from "@/store/useStore";
 
 interface User {
   firstName: string;
 }
-const page = () => {
+const Page = () => {
   const {
     data: dashboardData,
     isLoading,
@@ -90,4 +87,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -422,7 +422,7 @@ interface BarSegment {
   value?: number;
 }
 
-const page = () => {
+const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [user, setUser] = useState<User>();
@@ -780,4 +780,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

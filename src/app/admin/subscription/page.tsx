@@ -1,5 +1,4 @@
 "use client"; // Required for Next.js App Router
-import Image from "next/image";
 
 import React from "react";
 import { useState } from "react";
@@ -10,10 +9,6 @@ import { TiArrowSortedUp } from "react-icons/ti";
 import { CiSearch } from "react-icons/ci";
 import Modal from "@/components/Modal";
 
-const mockData = Array.from({ length: 50 }, (_, i) => ({
-  id: i + 1,
-  name: `Item ${i + 1}`,
-}));
 const rows = [
   {
     id: 1,
@@ -617,7 +612,7 @@ const rows = [
   },
 ];
 
-const subscription = () => {
+const Subscription = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isOpen, setIsOpen] = useState(false);
@@ -780,4 +775,4 @@ const subscription = () => {
   );
 };
 
-export default subscription;
+export default Subscription;

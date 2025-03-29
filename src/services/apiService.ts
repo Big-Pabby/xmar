@@ -35,11 +35,11 @@ export const fetchProduct = async (id: string | null) => {
   const response = await api.get(`/products/${id}`);
   return response.data;
 };
-export const createProduct = async (product: any) => {
+export const createProduct = async (product: string) => {
   const response = await api.post("/products", product);
   return response.data;
 };
-export const updateProduct = async (id: string | null, product: any) => {
+export const updateProduct = async (id: string | null, product: string) => {
   const response = await api.put(`/products/${id}`, product);
   return response.data;
 };

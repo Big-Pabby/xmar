@@ -1,6 +1,4 @@
 import React from "react";
-import { RiVerifiedBadgeFill } from "react-icons/ri";
-import { RxTimer } from "react-icons/rx";
 import ColorBar from "@/components/ColorBar";
 import { RiBarChartHorizontalFill } from "react-icons/ri";
 

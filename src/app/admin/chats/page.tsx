@@ -25,7 +25,7 @@ interface Chat {
   avatarUrl: string;
 }
 
-export default function page() {
+export default function Page() {
   const [selectedChat, setSelectedChat] = useState<number | null>(1);
 
   const chats: Chat[] = [

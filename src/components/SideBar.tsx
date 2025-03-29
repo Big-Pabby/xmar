@@ -3,11 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiChevronsLeft, FiUsers } from "react-icons/fi";
 import { LuLayoutGrid, LuWallet } from "react-icons/lu";
-import {
-  HiOutlineCreditCard,
-  HiOutlineChartPie,
-  HiDotsVertical,
-} from "react-icons/hi";
+import { HiOutlineCreditCard, HiDotsVertical } from "react-icons/hi";
 import { TbArrowsExchange2, TbReceipt } from "react-icons/tb";
 import React from "react";
 import { usePathname } from "next/navigation";
