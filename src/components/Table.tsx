@@ -40,8 +40,9 @@ interface TableProps<T> {
   selectedUser?: User;
 }
 
-const Table = <T extends Record<string, any>>({
-  // eslint-disable-line @typescript-eslint/no-explicit-any
+// prettier-ignore
+const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescript-eslint/no-explicit-any
+  
   columns,
   rows,
   onselect,
