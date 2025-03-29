@@ -17,6 +17,7 @@ interface DashBoard {
   totalRevenue: number;
   totalActiveSubscriptions: number;
 }
+const Chart = GaugeChart as unknown as React.FC<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 const UsersEstimated = ({ user_data }: { user_data: DashBoard }) => {
   return (
     <div className="w-full bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
@@ -27,7 +28,7 @@ const UsersEstimated = ({ user_data }: { user_data: DashBoard }) => {
       <p className="text-accent mt-1 text-[14px]">Estimated users on hairsby</p>
       <div className="mt-6">
         <div className="relative">
-          <GaugeChart
+          <Chart
             id="gauge-chart2"
             colors={[
               "#D94823",
