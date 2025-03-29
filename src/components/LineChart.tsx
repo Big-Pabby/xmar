@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { ChartOptions } from "chart.js";
 
 // Register required components
 ChartJS.register(
@@ -58,24 +59,16 @@ const LineChart = () => {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: "bottom" },
+      legend: { position: "bottom" }, // ✅ TypeScript will validate this
       title: { display: false, text: "Sales, Revenue & Profit Over Time" },
     },
     scales: {
-      x: {
-        grid: {
-          display: false, // Remove vertical grid lines
-        },
-      },
-      y: {
-        grid: {
-          display: false, // Remove horizontal grid lines
-        },
-      },
+      x: { grid: { display: false } },
+      y: { grid: { display: false } },
     },
   };
 
