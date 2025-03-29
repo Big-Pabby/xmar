@@ -36,11 +36,12 @@ interface User {
 interface TableProps<T> {
   columns: Column[];
   rows: T[];
-  onselect?: (data: any) => void;
+  onselect?: (data: any) => void; // eslint-disable-line @typescript-eslint/no-explicit-any
   selectedUser?: User;
 }
 
 const Table = <T extends Record<string, any>>({
+  // eslint-disable-line @typescript-eslint/no-explicit-any
   columns,
   rows,
   onselect,

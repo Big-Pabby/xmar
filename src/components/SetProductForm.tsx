@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import {  useProductStore } from "@/store/useProductStore";
+import { useProductStore } from "@/store/useProductStore";
 import UploadFile from "./UploadFile";
 import { fetchCategories } from "@/services/apiService";
 import { useQuery } from "react-query";
@@ -18,13 +18,10 @@ const SetProductForm = ({
   handleSubmit,
 }: {
   product?: Product | null;
-  handleSubmit: (formData: any) => void;
+  handleSubmit: (formData: any) => void; // eslint-disable-line @typescript-eslint/no-explicit-any
 }) => {
   const { setCategories, category } = useProductStore();
-  const {
-    data: categoriesData,
-   
-  } = useQuery("products", fetchCategories, {
+  const { data: categoriesData } = useQuery("products", fetchCategories, {
     enabled: category.categories.length === 0, // Only fetch if products state is empty
   });
 

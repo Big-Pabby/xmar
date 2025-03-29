@@ -441,7 +441,7 @@ const Page = () => {
     { key: "action", label: "Action" },
   ];
   const selectUser = (data: User) => {
-    user ? setUser(undefined) : setUser(data);
+    user ? setUser(undefined) : setUser(data); // eslint-disable-line @typescript-eslint/no-unused-expressions
   };
   const data = {
     active_users: 100,

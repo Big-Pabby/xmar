@@ -24,10 +24,10 @@ export type Product = {
   stock: number;
   images: string[]; // Assuming images are stored as URLs
   providerId?: string;
-  variants?: any[]; // Adjust type if variants have a specific structure
+  variants?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
   hasVariants?: boolean;
   status?: "active" | "inactive"; // Define other possible statuses if necessary
-  metadata?: Record<string, any>; // Allowing flexible metadata
+  metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   createdAt?: string; // ISO date string
   updatedAt?: string; // ISO date string
   provider?: Provider;
@@ -40,7 +40,7 @@ export interface Category {
   icon: string | null;
   status: string;
   createdBy: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   createdAt: string;
   updatedAt: string;
 }

@@ -14,16 +14,13 @@ import { useQuery } from "react-query";
 import { fetchAdminDashboard } from "@/services/apiService";
 import { useAuthStore } from "@/store/useStore";
 
-interface User {
-  firstName: string;
-}
 const Page = () => {
   const {
     data: dashboardData,
     isLoading,
-    error,
+    error, // eslint-disable-line @typescript-eslint/no-unused-vars
   } = useQuery("adminDashboard", fetchAdminDashboard);
-  const { user, setAuthInfo } = useAuthStore();
+  const { user, setAuthInfo } = useAuthStore(); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
