@@ -25,7 +25,7 @@ const admin_side_menu = [
     label: "Transaction",
   },
   { href: "/admin/notification", icon: <TbReceipt />, label: "Notifications" },
-  { href: "/admin/chats", icon: <FiUsers />, label: "Chats & Support" },
+  { href: "/admin/chats", icon: <FiUsers />, label: "Admin Profiles" },
 ];
 const business_side_menu = [
   { href: "/business/dashboard", icon: <LuLayoutGrid />, label: "Dashboard" },

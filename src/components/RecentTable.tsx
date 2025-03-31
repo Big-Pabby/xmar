@@ -71,7 +71,7 @@ const RecentTable = () => {
   return (
     <div className="w-full bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
       <div className="flex items-center justify-between">
-        <h3 className="text-[20px] font-medium">Recent Subscriptions</h3>
+        <h3 className="text-[20px] font-medium">Recent Transactions</h3>
         <BsThreeDotsVertical className="text-[16px] text-accent" />
       </div>
       <div className="mt-4">

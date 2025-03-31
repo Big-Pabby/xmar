@@ -22,10 +22,10 @@ const UsersEstimated = ({ user_data }: { user_data: DashBoard }) => {
   return (
     <div className="w-full bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
       <div className="flex items-center justify-between">
-        <h3 className="text-[20px] font-medium">Users</h3>
+        <h3 className="text-[20px] font-medium">Target</h3>
         <BsThreeDotsVertical className="text-[16px] text-accent" />
       </div>
-      <p className="text-accent mt-1 text-[14px]">Estimated users on hairsby</p>
+      <p className="text-accent mt-1 text-[14px]">Income target progress</p>
       <div className="mt-6">
         <div className="relative">
           <Chart

@@ -13,7 +13,14 @@ import SkeletonCard from "@/components/Skeleton";
 import { useQuery } from "react-query";
 import { fetchAdminDashboard } from "@/services/apiService";
 import { useAuthStore } from "@/store/useStore";
+import UserMetrics from "@/components/UserMetrics";
 
+interface BarSegment {
+  color: string;
+  size: number; // Percentage of the bar
+  name?: string;
+  value?: number;
+}
 const Page = () => {
   const {
     data: dashboardData,
@@ -22,6 +29,44 @@ const Page = () => {
   } = useQuery("adminDashboard", fetchAdminDashboard);
   const { user, setAuthInfo } = useAuthStore(); // eslint-disable-line @typescript-eslint/no-unused-vars
 
+  const data = {
+    active_users: 100,
+    inactive_users: 64,
+    suspended_users: 50,
+    deleted_account: 30,
+  };
+  const total =
+    data.active_users +
+    data.inactive_users +
+    data.suspended_users +
+    data.deleted_account;
+  const barSegments: BarSegment[] = [
+    {
+      color: "#48AE6D",
+      size: (data.active_users / total) * 100,
+      name: "Active Users",
+      value: data.active_users,
+    },
+    {
+      color: "#BDC0C4",
+      size: (data.inactive_users / total) * 100,
+      name: "Inactive Users",
+      value: data.inactive_users,
+    },
+    {
+      color: "#3C70F5",
+      size: (data.suspended_users / total) * 100,
+      name: "Suspended Users",
+      value: data.suspended_users,
+    },
+    {
+      color: "#FF7262",
+      size: (data.deleted_account / total) * 100,
+      name: "Deleted Account",
+      value: data.deleted_account,
+    },
+  ];
+
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
       <h2 className="text-[28px] font-medium">
@@ -29,7 +74,7 @@ const Page = () => {
       </h2>
       <div className="flex justify-between items-end">
         <h4 className="text-[#707A8F] text-[14px] font-medium">
-          Here is a your key metrics summary
+          Here is a report on your finances
         </h4>
         <div className="flex gap-5 ">
           <div className="bg-secondary py-[10px] px-[12px] rounded-[8px] border-[1px] border-[#E8E8E9] flex items-center gap-3">
@@ -55,6 +100,7 @@ const Page = () => {
           ) : (
             <>
               <Wallet />
+              <UserMetrics metric_data={barSegments} total_value={total} />
               <UsersEstimated user_data={dashboardData.data} />
               <div className="flex-1 flex">
                 <ChatBox />

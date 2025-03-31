@@ -40,10 +40,12 @@ const ChatBox = () => {
   return (
     <div className="w-full bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
       <div className="flex items-center justify-between">
-        <h3 className="text-[20px] font-medium">Quick Chats & Support</h3>
+        <h3 className="text-[20px] font-medium">Disputes</h3>
         <BsThreeDotsVertical className="text-[16px] text-accent" />
       </div>
-      <p className="text-accent mt-1 text-[14px]">Recent recipients</p>
+      <p className="text-accent mt-1 text-[14px]">
+        Recent disputes to be resolved
+      </p>
       <div className="w-full mt-8 flex overflow-y-auto gap-3 no-scrollbar">
         {user.map((item, index) => (
           <div
