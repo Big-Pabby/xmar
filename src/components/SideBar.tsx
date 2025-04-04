@@ -14,13 +14,13 @@ const admin_side_menu = [
   { href: "/admin/kyc", icon: <FiUsers />, label: "KYC Verification" },
   { href: "/admin/users", icon: <FiUsers />, label: "User Logs" },
   {
-    href: "/admin/managements",
+    href: "/admin/subscription",
     icon: <FiUsers />,
     label: "Escrow Overview",
   },
-  { href: "/admin/subscription", icon: <LuWallet />, label: "Finance" },
+  { href: "/admin/finance", icon: <LuWallet />, label: "Finance" },
   {
-    href: "/admin/products",
+    href: "/admin/transactions",
     icon: <TbArrowsExchange2 />,
     label: "Transaction",
   },

@@ -16,48 +16,48 @@ const page = () => {
     {
       title: "New Feature Alert",
       description:
-        "We’ve launched international transactions on hairsby! You can now create a foreign account and transact from the comfort of your home. ",
+        "We’ve launched international transactions on Xmarr! You can now create a foreign account and transact from the comfort of your home. ",
       time: "18:00",
     },
     {
       title: "Scheduled Maintenance",
-      description: "Hairsby will undergo maintenance from 2:00 AM to 4:00 AM.",
+      description: "Xmar will undergo maintenance from 2:00 AM to 4:00 AM.",
       time: "18:00",
     },
     {
       title: "New Feature Alert",
       description:
-        "We’ve launched international transactions on hairsby! You can now create a foreign account and transact from the comfort of your home. ",
+        "We’ve launched international transactions on Xmarr! You can now create a foreign account and transact from the comfort of your home. ",
       time: "18:00",
     },
     {
       title: "New Feature Alert",
       description:
-        "We’ve launched international transactions on hairsby! You can now create a foreign account and transact from the comfort of your home. ",
+        "We’ve launched international transactions on Xmarr! You can now create a foreign account and transact from the comfort of your home. ",
       time: "18:00",
     },
     {
       title: "New Feature Alert",
       description:
-        "We’ve launched international transactions on hairsby! You can now create a foreign account and transact from the comfort of your home. ",
+        "We’ve launched international transactions on Xmarr! You can now create a foreign account and transact from the comfort of your home. ",
       time: "18:00",
     },
     {
       title: "New Feature Alert",
       description:
-        "We’ve launched international transactions on hairsby! You can now create a foreign account and transact from the comfort of your home. ",
+        "We’ve launched international transactions on Xmarr! You can now create a foreign account and transact from the comfort of your home. ",
       time: "18:00",
     },
     {
       title: "New Feature Alert",
       description:
-        "We’ve launched international transactions on hairsby! You can now create a foreign account and transact from the comfort of your home. ",
+        "We’ve launched international transactions on Xmarr! You can now create a foreign account and transact from the comfort of your home. ",
       time: "18:00",
     },
     {
       title: "New Feature Alert",
       description:
-        "We’ve launched international transactions on hairsby! You can now create a foreign account and transact from the comfort of your home. ",
+        "We’ve launched international transactions on Xmarr! You can now create a foreign account and transact from the comfort of your home. ",
       time: "18:00",
     },
   ];
@@ -110,14 +110,14 @@ const page = () => {
               className="border-[1px] mb-4 border-[#E8E8E9] rounded-[12px] p-[24px]"
             >
               <div className="flex  items-center gap-4 mb-4">
-                <div className=" relative w-[30px] h-[30px] rounded-[8px]">
-                  <div className="w-[8px] h-[8px] rounded-full bg-[#DD3138] absolute top-0 right-0"></div>
+                <div className=" relative bg-[#FFF6F4] w-[40px] flex items-center justify-center h-[40px] rounded-full">
+                  <div className="w-[8px] h-[8px] rounded-full bg-[#DD3138] absolute top-0 right-1"></div>
                   <Image
-                    src={"/images/favicon.png"}
+                    src={"/images/bank.png"}
                     alt="product Image"
-                    width={30}
-                    height={30}
-                    className="w-full h-full object-cover rounded-[8px]"
+                    width={20}
+                    height={20}
+                    className=""
                   />
                 </div>
                 <h3 className="font-medium text-[16px] text-[#3B3D4B]">

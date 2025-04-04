@@ -84,13 +84,14 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
               <td key={col.key} className="border-b px-4 py-4">
                 {col.key === "name" ? (
                   <div className="flex items-center gap-2">
-                    <input
+                    {selectedUser ? ( <input
                       id={row.id}
                       onChange={() => onselect?.(row)}
                       checked={selectedUser?.id === row.id}
                       type="radio"
                       className="w-[20] h-[20] accent-primary border-[2px] border-[#D3D6DC]"
-                    />
+                    />) : null}
+                   
                     <div className="h-[44px] w-[44px]">
                       <Image
                         src={row.image}
@@ -101,10 +102,10 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                       />
                     </div>
 
-                    <div>
-                      <h4 className="text-medium">{row[col.key]}</h4>
+                    <div className="flex-1">
+                      <h4 className="text-medium line-clamp-1">{row[col.key]}</h4>
                       {row.email ? (
-                        <div className="mt-1 text-[12px] text-[#707A8F]">
+                        <div className="line-clamp-1 mt-1 text-[12px] text-[#707A8F]">
                           {row.email}
                         </div>
                       ) : (
@@ -114,7 +115,27 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                       )}
                     </div>
                   </div>
-                ) : col.key === "amount" ? (
+                ) : col.key === "initiator" || col.key === "recipient" ? (
+                  <div className="inline-flex items-center gap-2">
+                   
+                    <div className="h-[44px] w-[44px]">
+                      <Image
+                        src={row[col.key].image}
+                        alt="Logo Image"
+                        width={44}
+                        height={44}
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                    </div>
+
+                    <div>
+                      <h4 className="text-medium line-clamp-1">{row[col.key].name}</h4>
+                      <div className="bg-[#F1F2F4] mt-1 border-[1px] border-[#D3D6DC] inline-block rounded-full py-[2px] px-[8px] text-[12px] font-medium text-[#666F82]">
+                          {row[col.key].user_type}
+                        </div>
+                    </div>
+                  </div>
+                )  : col.key === "amount" ? (
                   <div className="font-medium text-[#15AC77] ">
                     +${row[col.key]}
                   </div>
@@ -127,24 +148,17 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                   </div>
                 ) : col.key === "status" ? (
                   <div
-                    className={`py-[2px] px-[10px] text-center rounded-full border-[1px] font-semibold ${
-                      row[col.key] === "Success"
+                    className={`py-[2px] px-[10px] text-center rounded-full inline-block border-[1px] font-semibold ${
+                      row[col.key] === "Success" ||  row[col.key] === "Completed"
                         ? "bg-[#E8F7F1] border-[#B6E5D5] text-[#15AC77]"
                         : row[col.key] === "Pending"
                         ? "bg-[#FFF4EA] border-[#FFDEBF] text-[#F48534]"
-                        : "bg-[#FFEFF0] border-[#FFCCCF] text-[#FE5B65]"
+                        :  row[col.key] === "Cancelled" ? "bg-[#FFEFF0] border-[#FFCCCF] text-[#FE5B65]" : "bg-[#D94823] border-[#D94823] text-white"
                     }`}
                   >
                     {row[col.key]}
                   </div>
-                ) : col.key === "entry_date" ? (
-                  <div className="font-medium">
-                    <h3>{formatDate(row[col.key])}</h3>
-                    <p className="text-[12px] text-[#707A8F]">
-                      {formatTime(row[col.key])}
-                    </p>
-                  </div>
-                ) : col.key === "expiry_date" ? (
+                ) : col.key === "entry_date" || col.key === "expiry_date"  || col.key === 'date' ? (
                   <div className="font-medium">
                     <h3>{formatDate(row[col.key])}</h3>
                     <p className="text-[12px] text-[#707A8F]">
