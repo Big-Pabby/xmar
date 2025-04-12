@@ -1,6 +1,5 @@
 "use client"; // Required for Next.js App Router
 import Image from "next/image";
-
 import React, { useState, useEffect } from "react";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";

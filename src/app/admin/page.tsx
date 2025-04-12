@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaChevronDown } from "react-icons/fa";
 import { RiLinkM } from "react-icons/ri";
@@ -10,10 +11,10 @@ import QuickAction from "@/components/QuickAction";
 import Statistics from "@/components/Statistics";
 import RecentTable from "@/components/RecentTable";
 import SkeletonCard from "@/components/Skeleton";
-import { useQuery } from "react-query";
-import { fetchAdminDashboard } from "@/services/apiService";
-import { useAuthStore } from "@/store/useStore";
 import UserMetrics from "@/components/UserMetrics";
+// import { useQuery } from "react-query";
+// import { fetchAdminDashboard } from "@/services/apiService";
+import { useAuthStore } from "@/store/useStore";
 
 interface DashBoard {
   totalUsers: number;
@@ -35,14 +36,14 @@ interface BarSegment {
   value?: number;
 }
 const Page = () => {
-  const {
-    data: dashboardData,
-    isLoading,
-    error, // eslint-disable-line @typescript-eslint/no-unused-vars
-  } = useQuery("adminDashboard", fetchAdminDashboard);
+  // const {
+  //   data: dashboardData,
+  //   isLoading,
+  //   error, // eslint-disable-line @typescript-eslint/no-unused-vars
+  // } = useQuery("adminDashboard", fetchAdminDashboard);
   const { user, setAuthInfo } = useAuthStore(); // eslint-disable-line @typescript-eslint/no-unused-vars
 
-  const dashboard: DashBoard = dashboardData.data || {
+  const dashboard: DashBoard = {
     totalUsers: 30,
     totalCustomers: 30,
     totalSpecialists: 30,
@@ -92,6 +93,15 @@ const Page = () => {
       value: data.deleted_account,
     },
   ];
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 10000); // 10 seconds
+
+    return () => clearTimeout(timer); // Cleanup on unmount
+  }, []);
 
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
