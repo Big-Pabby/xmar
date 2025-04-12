@@ -6,6 +6,9 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { IoMdMore } from "react-icons/io";
+import { LuEye } from "react-icons/lu";
+import { TbTrash } from "react-icons/tb";
+import { BiEditAlt } from "react-icons/bi";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -108,11 +111,11 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                         <div className="line-clamp-1 mt-1 text-[12px] text-[#707A8F]">
                           {row.email}
                         </div>
-                      ) : (
+                      ) : row.accountType ? (
                         <div className="bg-[#F1F2F4] mt-1 border-[1px] border-[#D3D6DC] rounded-full py-[2px] px-[8px] text-[12px] font-medium text-[#666F82]">
                           {row.accountType}
                         </div>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 ) : col.key === "initiator" || col.key === "recipient" ? (
@@ -193,8 +196,30 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                   >
                     {row[col.key]}
                   </div>
+                ) : col.key === "admin_status" ? (
+                  <div
+                    className={`font-light uppercase inline-block py-[3px] px-[8px] rounded-[4px] text-[12px] ${
+                      row[col.key] === "Owner"
+                        ? "text-white bg-[#D94823]"
+                        : row[col.key] === "Support"
+                        ? "bg-[#EAE5FF]"
+                        : row[col.key] === "Tech Support"
+                        ? "bg-[#DFFFF1]"
+                        : row[col.key] === "Help Desk"
+                        ? "bg-[#9898981A]"
+                        : "bg-[#FF68B41A]"
+                    }`}
+                  >
+                    {row[col.key]}
+                  </div>
                 ) : col.key === "action" ? (
                   <IoMdMore />
+                ) : col.key === "admin_action" ? (
+                  <div className="flex items-center gap-2 text-xl">
+                    <LuEye />
+                    <BiEditAlt />
+                    <TbTrash />
+                  </div>
                 ) : (
                   row[col.key]
                 )}
