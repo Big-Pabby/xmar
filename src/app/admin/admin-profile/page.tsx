@@ -7,23 +7,23 @@ import { setAccess } from "@/services/apiService";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import { CiSearch } from "react-icons/ci";
-import { useQuery } from "react-query";
-import { get_admin_profiles } from "@/services/apiService";
+// import { useQuery } from "react-query";
+// import { get_admin_profiles } from "@/services/apiService";
 import SkeletonCard from "@/components/Skeleton";
 import { AxiosError } from "axios";
 
 const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const {
-    data: usersData,
-    isLoading,
-    error,
-  } = useQuery(["users", currentPage, itemsPerPage], () =>
-    get_admin_profiles()
-  );
+  // const {
+  //   data: usersData,
+  //   isLoading,
+  //   error,
+  // } = useQuery(["users", currentPage, itemsPerPage], () =>
+  //   get_admin_profiles()
+  // );
 
-  const rows = usersData?.users || [
+  const rows = [
     {
       name: "Ebubechukwu Azaman",
       email_id: "azaman@yopmail.com",
@@ -176,23 +176,23 @@ const Page = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen w-full pt-[100px] pb-10">
-        <SkeletonCard />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="min-h-screen w-full pt-[100px] pb-10">
+  //       <SkeletonCard />
+  //     </div>
+  //   );
+  // }
 
-  if (error) {
-    return (
-      <div className="min-h-screen w-full pt-[100px] pb-10">
-        <p className="text-red-500">
-          Error loading data. Please try again later.
-        </p>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="min-h-screen w-full pt-[100px] pb-10">
+  //       <p className="text-red-500">
+  //         Error loading data. Please try again later.
+  //       </p>
+  //     </div>
+  //   );
+  // }
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
       {/* Toaster */}
