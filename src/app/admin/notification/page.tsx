@@ -4,6 +4,7 @@ import { FaChevronDown } from "react-icons/fa";
 import { RiLinkM } from "react-icons/ri";
 import { IoMdMore } from "react-icons/io";
 import Image from "next/image";
+import TextEditor from "@/components/TextEditor";
 
 interface Notification {
   title: string;
@@ -79,7 +80,8 @@ const page = () => {
           </div>
         </div>
       </div>
-      <div className="mt-8 flex h-screen w-full gap-4">
+      <div className="mt-8 flex w-full gap-4 items-stretch">
+        {/* Left Section */}
         <div className="md:w-8/12 flex flex-col gap-4 w-full">
           <div className="bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
             <input
@@ -88,15 +90,14 @@ const page = () => {
               className="w-full p-0 m-0 outline-none border-none"
             />
           </div>
-          <textarea
-            placeholder="Tell your story"
-            className="flex-1 bg-secondary border-[1px] border-[#E8E8E9] outline-none rounded-[12px] p-[24px]"
-          />
+          <TextEditor />
           <button className="btn btn-primary text-white rounded-[10px]">
             Send Notification
           </button>
         </div>
-        <div className="md:w-4/12 w-full h-full overflow-y-auto bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
+
+        {/* Right Section */}
+        <div className="md:w-4/12 w-full h-[750px] flex flex-col bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px] overflow-y-hidden">
           <div className="flex justify-between gap-4 items-center w-full mb-2">
             <h3 className="font-medium text-xl">Recent Notifications</h3>
             <IoMdMore className="text-xl" />
@@ -104,31 +105,33 @@ const page = () => {
           <p className="text-sm text-[#707A8F] mb-6">
             Here is a list of notifications you created before
           </p>
-          {notification.map((item, index) => (
-            <div
-              key={index}
-              className="border-[1px] mb-4 border-[#E8E8E9] rounded-[12px] p-[24px]"
-            >
-              <div className="flex  items-center gap-4 mb-4">
-                <div className=" relative bg-[#FFF6F4] w-[40px] flex items-center justify-center h-[40px] rounded-full">
-                  <div className="w-[8px] h-[8px] rounded-full bg-[#DD3138] absolute top-0 right-1"></div>
-                  <Image
-                    src={"/images/bank.png"}
-                    alt="product Image"
-                    width={20}
-                    height={20}
-                    className=""
-                  />
+          <div className="flex-1 flex flex-col overflow-y-auto">
+            {notification.map((item, index) => (
+              <div
+                key={index}
+                className="border-[1px] mb-4 border-[#E8E8E9] rounded-[12px] p-[24px]"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="relative bg-[#FFF6F4] w-[40px] flex items-center justify-center h-[40px] rounded-full">
+                    <div className="w-[8px] h-[8px] rounded-full bg-[#DD3138] absolute top-0 right-1"></div>
+                    <Image
+                      src={"/images/bank.png"}
+                      alt="product Image"
+                      width={20}
+                      height={20}
+                      className=""
+                    />
+                  </div>
+                  <h3 className="font-medium text-[16px] text-[#3B3D4B]">
+                    {item.title}
+                  </h3>
                 </div>
-                <h3 className="font-medium text-[16px] text-[#3B3D4B]">
-                  {item.title}
-                </h3>
+                <p className="text-[#667085]">{item.description}</p>
+                <hr className="my-3" />
+                <p className="text-[12px] text-[#838383]">Today {item.time}</p>
               </div>
-              <p className="text-[#667085]">{item.description}</p>
-              <hr className="my-3" />
-              <p className="text-[12px] text-[#838383]">Today {item.time}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
