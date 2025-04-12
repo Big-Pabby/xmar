@@ -9,7 +9,7 @@ import Table from "@/components/Table";
 import { CiSearch } from "react-icons/ci";
 // import { useQuery } from "react-query";
 // import { get_admin_profiles } from "@/services/apiService";
-import SkeletonCard from "@/components/Skeleton";
+// import SkeletonCard from "@/components/Skeleton";
 import { AxiosError } from "axios";
 
 const Page = () => {
