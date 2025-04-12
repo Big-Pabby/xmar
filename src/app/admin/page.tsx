@@ -15,6 +15,19 @@ import { fetchAdminDashboard } from "@/services/apiService";
 import { useAuthStore } from "@/store/useStore";
 import UserMetrics from "@/components/UserMetrics";
 
+interface DashBoard {
+  totalUsers: number;
+  totalCustomers: number;
+  totalSpecialists: number;
+  totalBusinesses: number;
+  totalAdmins: number;
+  verifiedSpecialists: number;
+  verifiedBusinesses: number;
+  totalBookings: number;
+  totalRevenue: number;
+  totalActiveSubscriptions: number;
+}
+
 interface BarSegment {
   color: string;
   size: number; // Percentage of the bar
@@ -28,6 +41,19 @@ const Page = () => {
     error, // eslint-disable-line @typescript-eslint/no-unused-vars
   } = useQuery("adminDashboard", fetchAdminDashboard);
   const { user, setAuthInfo } = useAuthStore(); // eslint-disable-line @typescript-eslint/no-unused-vars
+
+  const dashboard = dashboardData.data || {
+    totalUsers: 30,
+    totalCustomers: 30,
+    totalSpecialists: 30,
+    totalBusinesses: 30,
+    totalAdmins: 30,
+    verifiedSpecialists: 30,
+    verifiedBusinesses: 30,
+    totalBookings: 30,
+    totalRevenue: 30,
+    totalActiveSubscriptions: 30,
+  };
 
   const data = {
     active_users: 100,
@@ -101,7 +127,7 @@ const Page = () => {
             <>
               <Wallet />
               <UserMetrics metric_data={barSegments} total_value={total} />
-              <UsersEstimated user_data={dashboardData.data} />
+              <UsersEstimated user_data={dashboard} />
               <div className="flex-1 flex">
                 <ChatBox />
               </div>

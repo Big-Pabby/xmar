@@ -7,8 +7,6 @@ import Image from "@tiptap/extension-image";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import { createLowlight } from "lowlight";
-
-import { useCallback } from "react";
 import javascript from "highlight.js/lib/languages/javascript";
 import html from "highlight.js/lib/languages/xml";
 import css from "highlight.js/lib/languages/css";

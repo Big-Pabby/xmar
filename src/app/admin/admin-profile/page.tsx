@@ -10,6 +10,7 @@ import { CiSearch } from "react-icons/ci";
 import { useQuery } from "react-query";
 import { get_admin_profiles } from "@/services/apiService";
 import SkeletonCard from "@/components/Skeleton";
+import { AxiosError } from "axios";
 
 const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -157,10 +158,19 @@ const Page = () => {
       setFormLoader(true);
       const response = await setAccess(formData);
 
-      setToaster({ message: "Access set successfully!", type: "success" });
-    } catch (error: any) {
-      console.error(error.response.data.message, error);
-      setToaster({ message: error.response.data.message, type: "error" });
+      setToaster({ message: response.data.message, type: "success" });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        // Handle Axios-specific error
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.error(errorMessage, error);
+        setToaster({ message: errorMessage, type: "error" });
+      } else {
+        // Handle non-Axios errors
+        console.error("An unknown error occurred", error);
+        setToaster({ message: "An unknown error occurred", type: "error" });
+      }
     } finally {
       setFormLoader(false);
     }

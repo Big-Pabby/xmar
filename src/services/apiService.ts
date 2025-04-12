@@ -36,10 +36,12 @@ export const fetchProduct = async (id: string | null) => {
   return response.data;
 };
 export const createProduct = async (product: any) => {
+  // eslint-disable-line @typescript-eslint/no-explicit-any
   const response = await api.post("/products", product);
   return response.data;
 };
 export const updateProduct = async (id: string | null, product: any) => {
+  // eslint-disable-line @typescript-eslint/no-explicit-any
   const response = await api.put(`/products/${id}`, product);
   return response.data;
 };
@@ -81,6 +83,7 @@ export const createCategory = async (category: {
   return response.data;
 };
 export const setAccess = async (data: any) => {
+  // eslint-disable-line @typescript-eslint/no-explicit-any
   const response = await api.post("/admin/profiles", data);
   return response.data;
 };
@@ -89,6 +92,7 @@ export const get_admin_profiles = async () => {
   return response.data;
 };
 export const get_users = async (data: any) => {
+  // eslint-disable-line @typescript-eslint/no-explicit-any
   const response = await api.get("/admin/users");
   return response.data;
 };
