@@ -35,13 +35,11 @@ export const fetchProduct = async (id: string | null) => {
   const response = await api.get(`/products/${id}`);
   return response.data;
 };
-export const createProduct = async (product: any) => {
-  // eslint-disable-line @typescript-eslint/no-explicit-any
+export const createProduct = async (product: string) => {
   const response = await api.post("/products", product);
   return response.data;
 };
-export const updateProduct = async (id: string | null, product: any) => {
-  // eslint-disable-line @typescript-eslint/no-explicit-any
+export const updateProduct = async (id: string | null, product: string) => {
   const response = await api.put(`/products/${id}`, product);
   return response.data;
 };
@@ -82,8 +80,13 @@ export const createCategory = async (category: {
   const response = await api.post("/products/categories", category);
   return response.data;
 };
-export const setAccess = async (data: any) => {
-  // eslint-disable-line @typescript-eslint/no-explicit-any
+interface admin {
+  access_first_name: string;
+  access_last_name: string;
+  access_email_address: string;
+  access_account_tag: string;
+}
+export const setAccess = async (data: admin) => {
   const response = await api.post("/admin/profiles", data);
   return response.data;
 };
@@ -91,8 +94,7 @@ export const get_admin_profiles = async () => {
   const response = await api.get("/admin/profiles");
   return response.data;
 };
-export const get_users = async (data: any) => {
-  // eslint-disable-line @typescript-eslint/no-explicit-any
+export const get_users = async () => {
   const response = await api.get("/admin/users");
   return response.data;
 };

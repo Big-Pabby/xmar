@@ -42,7 +42,7 @@ const Page = () => {
   } = useQuery("adminDashboard", fetchAdminDashboard);
   const { user, setAuthInfo } = useAuthStore(); // eslint-disable-line @typescript-eslint/no-unused-vars
 
-  const dashboard = dashboardData.data || {
+  const dashboard: DashBoard = dashboardData.data || {
     totalUsers: 30,
     totalCustomers: 30,
     totalSpecialists: 30,
