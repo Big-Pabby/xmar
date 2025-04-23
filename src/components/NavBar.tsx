@@ -12,7 +12,7 @@ const NavBar = () => {
         width={200}
         height={32}
       />
-      <div className="flex items-center gap-8 text-[#3D3D3D] font-medium text-[15px]">
+      <div className="md:flex hidden items-center gap-8 text-[#3D3D3D] font-medium text-[15px]">
         <p className="flex items-center gap-2">
           Why Xmarr <IoChevronDown />
         </p>

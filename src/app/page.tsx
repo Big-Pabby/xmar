@@ -6,9 +6,9 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-[#FFEAE4CE] md:px-20 px-5 py-16 flex items-center justify-between gap-6 md:flex-row flex-col">
+      <div className="min-h-screen bg-[#FFEAE4CE] md:px-20 px-5 py-20 flex items-center justify-between gap-6 md:flex-row flex-col">
         <div className="md:w-5/12 ">
-          <h1 className="font-bold text-[#410D00] text-[50px] mb-4 leading-[68px]">
+          <h1 className="font-bold text-[#410D00] md:text-[50px] mb-4 md:leading-[68px] text-3xl">
             The Gold Standard of Secure Transactions.
           </h1>
           <p className="text-base mb-12">
@@ -53,7 +53,7 @@ export default function Home() {
       </div>
       <div className=" md:px-20 px-5 py-16">
         <div className="md:w-7/12 w-full mx-auto">
-          <h2 className="text-[50px] leading-[55px] text-center font-medium">
+          <h2 className="md:text-[50px] md:leading-[55px] text-2xl text-center font-medium">
             Picture a world where every <br />
             <span className="text-primary"> transaction is safe</span>{" "}
           </h2>
