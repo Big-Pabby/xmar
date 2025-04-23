@@ -1,5 +1,4 @@
 "use client"; // Required for Next.js App Router
-import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
@@ -9,7 +8,6 @@ import Link from "next/link";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { RxTimer } from "react-icons/rx";
 import { LuFilePlus2 } from "react-icons/lu";
-import { FiExternalLink } from "react-icons/fi";
 import SkeletonCard from "@/components/Skeleton";
 
 const rows = [
