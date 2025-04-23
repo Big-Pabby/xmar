@@ -87,13 +87,13 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
               <td key={col.key} className="border-b px-4 py-4">
                 {col.key === "name" ? (
                   <div className="flex items-center gap-2">
-                    {selectedUser ? ( <input
+                    <input
                       id={row.id}
                       onChange={() => onselect?.(row)}
                       checked={selectedUser?.id === row.id}
                       type="radio"
                       className="w-[20] h-[20] accent-primary border-[2px] border-[#D3D6DC]"
-                    />) : null}
+                    />
                    
                     <div className="h-[44px] w-[44px]">
                       <Image

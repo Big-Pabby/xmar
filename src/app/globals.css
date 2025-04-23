@@ -1,5 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("/fonts/HelveticaNue.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -81,12 +87,22 @@ button:disabled {
   filter: brightness(75%); /* Darkens the button */
   color: black;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Host Grotesk", sans-serif;
+  font-weight: 400;
+}
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: "Archivo", serif;
+  font-family: "Inter", sans-serif;
   font-size: 14px;
+  font-weight: 400;
 }
 .tiptap {
   outline: none;

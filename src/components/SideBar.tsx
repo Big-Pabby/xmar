@@ -82,7 +82,8 @@ const SideBar = ({ type }: { type: string }) => {
             }`}
           >
             {/* Applied class dynamically to icons */}
-            {React.cloneElement(icon, { className: "text-[24px]" })} {label}
+            {React.cloneElement(icon, { className: "text-[24px]" })}{" "}
+            <h4>{label}</h4>
           </Link>
         ))}
       </div>
