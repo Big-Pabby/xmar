@@ -177,7 +177,7 @@ export default function Home() {
           </h3>
           <p className="font-medium text-[#485B60]">
             Everyone who moves money! Business owners, freelancers, real estate
-            investors—if you're making deals, XMARR makes sure they’re safe.
+            investors—if you are making deals, XMARR makes sure they are safe.
           </p>
           <div className="w-full h-[555px] rounded-[10px] mt-12">
             <Image
@@ -215,7 +215,7 @@ export default function Home() {
               Discover How <span className="text-primary"> Xmarr Works</span>
             </h2>
             <p className="text-[#485B60] mb-8 text-center">
-              Whether you're closing a business deal or shopping online, XMARR
+              Whether you are closing a business deal or shopping online, XMARR
               gives you the power to transact with total confidence—secure,
               transparent, and built for trust.
             </p>
@@ -412,7 +412,7 @@ export default function Home() {
             <span className="text-primary">Strong Global Partners</span>
           </h3>
           <p className="text-[15px] mb-16">
-            Whether you're closing a business deal or shopping online, XMARR
+            Whether you are closing a business deal or shopping online, XMARR
             gives you the power to transact with total confidence—secure,
             transparent, and built for trust.
           </p>

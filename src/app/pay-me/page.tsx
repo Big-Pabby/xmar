@@ -55,12 +55,12 @@ const Page = () => {
               Instant Notification on Payment.
             </h3>
             <p className="text-lg">
-              With XMARR, you’ll know the moment a payment is made—no delays, no
-              guesswork. Funds move into escrow within 60 seconds, and you
-              receive instant notifications in under 5. Whether you're a seller,
-              freelancer, or business owner, XMARR ensures you're never left in
-              the dark. Get paid, get notified, and stay in control—every single
-              time.
+              With XMARR, you will know the moment a payment is made—no delays,
+              no guesswork. Funds move into escrow within 60 seconds, and you
+              receive instant notifications in under 5. Whether you are a
+              seller, freelancer, or business owner, XMARR ensures you are never
+              left in the dark. Get paid, get notified, and stay in
+              control—every single time.
             </p>
           </div>
         </div>
