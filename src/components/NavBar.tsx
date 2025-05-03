@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa6";
 
 const NavBar = () => {
   return (
-    <header className="fixed bg-[#FFEAE4CE] w-full z-[120] top-0 left-0  py-4 md:px-20 px-5 flex justify-between items-center">
+    <header className="fixed bg-[#FFEAE4] w-full z-[120] top-0 left-0  py-4 md:px-20 px-5 flex justify-between items-center">
       <Image
         src="/images/Logo.svg"
         alt="Hairsby logo"
