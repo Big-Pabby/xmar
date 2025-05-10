@@ -42,20 +42,23 @@ const UploadFile = ({
     e.preventDefault();
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    if (files) {
-      const newPreviews = Array.from(files)
-        .filter((file) => file.type.startsWith("image/"))
-        .map((file) => ({
-          url: URL.createObjectURL(file),
-          file,
-        }));
-      setImagePreviews((prev) => [...prev, ...newPreviews]);
-      handleImage(imagePreviews);
-    }
-  }, []);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      const files = e.dataTransfer.files;
+      if (files) {
+        const newPreviews = Array.from(files)
+          .filter((file) => file.type.startsWith("image/"))
+          .map((file) => ({
+            url: URL.createObjectURL(file),
+            file,
+          }));
+        setImagePreviews((prev) => [...prev, ...newPreviews]);
+        handleImage(imagePreviews);
+      }
+    },
+    [handleImage, imagePreviews]
+  );
   return (
     <div>
       <label
