@@ -23,15 +23,15 @@ const Page = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
-  const [dateRange, setDateRange] = useState({ start: "", end: "" });
+  // const [dateRange, setDateRange] = useState({ start: "", end: "" });
 
   const { data, isLoading, error } = useUser({
     page: currentPage,
     limit: itemsPerPage,
     search: searchTerm,
     status: filterStatus,
-    startDate: dateRange.start,
-    endDate: dateRange.end,
+    // startDate: dateRange.start,
+    // endDate: dateRange.end,
   });
   const filteredUsers =
     data?.["users account details"]?.filter((user) => {
@@ -100,10 +100,10 @@ const Page = () => {
   }, 500);
 
   // Filter handler
-  const handleFilter = (status: string) => {
-    setFilterStatus(status);
-    setCurrentPage(1); // Reset to first page on filter
-  };
+  // const handleFilter = (status: string) => {
+  //   setFilterStatus(status);
+  //   setCurrentPage(1); // Reset to first page on filter
+  // };
 
   // Date range handler
   // const handleDateRange = (start: string, end: string) => {

@@ -70,7 +70,7 @@ const Page = () => {
             </p>
             <p className="text-[#323232]">
               From electricity and data to cable and more, pay your bills
-              directly from your wallet. It's quick, reliable, and keeps your
+              directly from your wallet. It is quick, reliable, and keeps your
               everyday life running smoothly.
             </p>
           </div>
@@ -98,8 +98,8 @@ const Page = () => {
             </p>
             <p className="text-[#323232]">
               Easily fund your XMARR Wallet from your bank or linked payment
-              method. Whether you're preparing for a transaction or just keeping
-              your wallet ready.
+              method. Whether you are preparing for a transaction or just
+              keeping your wallet ready.
             </p>
           </div>
         </div>
@@ -131,7 +131,7 @@ const Page = () => {
             </h3>
             <p className="text-[#5C5C5C] md:text-lg my-6">
               Prioritizing security, we utilize advanced encryption and
-              multi-factor authentication to protect users' sensitive data and
+              multi-factor authentication to protect users sensitive data and
               prevent unauthorized access. With features like passwords,
               fingerprint scanning, and facial recognition, users are confident
               that their funds and personal information are safe from cyber
