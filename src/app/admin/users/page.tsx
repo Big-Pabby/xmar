@@ -22,14 +22,14 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("");
+  // const [filterStatus, setFilterStatus] = useState("");
   // const [dateRange, setDateRange] = useState({ start: "", end: "" });
 
   const { data, isLoading, error } = useUser({
     page: currentPage,
     limit: itemsPerPage,
     search: searchTerm,
-    status: filterStatus,
+    // status: filterStatus,
     // startDate: dateRange.start,
     // endDate: dateRange.end,
   });
