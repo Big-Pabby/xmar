@@ -1,8 +1,15 @@
 import axios from "axios";
 import { useAuthStore } from "@/store/useStore";
 
+interface KYCQueryParams {
+  search?: string;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
 const api = axios.create({
-  baseURL: "https://hairsby.up.railway.app/api", // Replace with your API base URL
+  baseURL: "https://api.xmarr.com/", // Replace with your API base URL
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,44 +34,43 @@ export const fetchAdminDashboard = async () => {
   return response.data;
 };
 
-export const fetchProducts = async () => {
-  const response = await api.get("/products");
-  return response.data;
-};
-export const fetchProduct = async (id: string | null) => {
-  const response = await api.get(`/products/${id}`);
-  return response.data;
-};
-export const createProduct = async (product: string) => {
-  const response = await api.post("/products", product);
-  return response.data;
-};
-export const updateProduct = async (id: string | null, product: string) => {
-  const response = await api.put(`/products/${id}`, product);
-  return response.data;
-};
-export const deleteProduct = async (id: string | undefined) => {
-  const response = await api.delete(`/products/${id}`);
-  return response.data;
-};
-export const fetchProductReview = async (id: string) => {
-  const response = await api.get(`/products/reviews/${id}`);
+export const fetchKYCData = async (
+  page: number,
+  limit: number,
+  params?: KYCQueryParams
+) => {
+  const queryParams = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+    ...(params?.search && { search: params.search }),
+    ...(params?.status && { status: params.status }),
+    ...(params?.startDate && { startDate: params.startDate }),
+    ...(params?.endDate && { endDate: params.endDate }),
+  });
+
+  const response = await api.get(`/api/v2/admin/users/kyc?${queryParams}`);
   return response.data.data;
 };
-export const addProductReview = async (
-  data: { rating: number; comment: string },
-  id: string
+export const get_users = async (
+  page: number,
+  limit: number,
+  params?: KYCQueryParams
 ) => {
-  const response = await api.post(`/products/reviews/${id}`, data);
-  return response.data;
+  const queryParams = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+    ...(params?.search && { search: params.search }),
+    ...(params?.status && { status: params.status }),
+    ...(params?.startDate && { startDate: params.startDate }),
+    ...(params?.endDate && { endDate: params.endDate }),
+  });
+
+  const response = await api.get(`/api/v2/admin/users/?${queryParams}`);
+  return response.data.data;
 };
 export const fetchCategories = async () => {
   const response = await api.get("/products/categories");
   return response.data;
-};
-export const fetchKYCData = async (page: number, limit: number) => {
-  const response = await api.get(`/kyc/all?page=${page}&limit=${limit}`);
-  return response.data.data;
 };
 export const approveKYCData = async (
   id: string,
@@ -92,10 +98,6 @@ export const setAccess = async (data: admin) => {
 };
 export const get_admin_profiles = async () => {
   const response = await api.get("/admin/profiles");
-  return response.data;
-};
-export const get_users = async () => {
-  const response = await api.get("/admin/users");
   return response.data;
 };
 

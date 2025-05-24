@@ -8,8 +8,7 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  token:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2NGZiY2RlLTQyZjUtNDgxMi05YTAxLWI4NThjNjM0ZGVkNiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MjgzMzc3NCwiZXhwIjoxNzU4Mzg1Nzc0fQ.UBEGSVyAVxUoJJpg1AbSUHBkLmus7W_n41w4MtKolrU",
+  token: null,
   user: {
     id: "a4849dce-d5f7-4feb-ad68-d44a18f67631",
     firstName: "Jane",

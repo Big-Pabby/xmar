@@ -87,17 +87,18 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
               <td key={col.key} className="border-b px-4 py-4">
                 {col.key === "name" ? (
                   <div className="flex items-center gap-2">
-                    <input
+                    {onselect ? ( <input
                       id={row.id}
                       onChange={() => onselect?.(row)}
                       checked={selectedUser?.id === row.id}
                       type="radio"
                       className="w-[20] h-[20] accent-primary border-[2px] border-[#D3D6DC]"
-                    />
+                    />) : null}
+                   
                    
                     <div className="h-[44px] w-[44px]">
                       <Image
-                        src={row.image}
+                        src={row.profile_photo || "/images/user.svg"}
                         alt="Logo Image"
                         width={44}
                         height={44}
@@ -106,7 +107,7 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                     </div>
 
                     <div className="flex-1">
-                      <h4 className="text-medium line-clamp-1">{row[col.key]}</h4>
+                      <h4 className="text-medium line-clamp-1">{row.first_name} {row.last_name}</h4>
                       {row.email ? (
                         <div className="line-clamp-1 mt-1 text-[12px] text-[#707A8F]">
                           {row.email}
@@ -149,17 +150,16 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                       By {row.titleBy}
                     </p>
                   </div>
-                ) : col.key === "status" ? (
+                ) : col.key === "is_active" ? (
                   <div
                     className={`py-[2px] px-[10px] text-center rounded-full inline-block border-[1px] font-semibold ${
-                      row[col.key] === "Success" ||  row[col.key] === "Completed"
+                      row[col.key] === true
                         ? "bg-[#E8F7F1] border-[#B6E5D5] text-[#15AC77]"
-                        : row[col.key] === "Pending"
-                        ? "bg-[#FFF4EA] border-[#FFDEBF] text-[#F48534]"
-                        :  row[col.key] === "Cancelled" ? "bg-[#FFEFF0] border-[#FFCCCF] text-[#FE5B65]" : "bg-[#D94823] border-[#D94823] text-white"
+                        
+                        :  row[col.key] === false ? "bg-[#FFEFF0] border-[#FFCCCF] text-[#FE5B65]" : "bg-[#D94823] border-[#D94823] text-white"
                     }`}
                   >
-                    {row[col.key]}
+                    {row[col.key] === true ? "Active" : "Inactive"}
                   </div>
                 ) : col.key === "entry_date" || col.key === "expiry_date"  || col.key === 'date' ? (
                   <div className="font-medium">
@@ -175,16 +175,22 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                 ) : col.key === "kyc_validation" ? (
                   <div
                     className={`py-[2px] px-[10px] text-center rounded-full border-[1px] font-semibold ${
-                      row[col.key] === "Verified"
+                      row.is_kyc_tier_two_completed
                         ? "bg-[#E8F7F1] border-[#B6E5D5] text-[#15AC77]"
-                        : row[col.key] === "Pending"
-                        ? "bg-[#FFF4EA] border-[#FFDEBF] text-[#F48534]"
+                        
                         : "bg-[#F1F2F4] border-[#D3D6DC] text-[#666F82]"
                     }`}
                   >
-                    {row[col.key]}
+                    {row.is_kyc_tier_two_completed ? "Verified" : "Unverified"}
                   </div>
-                ) : col.key === "no_of_trades" ? (
+                ) : col.key === "account_type" ? (
+                  <div>
+                   { row.is_kyc_tier_two_completed
+                     ? "Tier 2"
+                      : row.is_kyc_tier_one_completed
+                     ? "Tier 1"
+                   : "Null"}
+                  </div>) : col.key === "no_of_trades" ? (
                   <div className={``}>{row[col.key]}</div>
                 ) : col.key === "account_status" ? (
                   <div
