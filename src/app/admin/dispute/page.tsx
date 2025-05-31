@@ -1,5 +1,5 @@
 "use client"; // Required for Next.js App Router
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import { CiSearch } from "react-icons/ci";
