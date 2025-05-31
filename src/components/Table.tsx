@@ -9,6 +9,7 @@ import { IoMdMore } from "react-icons/io";
 import { LuEye } from "react-icons/lu";
 import { TbTrash } from "react-icons/tb";
 import { BiEditAlt } from "react-icons/bi";
+import { Dispute } from "@/types/dispute";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -40,7 +41,7 @@ interface TableProps<T> {
   columns: Column[];
   rows: T[];
   onselect?: (data: any) => void; // eslint-disable-line @typescript-eslint/no-explicit-any
-  selectedUser?: User;
+  selectedUser?: User | Dispute;
 }
 
 // prettier-ignore
@@ -119,7 +120,7 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                       ) : null}
                     </div>
                   </div>
-                ) : col.key === "initiator" || col.key === "recipient" ? (
+                ) : col.key === "sender" || col.key === "recipient" ? (
                   <div className="inline-flex items-center gap-2">
                    
                     <div className="h-[44px] w-[44px]">
@@ -140,8 +141,8 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                     </div>
                   </div>
                 )  : col.key === "amount" ? (
-                  <div className="font-medium text-[#15AC77] ">
-                    +${row[col.key]}
+                  <div className="font-medium ">
+                    ${row[col.key]}
                   </div>
                 ) : col.key === "title" ? (
                   <div className="font-medium">
@@ -198,6 +199,15 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                       row[col.key] === "Active"
                         ? "text-[#15AC77]"
                         : "text-[#9FA6B4]"
+                    }`}
+                  >
+                    {row[col.key]}
+                  </div>
+                ) :  col.key === "status" ? (
+                  <div
+                    className={`font-medium capitalize p-2 text-center rounded-full text-white ${
+                      row[col.key] === "Pending" || row[col.key] === "pending"? " bg-[#F48534]" : row[col.key] === "Unverified" ? 'bg-[#9FA6B4]' :row[col.key] === "Cancelled" ? 'bg-[#D94823]' :row[col.key] === "failed" ? 'bg-[#D94823]'
+                        : "bg-[#15AC77]"
                     }`}
                   >
                     {row[col.key]}

@@ -15,6 +15,11 @@ import {
   TbArrowBarUp,
   TbArrowBarToDown,
 } from "react-icons/tb";
+import { useQuery } from "react-query";
+import { get_transaction_list } from "@/services/apiService";
+import { Transaction } from "@/types/transaction";
+import debounce from "lodash/debounce";
+import { first } from "lodash";
 
 const rows = [
   {
@@ -187,18 +192,66 @@ const rows = [
 const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
 
-  const totalPages = Math.ceil(rows.length / itemsPerPage);
+  // Fetch transactions
+  const { data: transactionData, isLoading } = useQuery<Transaction[]>({
+    queryKey: ["transactions"],
+    queryFn: get_transaction_list,
+  });
+
+  // Client-side search and filter
+  const filteredTransactions =
+    transactionData?.filter((transaction) => {
+      const matchesSearch =
+        searchTerm === "" ||
+        transaction.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.description
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        transaction.user.first_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        transaction.user.last_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+
+      const matchesStatus =
+        filterStatus === "" || transaction.status === filterStatus;
+
+      return matchesSearch && matchesStatus;
+    }) || [];
+
+  // Pagination
+  const totalPages = Math.ceil(
+    (filteredTransactions?.length || 0) / itemsPerPage
+  );
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = rows.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedTransactions = filteredTransactions.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
   const columns = [
     { key: "name", label: "Name" },
     { key: "id", label: "ID" },
     { key: "title", label: "Method" },
     { key: "amount", label: "Amount" },
-    { key: "date", label: "Date" },
+    { key: "date_created", label: "Date" },
     { key: "status", label: "Status" },
   ];
+
+  const formattedTransactions = paginatedTransactions.map((transaction) => ({
+    id: transaction.id,
+    first_name: transaction.user.first_name,
+    last_name: transaction.user.last_name,
+    image: transaction.user.profile_photo || "/images/chat/bot-1.svg",
+    title: transaction.type,
+    amount: transaction.amount,
+    date_created: transaction.date_created,
+    status: transaction.status,
+    type: transaction.type,
+  }));
   const analytics = [
     {
       name: "Total no of Transactions",
@@ -228,6 +281,22 @@ const Page = () => {
       image: "/images/Chart-red.svg",
     },
   ];
+
+  // Debounced search handler
+  const handleSearch = debounce((value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  }, 500);
+
+  // Filter handler
+  const handleFilter = (status: string) => {
+    setFilterStatus(status);
+    setCurrentPage(1);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
@@ -301,21 +370,20 @@ const Page = () => {
                 type="text"
                 className="w-full border-none m-0 p-0 outline-none bg-transparent"
                 placeholder="Search"
+                onChange={(e) => handleSearch(e.target.value)}
               />
             </div>
-            <div className="btn btn-secondary bg-none border-[1px] border-[#E8E8E9] p-[15px] flex items-center gap-2 font-medium text-[16px] rounded-[10px]">
-              <div className="w-[20px] h-[20px]">
-                <img
-                  src="/images/filter.svg"
-                  alt="Filter Icon"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              <h4> Filter</h4>
-            </div>
+            <select
+              className="btn btn-secondary"
+              onChange={(e) => handleFilter(e.target.value)}
+            >
+              <option value="">All Status</option>
+              <option value="success">Success</option>
+              <option value="pending">Pending</option>
+              <option value="failed">Failed</option>
+            </select>
           </div>
-          <Table columns={columns} rows={currentItems} />
+          <Table columns={columns} rows={formattedTransactions} />
           <div className="mt-4 flex w-full justify-between items-center">
             <div className="flex items-center gap-4">
               <p className="text-[#A2A1A8] font-light">Showing</p>
@@ -333,7 +401,9 @@ const Page = () => {
               </div>
             </div>
             <div className="text-[#A2A1A8] font-light">
-              Showing 1 to {itemsPerPage} out of {rows.length} records
+              Showing {startIndex + 1} to{" "}
+              {Math.min(startIndex + itemsPerPage, filteredTransactions.length)}{" "}
+              out of {filteredTransactions.length} records
             </div>
             <Pagination
               currentPage={currentPage}

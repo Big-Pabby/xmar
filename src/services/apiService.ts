@@ -100,5 +100,19 @@ export const get_admin_profiles = async () => {
   const response = await api.get("/admin/profiles");
   return response.data;
 };
-
-// Add more API calls as needed
+export const get_escrow_list = async () => {
+  const response = await api.get("/api/v2/admin/escrow/all/");
+  return response.data.data;
+};
+export const get_transaction_list = async () => {
+  const response = await api.get("/api/v2/admin/transactions/");
+  return response.data.data;
+};
+export const get_dispute_list = async () => {
+  const response = await api.get("/api/v2/admin/dispute_resolutions/");
+  return response.data.data;
+};
+export const get_dispute_metric = async () => {
+  const response = await api.get("api/v2/admin/dispute_resolutions/metrics/");
+  return response.data.data;
+};

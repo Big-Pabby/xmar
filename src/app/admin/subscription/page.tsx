@@ -8,346 +8,95 @@ import Table from "@/components/Table";
 import { TiArrowSortedUp } from "react-icons/ti";
 import { CiSearch } from "react-icons/ci";
 import Modal from "@/components/Modal";
-
-const rows = [
-  {
-    id: 1,
-    initiator: {
-      name: "John Doe",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Jane Smith",
-      image: "/images/chat/bot-2.svg",
-      user_type: "Seller",
-    },
-    amount: "1,300",
-    date: "2025-03-01T13:46:45.553Z",
-    status: "Completed",
-  },
-  {
-    id: 2,
-    initiator: {
-      name: "GitHub Copilot",
-      image: "/images/chat/bot-3.svg", // My own entry
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Michael Brown",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Seller",
-    },
-    amount: "1,500",
-    date: "2025-03-02T10:30:12.553Z",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    initiator: {
-      name: "Mohammed Fatima",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "GitHub Copilot",
-      image: "/images/chat/bot-3.svg", // My own entry
-      user_type: "Buyer",
-    },
-    amount: "15,000",
-    date: "2025-03-03T09:15:45.553Z",
-    status: "Cancelled",
-  },
-  {
-    id: 4,
-    initiator: {
-      name: "Markurdi",
-      image: "/images/chat/bot-2.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "Chris Johnson",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Buyer",
-    },
-    amount: "320,000",
-    date: "2025-03-04T14:20:30.553Z",
-    status: "New Deal",
-  },
-  {
-    id: 5,
-    initiator: {
-      name: "Alice Green",
-      image: "/images/chat/bot-3.svg",
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Bob White",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Seller",
-    },
-    amount: "2,500",
-    date: "2025-03-05T11:45:00.553Z",
-    status: "Completed",
-  },
-  {
-    id: 6,
-    initiator: {
-      name: "David Black",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "Sophia Blue",
-      image: "/images/chat/bot-2.svg",
-      user_type: "Buyer",
-    },
-    amount: "7,800",
-    date: "2025-03-06T16:10:15.553Z",
-    status: "Pending",
-  },
-  {
-    id: 7,
-    initiator: {
-      name: "Ethan Gray",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Olivia Red",
-      image: "/images/chat/bot-3.svg",
-      user_type: "Seller",
-    },
-    amount: "12,000",
-    date: "2025-03-07T08:25:45.553Z",
-    status: "Cancelled",
-  },
-  {
-    id: 8,
-    initiator: {
-      name: "Liam Yellow",
-      image: "/images/chat/bot-2.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "Emma Purple",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Buyer",
-    },
-    amount: "45,000",
-    date: "2025-03-08T13:50:30.553Z",
-    status: "New Deal",
-  },
-  {
-    id: 9,
-    initiator: {
-      name: "Noah Orange",
-      image: "/images/chat/bot-3.svg",
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Ava Pink",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Seller",
-    },
-    amount: "9,000",
-    date: "2025-03-09T12:00:00.553Z",
-    status: "Completed",
-  },
-  {
-    id: 10,
-    initiator: {
-      name: "James Indigo",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "GitHub Copilot",
-      image: "/images/chat/bot-3.svg", // My own entry
-      user_type: "Buyer",
-    },
-    amount: "18,000",
-    date: "2025-03-10T15:30:45.553Z",
-    status: "Pending",
-  },
-  {
-    id: 11,
-    initiator: {
-      name: "Lucas Cyan",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Mia Magenta",
-      image: "/images/chat/bot-2.svg",
-      user_type: "Seller",
-    },
-    amount: "22,000",
-    date: "2025-03-11T10:15:30.553Z",
-    status: "Cancelled",
-  },
-  {
-    id: 12,
-    initiator: {
-      name: "Henry Lime",
-      image: "/images/chat/bot-3.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "Amelia Teal",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Buyer",
-    },
-    amount: "30,000",
-    date: "2025-03-12T14:45:15.553Z",
-    status: "New Deal",
-  },
-  {
-    id: 13,
-    initiator: {
-      name: "Alexander Gold",
-      image: "/images/chat/bot-2.svg",
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Harper Silver",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Seller",
-    },
-    amount: "5,000",
-    date: "2025-03-13T09:30:00.553Z",
-    status: "Completed",
-  },
-  {
-    id: 14,
-    initiator: {
-      name: "Sebastian Bronze",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "Evelyn Copper",
-      image: "/images/chat/bot-3.svg",
-      user_type: "Buyer",
-    },
-    amount: "8,000",
-    date: "2025-03-14T11:20:45.553Z",
-    status: "Pending",
-  },
-  {
-    id: 15,
-    initiator: {
-      name: "Daniel Platinum",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Charlotte Ruby",
-      image: "/images/chat/bot-2.svg",
-      user_type: "Seller",
-    },
-    amount: "14,000",
-    date: "2025-03-15T13:10:30.553Z",
-    status: "Cancelled",
-  },
-  {
-    id: 16,
-    initiator: {
-      name: "Matthew Sapphire",
-      image: "/images/chat/bot-3.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "Abigail Emerald",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Buyer",
-    },
-    amount: "60,000",
-    date: "2025-03-16T16:40:15.553Z",
-    status: "New Deal",
-  },
-  {
-    id: 17,
-    initiator: {
-      name: "Joseph Quartz",
-      image: "/images/chat/bot-2.svg",
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Sofia Jade",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Seller",
-    },
-    amount: "3,000",
-    date: "2025-03-17T08:50:00.553Z",
-    status: "Completed",
-  },
-  {
-    id: 18,
-    initiator: {
-      name: "Samuel Amber",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "Ella Topaz",
-      image: "/images/chat/bot-3.svg",
-      user_type: "Buyer",
-    },
-    amount: "25,000",
-    date: "2025-03-18T12:30:45.553Z",
-    status: "Pending",
-  },
-  {
-    id: 19,
-    initiator: {
-      name: "Andrew Pearl",
-      image: "/images/chat/bot-1.svg",
-      user_type: "Buyer",
-    },
-    recipient: {
-      name: "Grace Opal",
-      image: "/images/chat/bot-2.svg",
-      user_type: "Seller",
-    },
-    amount: "10,000",
-    date: "2025-03-19T14:15:30.553Z",
-    status: "Cancelled",
-  },
-  {
-    id: 20,
-    initiator: {
-      name: "Christopher Diamond",
-      image: "/images/chat/bot-3.svg",
-      user_type: "Seller",
-    },
-    recipient: {
-      name: "Chloe Garnet",
-      image: "/images/chat/bot-4.svg",
-      user_type: "Buyer",
-    },
-    amount: "100,000",
-    date: "2025-03-20T17:00:15.553Z",
-    status: "New Deal",
-  },
-];
+import { useQuery } from "react-query";
+import { get_escrow_list } from "@/services/apiService";
+import { EscrowTransaction } from "@/types/escrow";
+import debounce from "lodash/debounce";
 
 const Subscription = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const totalPages = Math.ceil(rows.length / itemsPerPage);
+  // Fetch escrow transactions
+  const { data: escrowData, isLoading } = useQuery<EscrowTransaction[]>({
+    queryKey: ["escrow"],
+    queryFn: get_escrow_list,
+  });
+
+  // Client-side search and filter
+  const filteredTransactions =
+    escrowData?.filter((transaction) => {
+      const matchesSearch =
+        searchTerm === "" ||
+        transaction.transaction_id
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        transaction.recipient_username
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        transaction.sender_username
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+
+      const matchesStatus =
+        filterStatus === "" || transaction.status === filterStatus;
+
+      return matchesSearch && matchesStatus;
+    }) || [];
+
+  // Pagination
+  const totalPages = Math.ceil(
+    (filteredTransactions?.length || 0) / itemsPerPage
+  );
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = rows.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedTransactions = filteredTransactions.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
   const columns = [
-    { key: "initiator", label: "Initiator" },
-    { key: "status", label: "Status" },
+    { key: "sender", label: "Sender" },
     { key: "recipient", label: "Recipient" },
-    { key: "id", label: "ID" },
+    { key: "transaction_id", label: "Transaction ID" },
     { key: "amount", label: "Amount" },
-    { key: "date", label: "Date" },
+    { key: "status", label: "Status" },
+    { key: "created_at", label: "Date" },
   ];
+  // Debounced search handler
+  const handleSearch = debounce((value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  }, 500);
+
+  // Filter handler
+  const handleFilter = (status: string) => {
+    setFilterStatus(status);
+    setCurrentPage(1);
+  };
+  // Format transactions for table
+  const formattedTransactions = paginatedTransactions.map((transaction) => ({
+    transaction_id: transaction.transaction_id,
+    sender: {
+      name: transaction.sender_username,
+      image: transaction.buyer.profile_photo || "/images/chat/bot-1.svg",
+      user_type: "Buyer",
+    },
+    recipient: {
+      name: transaction.recipient_username,
+      image: transaction.seller.profile_photo || "/images/chat/bot-2.svg",
+      user_type: "Seller",
+    },
+    amount: transaction.amount,
+    status: transaction.status,
+    created_at: transaction.created_at,
+  }));
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
@@ -448,21 +197,20 @@ const Subscription = () => {
                 type="text"
                 className="w-full border-none m-0 p-0 outline-none bg-transparent"
                 placeholder="Search"
+                onChange={(e) => handleSearch(e.target.value)}
               />
             </div>
-            <div className="btn btn-secondary bg-none border-[1px] border-[#E8E8E9] p-[15px] flex items-center gap-2 font-medium text-[16px] rounded-[10px]">
-              <div className="w-[20px] h-[20px]">
-                <img
-                  src="/images/filter.svg"
-                  alt="Filter Icon"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              <h4> Filter</h4>
-            </div>
+            <select
+              className="btn btn-secondary"
+              onChange={(e) => handleFilter(e.target.value)}
+            >
+              <option value="">All Status</option>
+              <option value="Completed">Completed</option>
+              <option value="Pending">Pending</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
           </div>
-          <Table columns={columns} rows={currentItems} />
+          <Table columns={columns} rows={formattedTransactions} />
           <div className="mt-4 flex w-full justify-between items-center">
             <div className="flex items-center gap-4">
               <p className="text-[#A2A1A8] font-light">Showing</p>
@@ -480,7 +228,9 @@ const Subscription = () => {
               </div>
             </div>
             <div className="text-[#A2A1A8] font-light">
-              Showing 1 to {itemsPerPage} out of {rows.length} records
+              Showing {startIndex + 1} to{" "}
+              {Math.min(startIndex + itemsPerPage, filteredTransactions.length)}{" "}
+              out of {filteredTransactions.length} records
             </div>
             <Pagination
               currentPage={currentPage}

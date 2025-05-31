@@ -8,7 +8,7 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  token: null,
+  token: 'a57cca97ba782c239ad68491d677ea56110f16a6',
   user: {
     id: "a4849dce-d5f7-4feb-ad68-d44a18f67631",
     firstName: "Jane",

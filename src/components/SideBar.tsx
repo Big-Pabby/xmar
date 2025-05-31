@@ -18,7 +18,7 @@ const admin_side_menu = [
     icon: <FiUsers />,
     label: "Escrow Overview",
   },
-  { href: "/admin/finance", icon: <LuWallet />, label: "Finance" },
+  { href: "/admin/dispute", icon: <LuWallet />, label: "Dispute Resolution" },
   {
     href: "/admin/transactions",
     icon: <TbArrowsExchange2 />,
