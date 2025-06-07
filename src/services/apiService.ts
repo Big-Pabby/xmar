@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useAuthStore } from "@/store/useStore";
+import { Blog } from "@/types/blog";
 
 interface KYCQueryParams {
   search?: string;
@@ -114,5 +115,38 @@ export const get_dispute_list = async () => {
 };
 export const get_dispute_metric = async () => {
   const response = await api.get("api/v2/admin/dispute_resolutions/metrics/");
+  return response.data.data;
+};
+export const create_blog = async (blog: Blog) => {
+  const response = await api.post("api/v2/admin/blogs/create/", blog);
+  return response.data.data;
+};
+export const edit_blog = async () => {
+  const response = await api.post("api/v2/admin/blogs/edit/");
+  return response.data.data;
+};
+export const get_blogs = async () => {
+  const response = await api.get("api/v2/admin/blogs/admin-blogs/");
+  return response.data.data;
+};
+export const file_upload = async (data: FormData) => {
+  const response = await api.post("api/v2/admin/file-uploads/", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data.data;
+};
+
+export const create_legals = async (blog: Blog) => {
+  const response = await api.post("api/v2/admin/legals/create/", blog);
+  return response.data.data;
+};
+export const edit_legals = async () => {
+  const response = await api.post("api/v2/admin/legals/edit/");
+  return response.data.data;
+};
+export const get_admin_legals = async () => {
+  const response = await api.get("api/v2/admin/legals/admin-legals/");
   return response.data.data;
 };

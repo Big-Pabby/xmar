@@ -22,6 +22,7 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
   // const [filterStatus, setFilterStatus] = useState("");
   // const [dateRange, setDateRange] = useState({ start: "", end: "" });
 
@@ -35,13 +36,32 @@ const Page = () => {
   });
   const filteredUsers =
     data?.["users account details"]?.filter((user) => {
+      // Handle search
       const matchesSearch =
         searchTerm === "" ||
-        user.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase());
+        (user.first_name?.toLowerCase() || "").includes(
+          searchTerm.toLowerCase()
+        ) ||
+        (user.last_name?.toLowerCase() || "").includes(
+          searchTerm.toLowerCase()
+        ) ||
+        (user.email?.toLowerCase() || "").includes(searchTerm.toLowerCase());
 
-      return matchesSearch;
+      // Handle status filtering
+      const matchesStatus = () => {
+        if (!filterStatus) return true;
+
+        switch (filterStatus) {
+          case "Active":
+            return user.is_active;
+          case "Inactive":
+            return !user.is_active;
+          default:
+            return true;
+        }
+      };
+
+      return matchesSearch && matchesStatus();
     }) || [];
   const totalItems = filteredUsers.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -98,18 +118,11 @@ const Page = () => {
     setSearchTerm(value);
     setCurrentPage(1); // Reset to first page on search
   }, 500);
+  const handleFilter = (status: string) => {
+    setFilterStatus(status);
+    setCurrentPage(1); // Reset to first page on filter change
+  };
 
-  // Filter handler
-  // const handleFilter = (status: string) => {
-  //   setFilterStatus(status);
-  //   setCurrentPage(1); // Reset to first page on filter
-  // };
-
-  // Date range handler
-  // const handleDateRange = (start: string, end: string) => {
-  //   setDateRange({ start, end });
-  //   setCurrentPage(1); // Reset to first page on date change
-  // };
   if (isLoading) {
     return <SkeletonCard />;
   }
@@ -149,17 +162,15 @@ const Page = () => {
                   onChange={(e) => handleSearch(e.target.value)}
                 />
               </div>
-              <div className="btn btn-secondary bg-none border-[1px] border-[#E8E8E9] p-[15px] flex items-center gap-2 font-medium text-[16px] rounded-[10px]">
-                <div className="w-[20px] h-[20px]">
-                  <img
-                    src="/images/filter.svg"
-                    alt="Filter Icon"
-                    width={20}
-                    height={20}
-                  />
-                </div>
-                <h4> Filter</h4>
-              </div>
+              <select
+                className="btn btn-secondary"
+                onChange={(e) => handleFilter(e.target.value)}
+                value={filterStatus}
+              >
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
             </div>
             <div className="flex items-start gap-6">
               <div

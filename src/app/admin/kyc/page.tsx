@@ -56,17 +56,46 @@ const Page = () => {
     data?.["users account details"]?.filter((user) => {
       const matchesSearch =
         searchTerm === "" ||
-        user.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase());
+        (user.first_name?.toLowerCase() || "").includes(
+          searchTerm.toLowerCase()
+        ) ||
+        (user.last_name?.toLowerCase() || "").includes(
+          searchTerm.toLowerCase()
+        ) ||
+        (user.email?.toLowerCase() || "").includes(searchTerm.toLowerCase());
 
-      const matchesStatus =
-        filterStatus === "" ||
-        (filterStatus === "Verified" && user.is_kyc_tier_one_completed) ||
-        (filterStatus === "Pending" && !user.is_kyc_tier_one_completed);
+      // Enhanced status filtering with null checks
+      const matchesStatus = () => {
+        if (!user) return false;
 
-      return matchesSearch && matchesStatus;
+        switch (filterStatus) {
+          case "Verified":
+            return Boolean(user.is_kyc_tier_two_completed);
+          case "Unverified":
+            return (
+              !user.is_kyc_tier_one_completed && !user.is_kyc_tier_two_completed
+            );
+          case "Tier 1":
+            return (
+              Boolean(user.is_kyc_tier_one_completed) &&
+              !user.is_kyc_tier_two_completed
+            );
+          case "Tier 2":
+            return Boolean(user.is_kyc_tier_two_completed);
+          default:
+            return true;
+        }
+      };
+
+      return matchesSearch && matchesStatus();
     }) || [];
+  const statusOptions = [
+    { value: "", label: "All Status" },
+    { value: "Verified", label: "Verified" },
+    { value: "Unverified", label: "Unverified" },
+    { value: "Tier 1", label: "Tier 1" },
+    { value: "Tier 2", label: "Tier 2" },
+  ];
   const totalItems = filteredUsers.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -198,11 +227,13 @@ const Page = () => {
               <select
                 className="btn btn-secondary"
                 onChange={(e) => handleFilter(e.target.value)}
+                value={filterStatus}
               >
-                <option value="">All Status</option>
-                <option value="Verified">Verified</option>
-                <option value="Pending">Pending</option>
-                <option value="Rejected">Rejected</option>
+                {statusOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="flex items-start gap-6">
@@ -230,9 +261,10 @@ const Page = () => {
                     <div className="border-[1px] border-[#A2A1A833] rounded-[10px] p-2 w-[66px] h-[36px]">
                       <select
                         value={itemsPerPage}
-                        onChange={(e) =>
-                          setItemsPerPage(Number(e.target.value))
-                        }
+                        onChange={(e) => {
+                          setItemsPerPage(Number(e.target.value));
+                          setCurrentPage(1); // Reset to first page when changing items per page
+                        }}
                         className="border-none bg-transparent p-0 m-0 outline-none w-full h-full"
                       >
                         <option value={5}>5</option>
@@ -244,8 +276,8 @@ const Page = () => {
                   </div>
                   <div className="text-[#A2A1A8] font-light">
                     Showing {startIndex + 1} to{" "}
-                    {Math.min(startIndex + itemsPerPage, totalItems)} out of{" "}
-                    {totalItems} records
+                    {Math.min(startIndex + itemsPerPage, filteredUsers.length)}{" "}
+                    out of {filteredUsers.length} records
                   </div>
                   <Pagination
                     currentPage={currentPage}

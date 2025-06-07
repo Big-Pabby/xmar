@@ -24,7 +24,7 @@ const admin_side_menu = [
     icon: <TbArrowsExchange2 />,
     label: "Transaction",
   },
-  { href: "/admin/notification", icon: <TbReceipt />, label: "Notifications" },
+  { href: "/admin/blogs", icon: <TbReceipt />, label: "Blogs" },
   { href: "/admin/admin-profile", icon: <FiUsers />, label: "Admin Profiles" },
   { href: "/admin/legals", icon: <FiUsers />, label: "Legals" },
 ];
