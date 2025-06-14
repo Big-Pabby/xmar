@@ -39,7 +39,7 @@ const Subscription = () => {
     queryKey: ["escrow"],
     queryFn: get_escrow_list,
   });
-  const { data: escrowFees, error } = useQuery<EscrowFee>({
+  const { data: escrowFees } = useQuery<EscrowFee>({
     queryKey: ["escrowFees"],
     queryFn: get_escrow_fee,
   });
