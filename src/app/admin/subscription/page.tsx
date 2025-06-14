@@ -8,22 +8,40 @@ import Table from "@/components/Table";
 import { TiArrowSortedUp } from "react-icons/ti";
 import { CiSearch } from "react-icons/ci";
 import Modal from "@/components/Modal";
-import { useQuery } from "react-query";
-import { get_escrow_list } from "@/services/apiService";
-import { EscrowTransaction } from "@/types/escrow";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import {
+  get_escrow_list,
+  get_escrow_fee,
+  update_escrow_fee,
+} from "@/services/apiService";
+import { EscrowTransaction, EscrowFee } from "@/types/escrow";
 import debounce from "lodash/debounce";
+import Image from "next/image";
+import PercentageInput from "@/components/PercentageInput";
 
 const Subscription = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+  const [currentLevel, setCurrentLevel] = useState("");
+  const [roller, setRoller] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [escrowFee, setEscrowFee] = useState({
+    percentage: "",
+    capped_amount: "",
+  });
+  const [percentage, setPercentage] = useState<number>(0);
+  const queryClient = useQueryClient();
 
   // Fetch escrow transactions
   const { data: escrowData, isLoading } = useQuery<EscrowTransaction[]>({
     queryKey: ["escrow"],
     queryFn: get_escrow_list,
+  });
+  const { data: escrowFees, error } = useQuery<EscrowFee>({
+    queryKey: ["escrowFees"],
+    queryFn: get_escrow_fee,
   });
 
   // Client-side search and filter
@@ -76,6 +94,33 @@ const Subscription = () => {
     setFilterStatus(status);
     setCurrentPage(1);
   };
+
+  const open_level_fee = (level: string) => {
+    setCurrentLevel(level);
+    setIsOpen(true);
+  };
+  const updateFeeMutation = useMutation({
+    mutationFn: update_escrow_fee,
+    onMutate: () => {
+      setRoller(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["escrowFee"]);
+      // Add success toast/notification here if needed
+    },
+    onError: (error) => {
+      // Handle error notification here
+      console.error("Failed to update fee:", error);
+    },
+    onSettled: () => {
+      setRoller(false);
+    },
+  });
+
+  const handleUpdateFee = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    updateFeeMutation.mutate({ level: currentLevel, percentage: percentage });
+  };
   // Format transactions for table
   const formattedTransactions = paginatedTransactions.map((transaction) => ({
     transaction_id: transaction.transaction_id,
@@ -114,77 +159,170 @@ const Subscription = () => {
           <FaPlus className="text-[20px] text-white" /> Update Escrow Fee
         </button>
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-          <h2 className="text-2xl text-center">Subscription Fee</h2>
-          <p className="mt-2 text-center">Set subscription fee</p>
-          <form>
+          <div className="flex gap-3 items-center mb-4">
+            <div className="w-[40px] h-[40px] flex items-center justify-center bg-[#FFF6F4] rounded-full">
+              <Image
+                src="/images/Bank.png"
+                alt="Hairsby logo"
+                width={22}
+                height={22}
+                className="h-[20px] w-[20px]"
+              />
+            </div>
+            <div>
+              <h4 className="text-primary capitalize font-bold text-base">
+                {currentLevel}
+              </h4>
+              <p className="text-sm text-[#7D7C93] mt-1">Escrow Fee</p>
+            </div>
+          </div>
+
+          <form onSubmit={handleUpdateFee}>
             <div className="mb-4">
-              <label htmlFor="account_type" className="block mb-1">
-                Account Type
+              <label
+                htmlFor="percentage"
+                className="block font-semibold text-base text-[#344054] mb-1"
+              >
+                Percentage
               </label>
-              <input
-                type="text"
-                className="outline-none w-full bg-[#F1F1F1] rounded-[5px] p-[18px]"
-                placeholder="Select account type"
+              <PercentageInput
+                className="outline-none bg-[#F1F1F1] w-full rounded-[5px] p-[18px]"
+                value={percentage}
+                onChange={setPercentage}
               />
             </div>
             <div className="mb-4 ">
-              <label htmlFor="account_type" className="block mb-1">
-                Amount
+              <label
+                htmlFor="capped_amount"
+                className="block font-semibold text-base text-[#344054] mb-1"
+              >
+                Capped Amount
               </label>
               <input
-                type="text"
+                id="capped_amount"
+                onChange={(e) =>
+                  setEscrowFee((prev) => ({
+                    ...prev,
+                    capped_amount: e.target.value,
+                  }))
+                }
+                type="number"
                 className="outline-none bg-[#F1F1F1] w-full rounded-[5px] p-[18px]"
-                placeholder="Amount"
+                placeholder="Enter the capped amount"
               />
             </div>
-            <div className="mb-4">
-              <label htmlFor="account_type" className="block mb-1">
-                Discount
-              </label>
-              <input
-                type="text"
-                className="outline-none bg-[#F1F1F1] w-full rounded-[5px] p-[18px]"
-                placeholder="15%"
-              />
+            <div className="mb-4 flex gap-4">
+              <div className="md:w-6/12">
+                <label
+                  htmlFor="amount_from"
+                  className="block font-semibold text-base text-[#344054] mb-1"
+                >
+                  Amount from
+                </label>
+                <input
+                  id="amount_from"
+                  disabled
+                  value={escrowFee.capped_amount}
+                  type="text"
+                  className="outline-none bg-[#F1F1F1] w-full rounded-[5px] p-[18px]"
+                  placeholder="From"
+                />
+              </div>
+              <div className="md:w-6/12">
+                <label
+                  htmlFor="amount_to"
+                  className="block font-semibold text-base text-[#344054] mb-1"
+                >
+                  Amount to
+                </label>
+                <input
+                  id="amount_to"
+                  disabled
+                  type="text"
+                  className="outline-none bg-[#F1F1F1] w-full rounded-[5px] p-[18px]"
+                  placeholder="To"
+                />
+              </div>
             </div>
-            <button className="btn btn-primary w-full text-white rounded-[8px]">
-              Save
+            <button
+              type="submit"
+              disabled={roller}
+              className={`btn btn-primary w-full text-white ${
+                roller ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+            >
+              {roller ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Updating...</span>
+                </div>
+              ) : (
+                "Update Fee"
+              )}
             </button>
           </form>
         </Modal>
       </div>
-      <div className="flex gap-6 mt-8">
-        <div className="flex-1 border-[1px] border-[#A2A1A833] bg-white rounded-[10px] p-4">
-          <p className="font-light mb-2">Download Escrow Transactions</p>
-          <div className="flex items-stretch gap-4">
-            <div className="flex-1 border-[1px] border-[#A2A1A833] rounded-[8px] p-3">
-              <select
-                className="border-none w-full bg-transparent m-0 p-0 outline-none"
-                name=""
-                id=""
-              >
-                <option value="All Account">All Accounts</option>
-              </select>
-            </div>
-            <button className="font-medium  btn btn-primary h-full text-white rounded-[8px] py-4 px-8">
-              Download File
-            </button>
-          </div>
-        </div>
-        <div className="w-[310px] border-[1px] border-[#A2A1A833] bg-white rounded-[10px]">
+
+      <div className="grid grid-cols-3 gap-6 mt-8">
+        <div
+          onClick={() => open_level_fee("level one")}
+          className=" cursor-pointer border-[1px] border-[#A2A1A833] bg-white rounded-[10px]"
+        >
           <div className="border-b-[1px] border-[#A2A1A833] p-3">
             <p className="font-light mb-1">Escrow Fee</p>
             <div className="flex items-center justify-between">
               <h4 className="font-semibold text-lg">$2,000 cap price</h4>
               <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
-                <TiArrowSortedUp /> 5.0% Discount
+                <TiArrowSortedUp /> {escrowFees?.level_one}% fee
               </div>
             </div>
           </div>
-          <div className="p-3">
+          <div className="p-3 flex items-center justify-between">
             <p className="text-[12px] font-light text-[#A2A1A8]">
-              Updated: July 16, 2023
+              Updated: {escrowFees?.updated_at}
             </p>
+            <h4 className="text-sm text-primary font-bold">LEVEL 1</h4>
+          </div>
+        </div>
+        <div
+          onClick={() => open_level_fee("level two")}
+          className=" cursor-pointer border-[1px] border-[#A2A1A833] bg-white rounded-[10px]"
+        >
+          <div className="border-b-[1px] border-[#A2A1A833] p-3">
+            <p className="font-light mb-1">Escrow Fee</p>
+            <div className="flex items-center justify-between">
+              <h4 className="font-semibold text-lg">$2,000 cap price</h4>
+              <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
+                <TiArrowSortedUp /> {escrowFees?.level_two}% Fee
+              </div>
+            </div>
+          </div>
+          <div className="p-3 flex items-center justify-between">
+            <p className="text-[12px] font-light text-[#A2A1A8]">
+              Updated: {escrowFees?.updated_at}
+            </p>
+            <h4 className="text-sm text-primary font-bold">LEVEL 2</h4>
+          </div>
+        </div>
+        <div
+          onClick={() => open_level_fee("level three")}
+          className=" cursor-pointer border-[1px] border-[#A2A1A833] bg-white rounded-[10px]"
+        >
+          <div className="border-b-[1px] border-[#A2A1A833] p-3">
+            <p className="font-light mb-1">Escrow Fee</p>
+            <div className="flex items-center justify-between">
+              <h4 className="font-semibold text-lg">$2,000 cap price</h4>
+              <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
+                <TiArrowSortedUp /> {escrowFees?.level_three}% Fee
+              </div>
+            </div>
+          </div>
+          <div className="p-3 flex items-center justify-between">
+            <p className="text-[12px] font-light text-[#A2A1A8]">
+              Updated: {escrowFees?.updated_at}
+            </p>
+            <h4 className="text-sm text-primary font-bold">LEVEL 3</h4>
           </div>
         </div>
       </div>

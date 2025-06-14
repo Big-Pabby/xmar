@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 
 // Defined menu items with icons
 const admin_side_menu = [
-  { href: "/admin/", icon: <LuLayoutGrid />, label: "Dashboard" },
+  { href: "/admin/dashboard", icon: <LuLayoutGrid />, label: "Dashboard" },
   { href: "/admin/kyc", icon: <FiUsers />, label: "KYC Verification" },
   { href: "/admin/users", icon: <FiUsers />, label: "User Logs" },
   {

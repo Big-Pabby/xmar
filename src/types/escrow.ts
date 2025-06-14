@@ -14,3 +14,16 @@ export interface EscrowTransaction {
   status: string;
   created_at: string;
 }
+export interface EscrowFee {
+  id: number;
+  level_one: string;
+  level_two: string;
+  level_three: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UpdateEscrowFeeParams {
+  level: string;
+  percentage: number;
+}

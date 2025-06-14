@@ -176,13 +176,14 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                 ) : col.key === "kyc_validation" ? (
                   <div
                     className={`py-[2px] px-[10px] text-center rounded-full border-[1px] font-semibold ${
+                       row.is_kyc_tier_one_completed && !row.is_kyc_tier_two_completed  ? 'bg-[#FFF6EA] border-[#FF9500] text-[#FF9500]' :
                       row.is_kyc_tier_two_completed
                         ? "bg-[#E8F7F1] border-[#B6E5D5] text-[#15AC77]"
                         
                         : "bg-[#F1F2F4] border-[#D3D6DC] text-[#666F82]"
                     }`}
                   >
-                    {row.is_kyc_tier_two_completed ? "Verified" : "Unverified"}
+                    {row.is_kyc_tier_two_completed  ? "Verified" : row.is_kyc_tier_one_completed && !row.is_kyc_tier_two_completed ? "Verified" : "Unverified"}
                   </div>
                 ) : col.key === "account_type" ? (
                   <div>
@@ -193,7 +194,7 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                    : "Null"}
                   </div>) : col.key === "no_of_trades" ? (
                   <div className={``}>{row[col.key]}</div>
-                ) : col.key === "account_status" ? (
+                ) : col.key === "account_status"  ? (
                   <div
                     className={`font-medium ${
                       row[col.key] === "Active"
@@ -203,11 +204,11 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                   >
                     {row[col.key]}
                   </div>
-                ) :  col.key === "status" ? (
+                ) :  col.key === "status" || col.key ===  "dispute_status" || col.key ===  "escrow_status" ? (
                   <div
-                    className={`font-medium capitalize p-2 text-center rounded-full text-white ${
-                      row[col.key] === "Pending" || row[col.key] === "pending"? " bg-[#F48534]" : row[col.key] === "Unverified" ? 'bg-[#9FA6B4]' :row[col.key] === "Cancelled" ? 'bg-[#D94823]' :row[col.key] === "failed" ? 'bg-[#D94823]'
-                        : "bg-[#15AC77]"
+                    className={`font-medium capitalize p-2 text-center rounded-full  border-[1px] ${
+                      row[col.key] === "Pending" || row[col.key] === "pending"? " bg-[#FFF4EA] border-[#FFDEBF] text-[#FE9431]" : row[col.key] === "Unverified" ? 'bg-[#9FA6B4]' :row[col.key] === "Cancelled" ? 'bg-[#D94823] text-white' :row[col.key] === "failed" ? 'bg-[#D94823] text-white'
+                        : "bg-[#E8F7F1] border-[#B6E5D5] text-[#15AC77]"
                     }`}
                   >
                     {row[col.key]}

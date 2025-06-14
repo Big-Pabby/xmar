@@ -60,8 +60,10 @@ const Page = () => {
     { key: "name", label: "Name" },
     { key: "transaction_id", label: "Transaction ID" },
     { key: "transaction_title", label: "Transaction Title" },
-    { key: "status", label: "Dispute Status" },
+    { key: "dispute_status", label: "Dispute Status" },
     { key: "amount", label: "Amount" },
+    { key: "escrow_status", label: "Escrow Status" },
+
     { key: "created_at", label: "Date" },
   ];
   const handleSearch = debounce((value: string) => {

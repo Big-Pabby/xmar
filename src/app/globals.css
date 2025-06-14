@@ -97,6 +97,19 @@ h6 {
   font-weight: 400;
 }
 
+.gradient-overlay {
+  background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0.3) 100%
+    ),
+    url("/images/login-bg.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);

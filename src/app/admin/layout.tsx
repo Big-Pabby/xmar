@@ -1,19 +1,24 @@
+"use client";
+
 import SideBar from "@/components/SideBar";
 import { FaPlus } from "react-icons/fa6";
 import { LuCalendar1 } from "react-icons/lu";
 import { TbMessage2 } from "react-icons/tb";
 import { IoNotificationsOutline } from "react-icons/io5";
-
-export const metadata = {
-  title: "Konelistore.com",
-  description: "Online Shopping Store",
-};
+import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isAdminRoot = pathname === "/admin";
+
+  // Return just the children if we're on the admin root page
+  if (isAdminRoot) {
+    return <div className="w-full">{children}</div>;
+  }
   return (
     <div className="">
       <div className="fixed z-[100] top-0 left-0 pl-[275px] w-full bg-[#f8f8f9] ">

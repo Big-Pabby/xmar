@@ -113,16 +113,6 @@ const Page = () => {
 
   const inputs = [
     {
-      name: "First Name",
-      id: "access_first_name",
-      type: "text",
-    },
-    {
-      name: "Last Name",
-      id: "access_last_name",
-      type: "text",
-    },
-    {
       name: "Email address",
       id: "access_email_address",
       type: "email",

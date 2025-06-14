@@ -150,3 +150,14 @@ export const get_admin_legals = async () => {
   const response = await api.get("api/v2/admin/legals/admin-legals/");
   return response.data.data;
 };
+export const get_escrow_fee = async () => {
+  const response = await api.get("api/v2/admin/escrow/escrow-fee/");
+  return response.data.data;
+};
+export const update_escrow_fee = async (data: {
+  level: string;
+  percentage: number;
+}) => {
+  const response = await api.post("api/v2/admin/escrow/escrow-fee/", data);
+  return response.data.data;
+};

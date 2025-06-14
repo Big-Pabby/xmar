@@ -82,7 +82,6 @@ const Page = () => {
   const stats = {
     active_users: data?.user_stats.active_users ?? 100,
     inactive_users: data?.user_stats.inactive_users ?? 64,
-    suspended_users: 0,
     deleted_account: data?.user_stats.deleted_accounts ?? 30,
   };
   const total = data?.user_stats.total_users ?? 0;
@@ -98,12 +97,6 @@ const Page = () => {
       size: (stats.inactive_users / total) * 100,
       name: "Inactive Users",
       value: stats.inactive_users,
-    },
-    {
-      color: "#3C70F5",
-      size: (stats.suspended_users / total) * 100,
-      name: "Suspended Users",
-      value: stats.suspended_users,
     },
     {
       color: "#FF7262",
