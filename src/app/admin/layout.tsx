@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isAdminRoot = pathname === "/admin";
+  const isAdminRoot = pathname === "/admin" || pathname === "/admin/otp";
 
   // Return just the children if we're on the admin root page
   if (isAdminRoot) {

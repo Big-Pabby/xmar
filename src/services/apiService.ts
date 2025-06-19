@@ -19,7 +19,7 @@ const api = axios.create({
 // Add a request interceptor to include the authentication token
 api.interceptors.request.use(
   (config) => {
-    const { token } = useAuthStore.getState();
+    const { token } = useAuthStore.getState().user;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -157,7 +157,29 @@ export const get_escrow_fee = async () => {
 export const update_escrow_fee = async (data: {
   level: string;
   percentage: number;
+  capped_amount: number;
+  higher_amount: number;
+  lower_amount: number;
 }) => {
   const response = await api.post("api/v2/admin/escrow/escrow-fee/", data);
+  return response.data.data;
+};
+export const verify_login_otp = async (data: { otp: string }) => {
+  const response = await api.post("api/v2/auth/admin/login/verify-otp", data);
+  return response.data.data;
+};
+export const admin_login = async (data: {
+  email: string;
+  password: string;
+}) => {
+  const response = await api.post("api/v2/auth/admin/login", data);
+  return response.data.data;
+};
+export const add_admin = async (data: { email: string; role: string }) => {
+  const response = await api.post("api/v2/auth/admin/add", data);
+  return response.data.data;
+};
+export const get_admins = async () => {
+  const response = await api.get("api/v2/admin/users/admins/");
   return response.data.data;
 };

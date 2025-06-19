@@ -17,8 +17,12 @@ export interface EscrowTransaction {
 export interface EscrowFee {
   id: number;
   level_one: string;
+
   level_two: string;
   level_three: string;
+  level_one_capped_amount: string;
+  level_two_capped_amount: string;
+  level_three_capped_amount: string;
   created_at: string;
   updated_at: string;
 }

@@ -3,107 +3,59 @@
 import React, { useState } from "react";
 import { FaLock } from "react-icons/fa6";
 import Toaster from "@/components/Toaster";
-import { setAccess } from "@/services/apiService";
+import { add_admin } from "@/services/apiService";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import { CiSearch } from "react-icons/ci";
-// import { useQuery } from "react-query";
-// import { get_admin_profiles } from "@/services/apiService";
+import { useQuery } from "react-query";
+import { get_admins } from "@/services/apiService";
 // import SkeletonCard from "@/components/Skeleton";
 import { AxiosError } from "axios";
 
+interface Admin {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  profile_photo: string | null;
+  date_joined: string;
+  last_seen: string;
+  no_of_trades: number;
+  is_active: boolean;
+  admin_role: string;
+}
 const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  // const {
-  //   data: usersData,
-  //   isLoading,
-  //   error,
-  // } = useQuery(["users", currentPage, itemsPerPage], () =>
-  //   get_admin_profiles()
-  // );
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterRole, setFilterRole] = useState("");
+  const { data: admins, isLoading } = useQuery<Admin[]>({
+    queryKey: ["admins"],
+    queryFn: get_admins,
+  });
 
-  const rows = [
-    {
-      name: "Ebubechukwu Azaman",
-      email_id: "azaman@yopmail.com",
-      entry_date: "2025-02-01T13:46:45.553Z",
-      admin_status: "Owner",
-      image: "/images/chat/bot-3.svg",
-    },
-    {
-      name: "Chinonso Okafor",
-      email_id: "chinonso@yopmail.com",
-      entry_date: "2025-01-15T10:30:20.553Z",
-      admin_status: "Admin",
-      image: "/images/chat/bot-2.svg",
-    },
-    {
-      name: "Amaka Eze",
-      email_id: "amaka@yopmail.com",
-      entry_date: "2025-03-10T08:15:45.553Z",
-      admin_status: "Support",
-      image: "/images/chat/bot-1.svg",
-    },
-    {
-      name: "John Doe",
-      email_id: "johndoe@yopmail.com",
-      entry_date: "2025-02-20T14:50:30.553Z",
-      admin_status: "Tech Support",
-      image: "/images/chat/bot-4.svg",
-    },
-    {
-      name: "Jane Smith",
-      email_id: "janesmith@yopmail.com",
-      entry_date: "2025-01-25T09:40:10.553Z",
-      admin_status: "Help Desk",
-      image: "/images/chat/bot-3.svg",
-    },
-    {
-      name: "Michael Johnson",
-      email_id: "michaelj@yopmail.com",
-      entry_date: "2025-02-05T11:25:50.553Z",
-      admin_status: "Owner",
-      image: "/images/chat/bot-2.svg",
-    },
-    {
-      name: "Ngozi Chukwu",
-      email_id: "ngozi@yopmail.com",
-      entry_date: "2025-03-01T16:10:25.553Z",
-      admin_status: "Admin",
-      image: "/images/chat/bot-3.svg",
-    },
-    {
-      name: "Samuel Ade",
-      email_id: "samuel@yopmail.com",
-      entry_date: "2025-02-18T12:35:15.553Z",
-      admin_status: "Support",
-      image: "/images/chat/bot-3.svg",
-    },
-    {
-      name: "Blessing Uche",
-      email_id: "blessing@yopmail.com",
-      entry_date: "2025-01-30T13:45:05.553Z",
-      admin_status: "Help Desk",
-      image: "/images/chat/bot-3.svg",
-    },
-    {
-      name: "Ifeanyi Nwosu",
-      email_id: "ifeanyi@yopmail.com",
-      entry_date: "2025-03-12T15:20:40.553Z",
-      admin_status: "Tech Support",
-      image: "/images/chat/bot-3.svg",
-    },
+  // Filter and search admins
+  const filteredAdmins =
+    admins?.filter((admin) => {
+      const matchesSearch =
+        searchTerm === "" ||
+        admin.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        admin.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        admin.email.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesRole = filterRole === "" || admin.admin_role === filterRole;
+
+      return matchesSearch && matchesRole;
+    }) || [];
+
+  // Get unique roles for filter dropdown
+  const uniqueRoles = [
+    ...new Set(admins?.map((admin) => admin.admin_role) || []),
   ];
 
-  const totalPages = Math.ceil(rows.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = rows.slice(startIndex, startIndex + itemsPerPage);
   const [formData, setFormData] = useState({
-    access_first_name: "",
-    access_last_name: "",
-    access_email_address: "",
-    access_account_tag: "",
+    email: "",
+    role: "",
   });
   const [toaster, setToaster] = useState<{
     message: string;
@@ -114,23 +66,42 @@ const Page = () => {
   const inputs = [
     {
       name: "Email address",
-      id: "access_email_address",
+      id: "email",
       type: "email",
     },
     {
-      name: "Select account tag",
-      id: "access_account_tag",
+      name: "Select Role",
+      id: "role",
       options: ["Support", "Human Resource", "Help Desk", "Tech Support"],
       type: "select",
     },
   ];
   const columns = [
     { key: "name", label: "Name" },
-    { key: "email_id", label: "Email ID" },
-    { key: "expiry_date", label: "Last Seen" },
-    { key: "admin_status", label: "Status" },
+    { key: "last_seen", label: "Last Seen" },
+    { key: "admin_role", label: "Role" },
     { key: "admin_action", label: "Action" },
   ];
+
+  // Pagination calculation
+  const totalPages = Math.ceil((filteredAdmins?.length || 0) / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedAdmins = filteredAdmins.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  // Search handler
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page on search
+  };
+
+  // Filter handler
+  const handleFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterRole(e.target.value);
+    setCurrentPage(1); // Reset to first page on filter change
+  };
   // Handle input changes
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -146,7 +117,7 @@ const Page = () => {
 
     try {
       setFormLoader(true);
-      const response = await setAccess(formData);
+      const response = await add_admin(formData);
 
       setToaster({ message: response.data.message, type: "success" });
     } catch (error) {
@@ -277,55 +248,73 @@ const Page = () => {
               <CiSearch className="text-[24px]" />
               <input
                 type="text"
+                value={searchTerm}
+                onChange={handleSearch}
                 className="w-full border-none m-0 p-0 outline-none bg-transparent"
                 placeholder="Search"
               />
             </div>
-            <div className="btn btn-secondary bg-none border-[1px] border-[#E8E8E9] p-[15px] flex items-center gap-2 font-medium text-[16px] rounded-[10px]">
-              <div className="w-[20px] h-[20px]">
-                <img
-                  src="/images/filter.svg"
-                  alt="Filter Icon"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              <h4> Filter</h4>
-            </div>
+            <select
+              value={filterRole}
+              onChange={handleFilter}
+              className="btn btn-secondary bg-none border-[1px] border-[#E8E8E9] p-[15px] flex items-center gap-2 font-medium text-[16px] rounded-[10px]"
+            >
+              <option value="">All Roles</option>
+              {uniqueRoles.map((role) => (
+                <option key={role} value={role}>
+                  {role}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="flex items-start gap-6">
             <div className="bg-white w-full rounded-[10px] border-[1px] border-[#A2A1A833] p-3">
-              <div className="w-full">
-                <div className=" min-w-[1000px]">
-                  <Table columns={columns} rows={currentItems} />
+              {isLoading ? (
+                <div className="flex justify-center items-center h-[400px]">
+                  <div className="loading loading-spinner"></div>
                 </div>
-              </div>
-
-              <div className="mt-4 flex w-full justify-between items-center">
-                <div className="flex items-center gap-4">
-                  <p className="text-[#A2A1A8] font-light">Showing</p>
-                  <div className="border-[1px] border-[#A2A1A833] rounded-[10px] p-2 w-[66px] h-[36px]">
-                    <select
-                      value={itemsPerPage}
-                      onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                      className="border-none bg-transparent p-0 m-0 outline-none w-full h-full"
-                    >
-                      <option value={5}>5</option>
-                      <option value={10}>10</option>
-                      <option value={15}>15</option>
-                      <option value={20}>20</option>
-                    </select>
+              ) : (
+                <>
+                  <div className="w-full">
+                    <div className=" min-w-[1000px]">
+                      <Table columns={columns} rows={paginatedAdmins} />
+                    </div>
                   </div>
-                </div>
-                <div className="text-[#A2A1A8] font-light">
-                  Showing 1 to {itemsPerPage} out of {rows.length} records
-                </div>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={setCurrentPage}
-                />
-              </div>
+
+                  <div className="mt-4 flex w-full justify-between items-center">
+                    <div className="flex items-center gap-4">
+                      <p className="text-[#A2A1A8] font-light">Showing</p>
+                      <div className="border-[1px] border-[#A2A1A833] rounded-[10px] p-2 w-[66px] h-[36px]">
+                        <select
+                          value={itemsPerPage}
+                          onChange={(e) =>
+                            setItemsPerPage(Number(e.target.value))
+                          }
+                          className="border-none bg-transparent p-0 m-0 outline-none w-full h-full"
+                        >
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={15}>15</option>
+                          <option value={20}>20</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="text-[#A2A1A8] font-light">
+                      Showing {startIndex + 1} to{" "}
+                      {Math.min(
+                        startIndex + itemsPerPage,
+                        filteredAdmins.length
+                      )}{" "}
+                      out of {filteredAdmins.length} records
+                    </div>
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={setCurrentPage}
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

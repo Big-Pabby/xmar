@@ -19,7 +19,7 @@ import debounce from "lodash/debounce";
 import Image from "next/image";
 import PercentageInput from "@/components/PercentageInput";
 
-const Subscription = () => {
+const Escrow = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,8 +28,9 @@ const Subscription = () => {
   const [roller, setRoller] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   const [escrowFee, setEscrowFee] = useState({
-    percentage: "",
-    capped_amount: "",
+    capped_amount: 0,
+    higher_amount: 0,
+    lower_amount: 0,
   });
   const [percentage, setPercentage] = useState<number>(0);
   const queryClient = useQueryClient();
@@ -119,7 +120,11 @@ const Subscription = () => {
 
   const handleUpdateFee = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateFeeMutation.mutate({ level: currentLevel, percentage: percentage });
+    updateFeeMutation.mutate({
+      level: currentLevel,
+      percentage: percentage,
+      ...escrowFee,
+    });
   };
   // Format transactions for table
   const formattedTransactions = paginatedTransactions.map((transaction) => ({
@@ -156,7 +161,7 @@ const Subscription = () => {
           onClick={() => setIsOpen(true)}
           className="btn btn-primary text-white rounded-[8px]"
         >
-          <FaPlus className="text-[20px] text-white" /> Update Escrow Fee
+          <FaPlus className="text-[20px] text-white" /> Download history
         </button>
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
           <div className="flex gap-3 items-center mb-4">
@@ -203,7 +208,9 @@ const Subscription = () => {
                 onChange={(e) =>
                   setEscrowFee((prev) => ({
                     ...prev,
-                    capped_amount: e.target.value,
+                    capped_amount: e.target.value
+                      ? parseFloat(e.target.value)
+                      : 0,
                   }))
                 }
                 type="number"
@@ -221,9 +228,15 @@ const Subscription = () => {
                 </label>
                 <input
                   id="amount_from"
-                  disabled
-                  value={escrowFee.capped_amount}
-                  type="text"
+                  onChange={(e) =>
+                    setEscrowFee((prev) => ({
+                      ...prev,
+                      lower_amount: e.target.value
+                        ? parseFloat(e.target.value)
+                        : 0,
+                    }))
+                  }
+                  type="number"
                   className="outline-none bg-[#F1F1F1] w-full rounded-[5px] p-[18px]"
                   placeholder="From"
                 />
@@ -237,8 +250,15 @@ const Subscription = () => {
                 </label>
                 <input
                   id="amount_to"
-                  disabled
-                  type="text"
+                  onChange={(e) =>
+                    setEscrowFee((prev) => ({
+                      ...prev,
+                      higher_amount: e.target.value
+                        ? parseFloat(e.target.value)
+                        : 0,
+                    }))
+                  }
+                  type="number"
                   className="outline-none bg-[#F1F1F1] w-full rounded-[5px] p-[18px]"
                   placeholder="To"
                 />
@@ -272,7 +292,9 @@ const Subscription = () => {
           <div className="border-b-[1px] border-[#A2A1A833] p-3">
             <p className="font-light mb-1">Escrow Fee</p>
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold text-lg">$2,000 cap price</h4>
+              <h4 className="font-semibold text-lg">
+                ${escrowFees?.level_one_capped_amount} cap price
+              </h4>
               <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
                 <TiArrowSortedUp /> {escrowFees?.level_one}% fee
               </div>
@@ -292,7 +314,9 @@ const Subscription = () => {
           <div className="border-b-[1px] border-[#A2A1A833] p-3">
             <p className="font-light mb-1">Escrow Fee</p>
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold text-lg">$2,000 cap price</h4>
+              <h4 className="font-semibold text-lg">
+                ${escrowFees?.level_two_capped_amount} cap price
+              </h4>
               <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
                 <TiArrowSortedUp /> {escrowFees?.level_two}% Fee
               </div>
@@ -312,7 +336,9 @@ const Subscription = () => {
           <div className="border-b-[1px] border-[#A2A1A833] p-3">
             <p className="font-light mb-1">Escrow Fee</p>
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold text-lg">$2,000 cap price</h4>
+              <h4 className="font-semibold text-lg">
+                ${escrowFees?.level_three_capped_amount} cap price
+              </h4>
               <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
                 <TiArrowSortedUp /> {escrowFees?.level_three}% Fee
               </div>
@@ -382,4 +408,4 @@ const Subscription = () => {
   );
 };
 
-export default Subscription;
+export default Escrow;

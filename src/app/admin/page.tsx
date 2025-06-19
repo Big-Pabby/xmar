@@ -1,15 +1,48 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import { useMutation } from "react-query";
+import { admin_login } from "@/services/apiService";
 
+interface LoginForm {
+  email: string;
+  password: string;
+}
 const Page = () => {
   const router = useRouter();
+  const [form, setForm] = useState<LoginForm>({
+    email: "",
+    password: "",
+  });
+  const loginMutation = useMutation({
+    mutationFn: admin_login,
+    onSuccess: () => {
+      router.push("/admin/otp");
+    },
+    onError: (error) => {
+      // Add error handling/toast here
+      console.error("Login failed:", error);
+    },
+  });
+  const handleSubmit = (e: React.FormEvent) => {
+    console.log("Form submitted:", form);
+    e.preventDefault();
+    if (!form.email || !form.password) {
+      // Add validation error handling/toast here
+      return;
+    }
+    console.log("Form submitted:", form);
+    loginMutation.mutate(form);
+  };
   return (
     <div className="flex h-screen">
       <div className="md:w-6/12 w-full h-full gradient-overlay"></div>
       <div className="md:w-6/12 w-full flex justify-center items-center h-full">
-        <form className="flex md:px-36  flex-col items-center justify-center bg-white h-full w-full">
+        <form
+          onSubmit={handleSubmit}
+          className="flex md:px-36  flex-col items-center justify-center bg-white h-full w-full"
+        >
           <Image
             src="/images/bank-2.svg"
             alt="Hairsby logo"
@@ -28,6 +61,12 @@ const Page = () => {
               Email
             </label>
             <input
+              required
+              value={form.email}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, email: e.target.value }))
+              }
+              id="email"
               type="email"
               className="w-full border-[1px] border-[#EDEDED] bg-[#EDEDED] p-[16px] outline-none"
             />
@@ -37,7 +76,12 @@ const Page = () => {
               Password
             </label>
             <input
+              required
+              id="password"
               type="password"
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, password: e.target.value }))
+              }
               className="w-full border-[1px] border-[#EDEDED] bg-[#EDEDED] p-[16px] outline-none"
             />
           </div>
@@ -52,11 +96,20 @@ const Page = () => {
             <p>Forgot Password</p>
           </div>
           <button
-            type="button"
-            onClick={() => router.push("/admin/dashboard")}
-            className="btn btn-primary w-full text-white"
+            type="submit"
+            disabled={loginMutation.isLoading}
+            className={`btn btn-primary w-full text-white ${
+              loginMutation.isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Login
+            {loginMutation.isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span>Logging in...</span>
+              </div>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
       </div>
