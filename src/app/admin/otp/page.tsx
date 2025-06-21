@@ -7,24 +7,39 @@ import { useMutation } from "react-query";
 import { verify_login_otp } from "@/services/apiService";
 import OtpInput from "react-otp-input";
 import { useAuthStore } from "@/store/useStore";
+import Toaster from "@/components/Toaster";
+import { AxiosError } from "axios";
 
 const Page = () => {
   const router = useRouter();
   const setToken = useAuthStore((state) => state.setAuthInfo);
   const [otp, setOtp] = useState("");
+  const [toaster, setToaster] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
   const verifyMutation = useMutation({
     mutationFn: verify_login_otp,
     onSuccess: (data) => {
-      setToken(data.user);
-      // Show success message if needed
+      setToken(data.data);
+      setToaster({ message: data.message, type: "success" });
       setTimeout(() => {
         router.push("/admin/dashboard");
       }, 1000);
     },
     onError: (error) => {
-      // Handle error - show toast/alert
-      console.error("OTP verification failed:", error);
+      if (error instanceof AxiosError) {
+        // Handle Axios-specific error
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.error(errorMessage, error);
+        setToaster({ message: errorMessage, type: "error" });
+      } else {
+        // Handle non-Axios errors
+        console.error("An unknown error occurred", error);
+        setToaster({ message: "An unknown error occurred", type: "error" });
+      }
     },
   });
 
@@ -36,6 +51,13 @@ const Page = () => {
   };
   return (
     <div className="flex h-screen">
+      {toaster && (
+        <Toaster
+          message={toaster.message}
+          type={toaster.type}
+          onClose={() => setToaster(null)} // Close the toaster
+        />
+      )}
       <div className="md:w-6/12 w-full h-full gradient-overlay"></div>
       <div className="md:w-6/12 w-full flex justify-center items-center h-full">
         <form

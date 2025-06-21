@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useMutation } from "react-query";
 import { admin_login } from "@/services/apiService";
+import Toaster from "@/components/Toaster";
+
+import { AxiosError } from "axios";
 
 interface LoginForm {
   email: string;
@@ -15,28 +18,47 @@ const Page = () => {
     email: "",
     password: "",
   });
+  const [toaster, setToaster] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
   const loginMutation = useMutation({
     mutationFn: admin_login,
     onSuccess: () => {
+      setToaster({ message: "Login was Successful", type: "success" });
       router.push("/admin/otp");
     },
     onError: (error) => {
-      // Add error handling/toast here
-      console.error("Login failed:", error);
+      if (error instanceof AxiosError) {
+        // Handle Axios-specific error
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.error(errorMessage, error);
+        setToaster({ message: errorMessage, type: "error" });
+      } else {
+        // Handle non-Axios errors
+        console.error("An unknown error occurred", error);
+        setToaster({ message: "An unknown error occurred", type: "error" });
+      }
     },
   });
   const handleSubmit = (e: React.FormEvent) => {
-    console.log("Form submitted:", form);
     e.preventDefault();
     if (!form.email || !form.password) {
       // Add validation error handling/toast here
       return;
     }
-    console.log("Form submitted:", form);
     loginMutation.mutate(form);
   };
   return (
     <div className="flex h-screen">
+      {toaster && (
+        <Toaster
+          message={toaster.message}
+          type={toaster.type}
+          onClose={() => setToaster(null)} // Close the toaster
+        />
+      )}
       <div className="md:w-6/12 w-full h-full gradient-overlay"></div>
       <div className="md:w-6/12 w-full flex justify-center items-center h-full">
         <form
