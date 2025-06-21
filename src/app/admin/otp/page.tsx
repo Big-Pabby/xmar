@@ -23,6 +23,7 @@ const Page = () => {
     mutationFn: verify_login_otp,
     onSuccess: (data) => {
       setToken(data.data);
+      console.log(data)
       setToaster({ message: data.message, type: "success" });
       setTimeout(() => {
         router.push("/admin/dashboard");
