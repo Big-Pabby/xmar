@@ -94,7 +94,7 @@ const Page = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-sm">
             <h3 className="text-lg font-semibold mb-2">Delete Blog</h3>
             <p className="mb-4">
-              Are you sure you want to delete the blog "<span className="font-bold">{selectedBlog.title}</span>"?
+              Are you sure you want to delete the blog &quot;<span className="font-bold">{selectedBlog.title}</span>&quot;?
             </p>
             <div className="flex justify-end gap-2">
               <button
