@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { Suspense } from 'react';
 import { useRouter, useSearchParams } from "next/navigation";
 import TextEditor from "@/components/TextEditor";
 import { Blog } from "../../../../types/blog";
@@ -94,6 +95,7 @@ const Page = () => {
   }, [blogId]);
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen w-full pt-[100px] pb-10">
       {toaster && (
         <Toaster
@@ -181,6 +183,7 @@ const Page = () => {
         {/* Right Section */}
       </div>
     </div>
+      </Suspense>
   );
 };
 
