@@ -31,7 +31,6 @@ const Page = () => {
     message: string;
     type: "success" | "error";
   } | null>(null);
-  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<Blog>({
     message: "",
     title: "",
@@ -78,7 +77,7 @@ const Page = () => {
   useEffect(() => {
     if (slug) {
       setForm({ ...form, id: slug });
-      setLoading(true);
+      
       get_legals_by_slug(slug as string)
         .then((data) => {
           setForm({
@@ -95,8 +94,7 @@ const Page = () => {
             type: "error",
           });
           // If not found, keep form empty for creation
-        })
-        .finally(() => setLoading(false));
+        });
     }
   }, [slug]);
   return (
