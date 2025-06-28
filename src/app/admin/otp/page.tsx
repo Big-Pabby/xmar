@@ -22,9 +22,9 @@ const Page = () => {
   const verifyMutation = useMutation({
     mutationFn: verify_login_otp,
     onSuccess: (data) => {
-      
       setToken(data);
-      setToaster({ message: "Verification successful", type: "success" });
+
+      setToaster({ message: "Successful", type: "success" });
       router.push("/admin/dashboard");
     },
     onError: (error) => {
