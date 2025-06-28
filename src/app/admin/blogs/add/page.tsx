@@ -1,7 +1,7 @@
+// app/admin/blogs/add/page.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import TextEditor from "@/components/TextEditor";
 import { Blog } from "../../../../types/blog";
@@ -10,26 +10,30 @@ import { useBlogMutation } from "@/hooks/useBlogMutation";
 import UploadFile from "@/components/UploadFile";
 import { get_blog_by_id, edit_blog } from "@/services/apiService";
 
-const Page = () => {
+function BlogPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const blogId = searchParams.get("id"); // expects ?id=xxx in URL
+  const blogId = searchParams.get("id");
+
   const [form, setForm] = useState<Blog>({
     message: "",
     title: "",
     category: "",
     image: "",
   });
+
   const [toaster, setToaster] = useState<{
     message: string;
     type: "success" | "error";
   } | null>(null);
+
   const { uploadMutation, blogMutation } = useBlogMutation();
   const [loading, setLoading] = useState(false);
 
   const handleContentChange = (content: string) => {
     setForm((prev) => ({ ...prev, message: content }));
   };
+
   const handleImage = async (images: { url: string; file: File }[]) => {
     if (images.length > 0) {
       const formData = new FormData();
@@ -50,7 +54,6 @@ const Page = () => {
   const handleBlog = async () => {
     try {
       if (blogId) {
-        console.log(form);
         await edit_blog(form);
         setToaster({ message: "Blog updated successfully!", type: "success" });
       } else {
@@ -65,9 +68,9 @@ const Page = () => {
       });
     }
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Validate form fields
     if (!form.title || !form.category || !form.message) {
       setToaster({
         message: "Please fill all required fields",
@@ -75,12 +78,12 @@ const Page = () => {
       });
       return;
     }
-
     await handleBlog();
   };
+
   useEffect(() => {
     if (blogId) {
-      setForm({ ...form, id: blogId });
+      setForm((prev) => ({ ...prev, id: blogId }));
       setLoading(true);
       get_blog_by_id(blogId)
         .then((data) => setForm(data))
@@ -95,24 +98,22 @@ const Page = () => {
   }, [blogId]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen w-full pt-[100px] pb-10">
       {toaster && (
         <Toaster
           message={toaster.message}
           type={toaster.type}
-          onClose={() => setToaster(null)} // Close the toaster
+          onClose={() => setToaster(null)}
         />
       )}
-
       <h2 className="text-[28px] font-medium">Blogs</h2>
       <div className="flex justify-between items-end">
         <h4 className="text-[#707A8F] text-[14px] font-medium">
           Manage how you send blogs to your users
         </h4>
       </div>
+
       <div className="mt-8 flex w-full gap-4 items-stretch">
-        {/* Left Section */}
         <form
           onSubmit={handleSubmit}
           className="md:w-8/12 flex flex-col gap-4 w-full"
@@ -147,10 +148,10 @@ const Page = () => {
                 <option value="E-commerce">E-commerce</option>
                 <option value="Personal finance">Personal finance</option>
                 <option value="Product update">Product update</option>
-                {/* Add more categories as needed */}
               </select>
             </div>
           </div>
+
           <div className="bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
             <UploadFile handleImage={handleImage} />
           </div>
@@ -159,6 +160,7 @@ const Page = () => {
             initialContent="<p>Initial content</p>"
             onContentChange={handleContentChange}
           />
+
           <button
             type="submit"
             className={`btn btn-primary text-white rounded-[10px] ${
@@ -179,12 +181,16 @@ const Page = () => {
             )}
           </button>
         </form>
-
-        {/* Right Section */}
       </div>
     </div>
-      </Suspense>
   );
-};
+}
 
-export default Page;
+// 👇 This is the actual page export
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading blog page...</div>}>
+      <BlogPageContent />
+    </Suspense>
+  );
+}
