@@ -121,13 +121,23 @@ export const create_blog = async (blog: Blog) => {
   const response = await api.post("api/v2/admin/blogs/create/", blog);
   return response.data.data;
 };
-export const edit_blog = async () => {
-  const response = await api.post("api/v2/admin/blogs/edit/");
+export const get_blog_by_id = async (id: string) => {
+  const response = await api.get(`api/v2/admin/blogs/${id}/`);
+  return response.data.data;
+};
+export const edit_blog = async (data: Blog) => {
+  const response = await api.put(`api/v2/admin/blogs/edit/`, data);
   return response.data.data;
 };
 export const get_blogs = async () => {
   const response = await api.get("api/v2/admin/blogs/admin-blogs/");
   return response.data.data;
+};
+export const delete_blog = async (id: string) => {
+  const response = await api.delete(`api/v2/admin/blogs/delete/`, {
+    data: { id },
+  });
+  return response.data;
 };
 export const file_upload = async (data: FormData) => {
   const response = await api.post("api/v2/admin/file-uploads/", data, {
@@ -142,8 +152,14 @@ export const create_legals = async (blog: Blog) => {
   const response = await api.post("api/v2/admin/legals/create/", blog);
   return response.data.data;
 };
-export const edit_legals = async () => {
-  const response = await api.post("api/v2/admin/legals/edit/");
+export const get_legals_by_slug = async (slug: string) => {
+  const response = await api.get(`api/v2/admin/legals/`, {
+    data: { slug },
+  });
+  return response.data.data;
+};
+export const edit_legals = async (data: Blog) => {
+  const response = await api.put("api/v2/admin/legals/edit/", data);
   return response.data.data;
 };
 export const get_admin_legals = async () => {

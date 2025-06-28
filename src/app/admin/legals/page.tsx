@@ -76,9 +76,10 @@ const Page = () => {
           </div>
         ) : (
           <>
-            <div className="flex justify-between flex-wrap gap-4 mt-6">
+            <div className="flex justify-start flex-wrap gap-4 mt-6">
               {paginatedLegals.map((legal) => (
-                <div
+                <Link
+                  href={`/admin/legals/${currentNav}?id=${legal.id}`}
                   key={legal.id}
                   className="border-[1px] border-primary w-[196px] bg-[#FFF0ED]"
                 >
@@ -96,10 +97,10 @@ const Page = () => {
                       {legal.title}
                     </h3>
                     <p className="text-sm text-primary">
-                      Updated on {legal.date_created}
+                      Updated on {legal.date_updated}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
             <div className="mt-4 flex w-full justify-between items-center">

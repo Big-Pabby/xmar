@@ -95,30 +95,35 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                       type="radio"
                       className="w-[20] h-[20] accent-primary border-[2px] border-[#D3D6DC]"
                     />) : null}
-                   
-                   
-                    <div className="h-[44px] w-[44px]">
-                      <Image
-                        src={row.profile_photo || "/images/user.svg"}
-                        alt="Logo Image"
-                        width={44}
-                        height={44}
-                        className="w-full h-full object-cover rounded-full"
-                      />
-                    </div>
-
-                    <div className="flex-1">
-                      <h4 className="text-medium line-clamp-1">{row.first_name} {row.last_name}</h4>
-                      {row.email ? (
-                        <div className="line-clamp-1 mt-1 text-[12px] text-[#707A8F]">
-                          {row.email}
-                        </div>
-                      ) : row.accountType ? (
-                        <div className="bg-[#F1F2F4] mt-1 border-[1px] border-[#D3D6DC] rounded-full py-[2px] px-[8px] text-[12px] font-medium text-[#666F82]">
-                          {row.accountType}
-                        </div>
-                      ) : null}
-                    </div>
+                 
+                   {
+                     columns.some(c => c.key === "dispute_status") ? null : (
+    <div className="flex items-center gap-2">
+      <div className="h-[44px] w-[44px]">
+        <Image
+          src={row.profile_photo || "/images/user.svg"}
+          alt="Logo Image"
+          width={44}
+          height={44}
+          className="w-full h-full object-cover rounded-full"
+        />
+      </div>
+      <div className="flex-1">
+        <h4 className="text-medium line-clamp-1">{row.first_name} {row.last_name}</h4>
+        {row.email ? (
+          <div className="line-clamp-1 mt-1 text-[12px] text-[#707A8F]">
+            {row.email}
+          </div>
+        ) : row.accountType ? (
+          <div className="bg-[#F1F2F4] mt-1 border-[1px] border-[#D3D6DC] rounded-full py-[2px] px-[8px] text-[12px] font-medium text-[#666F82]">
+            {row.accountType}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  )
+                   }
+                    
                   </div>
                 ) : col.key === "sender" || col.key === "recipient" ? (
                   <div className="inline-flex items-center gap-2">
@@ -142,7 +147,7 @@ const Table = <T extends Record<string, any>>({ // eslint-disable-line @typescri
                   </div>
                 )  : col.key === "amount" ? (
                   <div className="font-medium ">
-                    ${row[col.key]}
+                    ₦{Number(row[col.key]).toLocaleString()}
                   </div>
                 ) : col.key === "title" ? (
                   <div className="font-medium">

@@ -167,7 +167,11 @@ const Page = () => {
           <div className="flex justify-between items-center">
             <h3 className="text-[#39434F] font-medium">Users KYC</h3>
             <div className="border-[1px] border-[#D7D9DC] py-[4px] px-[9px] rounded-[9px] text-sm text-[#39434F]">
-              Aug 31, 2023
+              {new Date().toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
             </div>
           </div>
           <div className="mt-6 grid grid-cols-4 gap-4">

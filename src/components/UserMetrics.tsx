@@ -17,15 +17,24 @@ const UserMetrics = ({
 }) => {
   return (
     <div className="w-full bg-secondary border-[1px] border-[#E8E8E9] rounded-[8px]  p-[24px]">
-      <h4 className="text-sm font-medium text-[#39434F] mb-2">Users Metrics</h4>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-[#39434F] font-medium">Users Metrics</h3>
+        <div className="border-[1px] border-[#D7D9DC] py-[4px] px-[9px] rounded-[9px] text-sm text-[#39434F]">
+          {new Date().toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}
+        </div>
+      </div>
+      {/* <div className="flex items-center justify-between mb-6">
         <div className="btn btn-outline text-[12px] text-[#39434F] py-[4px] px-[8px] rounded-[8px] border-[#D7D9DC]">
           This Year
         </div>
         <div className="btn btn-[#F5F5F5] py-[4px] px-[8px] rounded-[8px] text-[12px] text-[#39434F]">
           View Users report
         </div>
-      </div>
+      </div> */}
       <ColorBar segments={metric_data} />
       <div className="flex justify-between items-center w-full my-4">
         <div className="flex items-center gap-3">

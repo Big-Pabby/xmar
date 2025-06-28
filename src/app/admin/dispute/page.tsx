@@ -21,6 +21,7 @@ const Page = () => {
   const [filterStatus, setFilterStatus] = useState("");
   const [selectedDispute, setSelectedDispute] = useState<Dispute>();
   const [userNav, setUserNav] = useState("User Details");
+  const [imageModalUrl, setImageModalUrl] = useState<string | null>(null);
 
   const { data: disputes, isLoading: disputesLoading } = useQuery<Dispute[]>({
     queryKey: ["disputes"],
@@ -102,6 +103,24 @@ const Page = () => {
   }
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
+      {imageModalUrl && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+          <div className="relative bg-white rounded-lg p-4 max-w-lg w-full flex flex-col items-center">
+            <button
+              className="absolute top-2 right-2 text-gray-600 hover:text-red-500 text-2xl"
+              onClick={() => setImageModalUrl(null)}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <img
+              src={imageModalUrl}
+              alt="Attachment"
+              className="max-h-[70vh] max-w-full rounded"
+            />
+          </div>
+        </div>
+      )}
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-[28px] font-medium">Dispute Resolution</h2>
@@ -120,7 +139,11 @@ const Page = () => {
         <div className="flex justify-between items-center">
           <h3 className="text-[#39434F] font-medium">Dispute statistics</h3>
           <div className="border-[1px] border-[#D7D9DC] py-[4px] px-[9px] rounded-[9px] text-sm text-[#39434F]">
-            {new Date().toLocaleDateString()}
+            {new Date().toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
           </div>
         </div>
         <div className="mt-6 grid grid-cols-3 gap-4">
@@ -305,6 +328,8 @@ const Page = () => {
                       </h2>
                       <textarea
                         id="description"
+                        value={selectedDispute.details}
+                        readOnly
                         placeholder="Provide additional details, such as what happened, when it occurred, and any other relevant information"
                         name="description"
                         className="w-full h-[230px] bg-white border-[1px] border-[#A2A1A833] rounded-[8px] p-[16px] outline-none"
@@ -337,7 +362,7 @@ const Page = () => {
                               </div>
                             </div>
                             <button
-                              onClick={() => handleDownload(url)}
+                              onClick={() => setImageModalUrl(url)}
                               className="text-primary font-medium text-base hover:underline cursor-pointer"
                             >
                               View
@@ -361,6 +386,8 @@ const Page = () => {
                       Provided details
                     </h2>
                     <textarea
+                      value={selectedDispute.issue}
+                      readOnly
                       id="description"
                       placeholder="Provide additional details, such as what happened, when it occurred, and any other relevant information"
                       name="description"
@@ -370,20 +397,36 @@ const Page = () => {
                       <h4 className="text-base font-medium text-[#344054] mb-2">
                         Attached Documents
                       </h4>
-                      <div className="border-[1px] border-[#D0D5DD] rounded-[8px] bg-white flex items-center gap-8 p-4 justify-between">
-                        <div className="flex items-center gap-4">
-                          <div className="w-[30px] h-[38px] bg-[#ccc]"></div>
-                          <div>
-                            <h4 className="text-base text-[#101828] font-medium mb-1">
-                              img_6r567r75.jpeg
-                            </h4>
-                            <p className="text-[#667085]">12kb</p>
+                      {selectedDispute.attachment.map((url, index) => (
+                        <div
+                          key={index}
+                          className="border-[1px] border-[#D0D5DD] rounded-[8px] bg-white flex items-center gap-8 p-4 justify-between mb-2"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="w-[30px] h-[38px] bg-[#ccc] flex items-center justify-center">
+                              <img
+                                src={url}
+                                alt={`attachment ${index + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div>
+                              <h4 className="text-base text-[#101828] font-medium mb-1">
+                                {url.split("/").pop() || `File ${index + 1}`}
+                              </h4>
+                              <p className="text-[#667085]">
+                                Attachment {index + 1}
+                              </p>
+                            </div>
                           </div>
+                          <button
+                            onClick={() => setImageModalUrl(url)}
+                            className="text-primary font-medium text-base hover:underline cursor-pointer"
+                          >
+                            View
+                          </button>
                         </div>
-                        <p className="text-primary font-medium text-base">
-                          View
-                        </p>
-                      </div>
+                      ))}
                     </div>
                     <div className="flex items-center gap-4 justify-between mt-4 mb-2">
                       <button className="w-6/12 btn bg-[#EBECF3] text-[#0D142C] ">

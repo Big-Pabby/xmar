@@ -293,7 +293,8 @@ const Escrow = () => {
             <p className="font-light mb-1">Escrow Fee</p>
             <div className="flex items-center justify-between">
               <h4 className="font-semibold text-lg">
-                ${escrowFees?.level_one_capped_amount} cap price
+                ₦{Number(escrowFees?.level_one_capped_amount).toLocaleString()}{" "}
+                cap price
               </h4>
               <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
                 <TiArrowSortedUp /> {escrowFees?.level_one}% fee
@@ -315,7 +316,8 @@ const Escrow = () => {
             <p className="font-light mb-1">Escrow Fee</p>
             <div className="flex items-center justify-between">
               <h4 className="font-semibold text-lg">
-                ${escrowFees?.level_two_capped_amount} cap price
+                ₦{Number(escrowFees?.level_two_capped_amount).toLocaleString()}{" "}
+                cap price
               </h4>
               <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
                 <TiArrowSortedUp /> {escrowFees?.level_two}% Fee
@@ -337,7 +339,9 @@ const Escrow = () => {
             <p className="font-light mb-1">Escrow Fee</p>
             <div className="flex items-center justify-between">
               <h4 className="font-semibold text-lg">
-                ${escrowFees?.level_three_capped_amount} cap price
+                ₦
+                {Number(escrowFees?.level_three_capped_amount).toLocaleString()}{" "}
+                cap price
               </h4>
               <div className="flex items-center gap-2 bg-[#30BE821A] rounded-[5px] p-[5px] text-[11px] text-[#30BE82]">
                 <TiArrowSortedUp /> {escrowFees?.level_three}% Fee

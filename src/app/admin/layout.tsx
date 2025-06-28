@@ -23,7 +23,7 @@ export default function RootLayout({
     <div className="">
       <div className="fixed z-[100] top-0 left-0 pl-[275px] w-full bg-[#f8f8f9] ">
         <div className="p-[32px] flex justify-between items-center">
-          <div>Hello</div>
+          <div></div>
           <div className="flex items-center gap-6">
             <div className="bg-primary p-[6px] rounded-[6px]">
               <FaPlus className="text-[20px] text-white" />

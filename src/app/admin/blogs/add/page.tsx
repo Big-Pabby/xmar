@@ -1,13 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import TextEditor from "@/components/TextEditor";
 import { Blog } from "../../../../types/blog";
 import Toaster from "@/components/Toaster";
 import { useBlogMutation } from "@/hooks/useBlogMutation";
 import UploadFile from "@/components/UploadFile";
+import { get_blog_by_id, edit_blog } from "@/services/apiService";
 
 const Page = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const blogId = searchParams.get("id"); // expects ?id=xxx in URL
   const [form, setForm] = useState<Blog>({
     message: "",
     title: "",
@@ -19,6 +24,7 @@ const Page = () => {
     type: "success" | "error";
   } | null>(null);
   const { uploadMutation, blogMutation } = useBlogMutation();
+  const [loading, setLoading] = useState(false);
 
   const handleContentChange = (content: string) => {
     setForm((prev) => ({ ...prev, message: content }));
@@ -42,12 +48,18 @@ const Page = () => {
 
   const handleBlog = async () => {
     try {
-      await blogMutation.mutateAsync(form);
-      setToaster({ message: "Blog created successfully!", type: "success" });
+      if (blogId) {
+        console.log(form);
+        await edit_blog(form);
+        setToaster({ message: "Blog updated successfully!", type: "success" });
+      } else {
+        await blogMutation.mutateAsync(form);
+        setToaster({ message: "Blog created successfully!", type: "success" });
+      }
+      router.push("/admin/blogs");
     } catch (error) {
       setToaster({
-        message:
-          error instanceof Error ? error.message : "Failed to create blog",
+        message: error instanceof Error ? error.message : "Failed to save blog",
         type: "error",
       });
     }
@@ -65,6 +77,21 @@ const Page = () => {
 
     await handleBlog();
   };
+  useEffect(() => {
+    if (blogId) {
+      setForm({ ...form, id: blogId });
+      setLoading(true);
+      get_blog_by_id(blogId)
+        .then((data) => setForm(data))
+        .catch(() =>
+          setToaster({
+            message: "Failed to fetch blog data",
+            type: "error",
+          })
+        )
+        .finally(() => setLoading(false));
+    }
+  }, [blogId]);
 
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
@@ -85,7 +112,7 @@ const Page = () => {
       <div className="mt-8 flex w-full gap-4 items-stretch">
         {/* Left Section */}
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
           className="md:w-8/12 flex flex-col gap-4 w-full"
         >
           <div className="flex justify-between items-center gap-4">
@@ -101,15 +128,25 @@ const Page = () => {
               />
             </div>
             <div className="flex-1 bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] px-[24px] py-4">
-              <input
-                type="text"
+              <select
                 value={form.category}
                 onChange={(e) =>
                   setForm((prev) => ({ ...prev, category: e.target.value }))
                 }
-                placeholder="Blog Category"
-                className="w-full p-0 m-0 outline-none border-none"
-              />
+                className="w-full p-0 m-0 outline-none border-none bg-transparent"
+              >
+                <option value="All">All</option>
+                <option value="Business">Business</option>
+                <option value="Digital nomads">Digital nomads</option>
+                <option value="Freelancer">Freelancer</option>
+                <option value="Xmarr guides">Xmarr guides</option>
+                <option value="Life style">Life style</option>
+                <option value="News">News</option>
+                <option value="E-commerce">E-commerce</option>
+                <option value="Personal finance">Personal finance</option>
+                <option value="Product update">Product update</option>
+                {/* Add more categories as needed */}
+              </select>
             </div>
           </div>
           <div className="bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
@@ -121,17 +158,20 @@ const Page = () => {
             onContentChange={handleContentChange}
           />
           <button
-            type="button" // Change to type="button"
-            onClick={handleSubmit}
+            type="submit"
             className={`btn btn-primary text-white rounded-[10px] ${
-              uploadMutation.isLoading || blogMutation.isLoading
+              uploadMutation.isLoading || blogMutation.isLoading || loading
                 ? "opacity-50"
                 : ""
             }`}
-            disabled={uploadMutation.isLoading || blogMutation.isLoading}
+            disabled={
+              uploadMutation.isLoading || blogMutation.isLoading || loading
+            }
           >
-            {uploadMutation.isLoading || blogMutation.isLoading ? (
+            {uploadMutation.isLoading || blogMutation.isLoading || loading ? (
               <span className="loading loading-spinner"></span>
+            ) : blogId ? (
+              "Update Blog"
             ) : (
               "Post Blog"
             )}

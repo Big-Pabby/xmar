@@ -86,7 +86,7 @@ const Page = () => {
   const analytics = [
     {
       name: "Total no of Transactions",
-      value: "$4,200",
+      value: "  ₦4,200",
       percentage: "10%",
       percentageIcon: <FaArrowUp />,
       percentageColor: "text-[#15AC77]",
@@ -95,7 +95,7 @@ const Page = () => {
     },
     {
       name: "Inflow",
-      value: "$1,212,210",
+      value: "  ₦1,212,210",
       percentage: "5%",
       percentageIcon: <FaArrowDown />,
       percentageColor: "text-[#15AC77]",
@@ -104,7 +104,7 @@ const Page = () => {
     },
     {
       name: "Outflow",
-      value: "$512,000",
+      value: "  ₦512,000",
       percentage: "10%",
       percentageIcon: <FaArrowUp />,
       percentageColor: "text-[#FF3636]",

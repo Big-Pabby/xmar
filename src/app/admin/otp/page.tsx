@@ -22,11 +22,10 @@ const Page = () => {
   const verifyMutation = useMutation({
     mutationFn: verify_login_otp,
     onSuccess: (data) => {
-      setToken(data.data);
-      setToaster({ message: data.message, type: "success" });
-      setTimeout(() => {
-        router.push("/admin/dashboard");
-      }, 1000);
+      
+      setToken(data);
+      setToaster({ message: "Verification successful", type: "success" });
+      router.push("/admin/dashboard");
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
