@@ -78,26 +78,6 @@ const Page = () => {
     setCurrentPage(1);
   };
 
-  const handleDownload = async (url: string) => {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const fileName = url.split("/").pop() || "download";
-
-      // Create a download link
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(downloadUrl);
-    } catch (error) {
-      console.error("Download failed:", error);
-    }
-  };
-
   if (disputesLoading || metricsLoading) {
     return <SkeletonCard />;
   }
