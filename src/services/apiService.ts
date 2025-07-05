@@ -113,6 +113,16 @@ export const get_dispute_list = async () => {
   const response = await api.get("/api/v2/admin/dispute_resolutions/");
   return response.data.data;
 };
+export type DisputeMessage = {
+  title: string;
+  message: string;
+  disputer_email: string;
+  recipient_email: string;
+}
+export const create_dispute_message = async (data: DisputeMessage) => {
+  const response = await api.post("/api/v2/admin/dispute_resolutions/message/", data);
+  return response.data.data;
+};
 export const get_dispute_metric = async () => {
   const response = await api.get("api/v2/admin/dispute_resolutions/metrics/");
   return response.data.data;
@@ -122,7 +132,9 @@ export const create_blog = async (blog: Blog) => {
   return response.data.data;
 };
 export const get_blog_by_id = async (id: string) => {
-  const response = await api.get(`api/v2/admin/blogs/${id}/`);
+  const response = await api.get(`api/v2/admin/blogs/`, {
+    data: { id },
+  });
   return response.data.data;
 };
 export const edit_blog = async (data: Blog) => {
