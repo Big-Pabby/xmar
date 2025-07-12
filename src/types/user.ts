@@ -6,7 +6,7 @@ export interface User {
   free_transactions: number;
   last_transaction_reset: string;
   email: string;
-  first_name: string;
+  firstName: string;
   last_name: string;
   phone_number: string | null;
   dob: string | null;
