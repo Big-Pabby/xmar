@@ -5,7 +5,8 @@ import { FiChevronsLeft, FiUsers } from "react-icons/fi";
 import { LuLayoutGrid, LuWallet } from "react-icons/lu";
 import { HiOutlineCreditCard, HiDotsVertical } from "react-icons/hi";
 import { TbArrowsExchange2, TbReceipt } from "react-icons/tb";
-import React from "react";
+import { IoLogOutOutline } from "react-icons/io5";
+import React, { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/useStore";
 
@@ -53,9 +54,37 @@ const business_side_menu = [
 
 const SideBar = ({ type }: { type: string }) => {
   const user = useAuthStore((state) => state.user);
+  const clearAuthInfo = useAuthStore((state) => state.clearAuthInfo);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const get_which_menu = () =>
     type === "Admin" ? admin_side_menu : business_side_menu;
   const pathname = usePathname();
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    clearAuthInfo();
+    if (typeof window !== "undefined") {
+      window.location.href = "/admin";
+    }
+  };
 
   return (
     <div className="fixed w-[275px] z-[120] top-0 h-[100vh] left-0 bg-white py-8 px-6">
@@ -97,7 +126,7 @@ const SideBar = ({ type }: { type: string }) => {
           <div className="flex items-center gap-3">
             <div className="relative">
               <Image
-                src={user.profile_photo || "/images/default-profile.png"}
+                src={user?.profile_photo || "/images/default-profile.png"}
                 alt="Profile Image"
                 className="rounded-full"
                 width={34}
@@ -106,13 +135,33 @@ const SideBar = ({ type }: { type: string }) => {
               <div className="absolute right-0 bottom-0 w-[10px] h-[10px] rounded-full bg-[#15AC77]"></div>
             </div>
             <div>
-              <h4 className="font-medium">{user.full_name}</h4>
+              <h4 className="font-medium">{user?.full_name}</h4>
               <h5 className="font-medium text-[#707A8F]">
-                {user.is_superadmin ? "SuperAdmin" : "Admin"}
+                {user?.is_superadmin ? "SuperAdmin" : "Admin"}
               </h5>
             </div>
           </div>
-          <HiDotsVertical className="text-[16px] text-[#707A8F]" />
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <HiDotsVertical className="text-[16px] text-[#707A8F]" />
+            </button>
+
+            {/* Dropdown Menu */}
+            {showDropdown && (
+              <div className="absolute bottom-full right-0 mb-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 hover:bg-gray-50 transition-colors rounded-lg"
+                >
+                  <IoLogOutOutline className="text-lg" />
+                  <span className="font-medium">Logout</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -19,13 +19,32 @@ const api = axios.create({
 // Add a request interceptor to include the authentication token
 api.interceptors.request.use(
   (config) => {
-    const { token } = useAuthStore.getState().user;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const user = useAuthStore.getState().user;
+    if (user?.token) {
+      config.headers.Authorization = `Bearer ${user.token}`;
     }
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Add a response interceptor to handle token expiration
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response?.status === 401) {
+      // Clear user data from store
+      useAuthStore.getState().clearAuthInfo();
+
+      // Redirect to login page
+      if (typeof window !== "undefined") {
+        window.location.href = "/admin";
+      }
+    }
     return Promise.reject(error);
   }
 );
@@ -118,9 +137,12 @@ export type DisputeMessage = {
   message: string;
   disputer_email: string;
   recipient_email: string;
-}
+};
 export const create_dispute_message = async (data: DisputeMessage) => {
-  const response = await api.post("/api/v2/admin/dispute_resolutions/message/", data);
+  const response = await api.post(
+    "/api/v2/admin/dispute_resolutions/message/",
+    data
+  );
   return response.data.data;
 };
 export const get_dispute_metric = async () => {
