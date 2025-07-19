@@ -7,12 +7,14 @@ import { LuCalendar1 } from "react-icons/lu";
 import { TbMessage2 } from "react-icons/tb";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
+import { useAutoLogout } from "@/hooks/useAutoLogout";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  useAutoLogout(); // <-- Call this at the top, before any returns
   const pathname = usePathname();
   const isAdminRoot = pathname === "/admin" || pathname === "/admin/otp";
 

@@ -78,7 +78,7 @@ const Page = () => {
   };
   useEffect(() => {
     if (slug) {
-      setForm({ ...form, id: slug });
+      setForm((prev) => ({ ...prev, id: slug }));
 
       // First try to get legal from store using ID and category
       const legalFromStore = legals.find(
@@ -115,7 +115,7 @@ const Page = () => {
           });
       }
     }
-  }, [slug, legals, formattedSlug, form]);
+  }, [slug, legals, formattedSlug]);
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
       {toaster && (

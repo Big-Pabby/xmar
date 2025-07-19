@@ -26,7 +26,7 @@ const Page = () => {
   const { data: fetchedLegals, isLoading } = useQuery<Blog[]>({
     queryKey: ["legals"],
     queryFn: get_admin_legals,
-    enabled: legals.length === 0 || isStale(), // Only fetch if no cached data or cache is stale
+    // Only fetch if no cached data or cache is stale
     onSuccess: (data) => {
       setLegals(data); // Cache the fetched legals
     },
