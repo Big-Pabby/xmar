@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { IoMdClose } from "react-icons/io";
 
@@ -11,10 +11,20 @@ interface ImagePreview {
 
 const UploadFile = ({
   handleImage,
+  initialImageUrl,
 }: {
   handleImage: (image: ImagePreview[]) => void;
+  initialImageUrl?: string;
 }) => {
   const [imagePreview, setImagePreview] = useState<ImagePreview | null>(null);
+  const [currentImageUrl, setCurrentImageUrl] = useState<string | undefined>(
+    initialImageUrl
+  );
+
+  // Update currentImageUrl when initialImageUrl prop changes
+  useEffect(() => {
+    setCurrentImageUrl(initialImageUrl);
+  }, [initialImageUrl]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -38,6 +48,7 @@ const UploadFile = ({
       URL.revokeObjectURL(imagePreview.url);
     }
     setImagePreview(null);
+    setCurrentImageUrl(undefined);
     handleImage([]);
   };
 
@@ -68,7 +79,7 @@ const UploadFile = ({
 
   return (
     <div>
-      {!imagePreview ? (
+      {!imagePreview && !currentImageUrl ? (
         <label
           htmlFor="image"
           onDragOver={handleDragOver}
@@ -104,7 +115,7 @@ const UploadFile = ({
       ) : (
         <div className="relative w-full h-[180px] rounded-lg overflow-hidden">
           <Image
-            src={imagePreview.url}
+            src={imagePreview?.url || currentImageUrl || ""}
             alt="Preview"
             fill
             className="object-cover"

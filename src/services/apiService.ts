@@ -154,8 +154,9 @@ export const create_blog = async (blog: Blog) => {
   return response.data.data;
 };
 export const get_blog_by_id = async (id: string) => {
-  const response = await api.get(`api/v2/admin/blogs/`, {
-    data: { id },
+  console.log(id)
+  const response = await api.get(`api/v2/admin/blogs/edit/`, {
+    data: { id: id },
   });
   return response.data.data;
 };
@@ -187,7 +188,7 @@ export const create_legals = async (blog: Blog) => {
   return response.data.data;
 };
 export const get_legals_by_slug = async (slug: string) => {
-  const response = await api.get(`api/v2/admin/legals/`, {
+  const response = await api.get(`api/v2/admin/legals/edit/`, {
     data: { slug },
   });
   return response.data.data;

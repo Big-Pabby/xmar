@@ -12,6 +12,7 @@ import {
 } from "@/services/apiService";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Toaster from "@/components/Toaster";
+import { useLegalStore } from "@/store/useStore";
 
 const Page = () => {
   const params = useParams();
@@ -27,6 +28,7 @@ const Page = () => {
   const slug = searchParams.get("id");
 
   const formattedSlug = formatSlug(params.slug as string);
+  const { legals } = useLegalStore();
   const [toaster, setToaster] = useState<{
     message: string;
     type: "success" | "error";
@@ -77,26 +79,43 @@ const Page = () => {
   useEffect(() => {
     if (slug) {
       setForm({ ...form, id: slug });
-      
-      get_legals_by_slug(slug as string)
-        .then((data) => {
-          setForm({
-            id: data.id,
-            message: data.message,
-            title: data.title,
-            category: data.category,
-            image: data.image || "",
-          });
-        })
-        .catch(() => {
-          setToaster({
-            message: "Failed to fetch legal data",
-            type: "error",
-          });
-          // If not found, keep form empty for creation
+
+      // First try to get legal from store using ID and category
+      const legalFromStore = legals.find(
+        (legal) => legal.id === slug && legal.category === formattedSlug
+      );
+
+      if (legalFromStore) {
+        setForm({
+          id: legalFromStore.id,
+          message: legalFromStore.message,
+          title: legalFromStore.title,
+          category: legalFromStore.category,
+          image: legalFromStore.image || "",
         });
+      } else {
+        // If not in store, fetch from API
+        get_legals_by_slug(slug as string)
+          .then((data) => {
+            setForm({
+              id: data.id,
+              message: data.message,
+              title: data.title,
+              category: data.category,
+              image: data.image || "",
+            });
+          })
+          .catch((error) => {
+            setToaster({
+              message:
+                error.response?.data?.message ?? "Failed to fetch legal data",
+              type: "error",
+            });
+            // If not found, keep form empty for creation
+          });
+      }
     }
-  }, [slug]);
+  }, [slug, legals, formattedSlug, form]);
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
       {toaster && (
@@ -167,7 +186,10 @@ const Page = () => {
           </div>
         </div>
         <div className="mt-8">
-          <TextEditor initialContent="" onContentChange={handleContentChange} />
+          <TextEditor
+            initialContent={form.message || ""}
+            onContentChange={handleContentChange}
+          />
         </div>
       </div>
     </div>

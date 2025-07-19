@@ -80,12 +80,7 @@ const Page = () => {
       name: "Inactive Users",
       value: data.inactive_users,
     },
-    {
-      color: "#3C70F5",
-      size: (data.suspended_users / total) * 100,
-      name: "Suspended Users",
-      value: data.suspended_users,
-    },
+    
     {
       color: "#FF7262",
       size: (data.deleted_account / total) * 100,

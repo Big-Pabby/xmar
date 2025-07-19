@@ -10,10 +10,11 @@ import { Blog } from "@/types/blog";
 import Pagination from "@/components/Pagination";
 import { FaEllipsisV } from "react-icons/fa";
 import Toaster from "@/components/Toaster";
+import { useBlogStore } from "@/store/useStore";
 
 const Page = () => {
   const { data: blogData, isLoading, error } = useQuery("blogs", get_blogs);
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [blogs, setmBlogs] = useState<Blog[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [openMenu, setOpenMenu] = useState<number | null>(null);
@@ -34,11 +35,14 @@ const Page = () => {
     return tmp.textContent || tmp.innerText || "";
   };
 
+  const { setBlogs } = useBlogStore();
+
   useEffect(() => {
     if (blogData) {
-      setBlogs(blogData);
+      setmBlogs(blogData); // Cache in Zustand store
+      setBlogs(blogData); // Also update local state if needed
     }
-  }, [blogData, setBlogs]);
+  }, [blogData, setBlogs, setmBlogs]);
   useEffect(() => {
     const handleClick = () => setOpenMenu(null);
     if (openMenu !== null) {
@@ -94,7 +98,8 @@ const Page = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-sm">
             <h3 className="text-lg font-semibold mb-2">Delete Blog</h3>
             <p className="mb-4">
-              Are you sure you want to delete the blog &quot;<span className="font-bold">{selectedBlog.title}</span>&quot;?
+              Are you sure you want to delete the blog &quot;
+              <span className="font-bold">{selectedBlog.title}</span>&quot;?
             </p>
             <div className="flex justify-end gap-2">
               <button
@@ -112,7 +117,7 @@ const Page = () => {
                       message: "Blog created successfully!",
                       type: "success",
                     });
-                    setBlogs((prev) =>
+                    setmBlogs((prev) =>
                       prev.filter((b) => b.id !== selectedBlog.id)
                     );
                     setShowDeleteModal(false);

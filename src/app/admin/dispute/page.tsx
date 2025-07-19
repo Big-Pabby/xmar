@@ -9,10 +9,16 @@ import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { RxTimer } from "react-icons/rx";
 import { LuFilePlus2 } from "react-icons/lu";
 import SkeletonCard from "@/components/Skeleton";
-import { get_dispute_list, get_dispute_metric } from "@/services/apiService";
+import {
+  get_dispute_list,
+  get_dispute_metric,
+  create_dispute_message,
+} from "@/services/apiService";
 import { Dispute, DisputeMetric } from "@/types/dispute";
 import debounce from "lodash/debounce";
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import Toaster from "@/components/Toaster";
+import { AxiosError } from "axios";
 
 const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +28,18 @@ const Page = () => {
   const [selectedDispute, setSelectedDispute] = useState<Dispute>();
   const [userNav, setUserNav] = useState("User Details");
   const [imageModalUrl, setImageModalUrl] = useState<string | null>(null);
+  const [messageTitle, setMessageTitle] = useState("");
+  const [messageContent, setMessageContent] = useState("");
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [toaster, setToaster] = useState<{
+    show: boolean;
+    message: string;
+    type: "success" | "error";
+  }>({
+    show: false,
+    message: "",
+    type: "success",
+  });
 
   const { data: disputes, isLoading: disputesLoading } = useQuery<Dispute[]>({
     queryKey: ["disputes"],
@@ -32,6 +50,60 @@ const Page = () => {
     queryKey: ["disputeMetrics"],
     queryFn: get_dispute_metric,
   });
+
+  const queryClient = useQueryClient();
+
+  const createMessageMutation = useMutation({
+    mutationFn: create_dispute_message,
+    onSuccess: () => {
+      // Show success toaster
+      setToaster({
+        show: true,
+        message: "Message sent successfully!",
+        type: "success",
+      });
+      // Reset form
+      setMessageTitle("");
+      setMessageContent("");
+      setShowMessageModal(false);
+      // Optionally refetch disputes
+      queryClient.invalidateQueries({ queryKey: ["disputes"] });
+    },
+    onError: (error) => {
+      // Show error toaster
+      if (error instanceof AxiosError) {
+        // Handle Axios-specific error
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.error(errorMessage, error);
+        setToaster({ show: true, message: errorMessage, type: "error" });
+      } else {
+        // Handle non-Axios errors
+        console.error("An unknown error occurred", error);
+        setToaster({show: true, message: "An unknown error occurred", type: "error" });
+      }
+    },
+  });
+
+  const handleSendMessage = () => {
+    if (!selectedDispute || !messageTitle.trim() || !messageContent.trim()) {
+      setToaster({
+        show: true,
+        message: "Please fill in both title and message content.",
+        type: "error",
+      });
+      return;
+    }
+
+    const messageData = {
+      title: messageTitle,
+      message: messageContent,
+      disputer_email: selectedDispute.disputer_email,
+      recipient_email: selectedDispute.recipient_email || "",
+    };
+
+    createMessageMutation.mutate(messageData);
+  };
   const filteredDisputes =
     disputes?.filter((dispute) => {
       const matchesSearch =
@@ -42,10 +114,10 @@ const Page = () => {
         dispute.transaction_title
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
-        dispute.email.toLowerCase().includes(searchTerm.toLowerCase());
+        dispute.disputer_email.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesStatus =
-        filterStatus === "" || dispute.status === filterStatus;
+        filterStatus === "" || dispute.dispute_status === filterStatus;
 
       return matchesSearch && matchesStatus;
     }) || [];
@@ -280,7 +352,7 @@ const Page = () => {
                       <div className="flex items-center justify-between mb-2">
                         <p className="text-[#707070] text-base">Recipient</p>
                         <h4 className="font-medium text-base">
-                          {selectedDispute.user_name}
+                          {selectedDispute.recipient_user_name || "N/A"}
                         </h4>
                       </div>
                       <div className="flex items-center justify-between mb-2">
@@ -308,7 +380,7 @@ const Page = () => {
                       </h2>
                       <textarea
                         id="description"
-                        value={selectedDispute.details}
+                        value={selectedDispute.disputer_details}
                         readOnly
                         placeholder="Provide additional details, such as what happened, when it occurred, and any other relevant information"
                         name="description"
@@ -319,7 +391,81 @@ const Page = () => {
                         <h4 className="text-base font-medium text-[#344054] mb-2">
                           Attached Documents
                         </h4>
-                        {selectedDispute.attachment.map((url, index) => (
+                        {selectedDispute.disputer_attachment.map(
+                          (url: string, index: number) => (
+                            <div
+                              key={index}
+                              className="border-[1px] border-[#D0D5DD] rounded-[8px] bg-white flex items-center gap-8 p-4 justify-between mb-2"
+                            >
+                              <div className="flex items-center gap-4">
+                                <div className="w-[30px] h-[38px] bg-[#ccc] flex items-center justify-center">
+                                  <img
+                                    src={url}
+                                    alt={`attachment ${index + 1}`}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                <div>
+                                  <h4 className="text-base text-[#101828] font-medium mb-1">
+                                    {url.split("/").pop() ||
+                                      `File ${index + 1}`}
+                                  </h4>
+                                  <p className="text-[#667085]">
+                                    Attachment {index + 1}
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => setImageModalUrl(url)}
+                                className="text-primary font-medium text-base hover:underline cursor-pointer"
+                              >
+                                View
+                              </button>
+                            </div>
+                          )
+                        )}
+                      </div>
+                      <div className="flex items-center gap-4 justify-between mt-4 mb-2">
+                        <button
+                          className="w-6/12 btn bg-[#EBECF3] text-[#0D142C]"
+                          onClick={() => setShowMessageModal(true)}
+                        >
+                          Send a message
+                        </button>
+                        <button
+                          className="w-6/12 btn btn-primary text-white"
+                          onClick={handleSendMessage}
+                          disabled={createMessageMutation.isLoading}
+                        >
+                          {createMessageMutation.isLoading
+                            ? "Sending..."
+                            : "Send"}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-[#F8F8F8] rounded-[14px] p-[18px] mt-6">
+                    <h2 className="text-base font-medium mb-2 mt-6">
+                      Provided details
+                    </h2>
+                    <textarea
+                      value={
+                        selectedDispute.recipient_details ||
+                        "No details provided"
+                      }
+                      readOnly
+                      id="description"
+                      placeholder="Provide additional details, such as what happened, when it occurred, and any other relevant information"
+                      name="description"
+                      className="w-full h-[230px] bg-white border-[1px] border-[#A2A1A833] rounded-[8px] p-[16px] outline-none"
+                    />
+                    <div className="mt-4">
+                      <h4 className="text-base font-medium text-[#344054] mb-2">
+                        Attached Documents
+                      </h4>
+                      {selectedDispute.recipient_attachment.map(
+                        (url: string, index: number) => (
                           <div
                             key={index}
                             className="border-[1px] border-[#D0D5DD] rounded-[8px] bg-white flex items-center gap-8 p-4 justify-between mb-2"
@@ -348,72 +494,24 @@ const Page = () => {
                               View
                             </button>
                           </div>
-                        ))}
-                      </div>
-                      <div className="flex items-center gap-4 justify-between mt-4 mb-2">
-                        <button className="w-6/12 btn bg-[#EBECF3] text-[#0D142C] ">
-                          Send a message
-                        </button>
-                        <button className="w-6/12 btn btn-primary text-white">
-                          Send
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="bg-[#F8F8F8] rounded-[14px] p-[18px] mt-6">
-                    <h2 className="text-base font-medium mb-2 mt-6">
-                      Provided details
-                    </h2>
-                    <textarea
-                      value={selectedDispute.issue}
-                      readOnly
-                      id="description"
-                      placeholder="Provide additional details, such as what happened, when it occurred, and any other relevant information"
-                      name="description"
-                      className="w-full h-[230px] bg-white border-[1px] border-[#A2A1A833] rounded-[8px] p-[16px] outline-none"
-                    />
-                    <div className="mt-4">
-                      <h4 className="text-base font-medium text-[#344054] mb-2">
-                        Attached Documents
-                      </h4>
-                      {selectedDispute.attachment.map((url, index) => (
-                        <div
-                          key={index}
-                          className="border-[1px] border-[#D0D5DD] rounded-[8px] bg-white flex items-center gap-8 p-4 justify-between mb-2"
-                        >
-                          <div className="flex items-center gap-4">
-                            <div className="w-[30px] h-[38px] bg-[#ccc] flex items-center justify-center">
-                              <img
-                                src={url}
-                                alt={`attachment ${index + 1}`}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                            <div>
-                              <h4 className="text-base text-[#101828] font-medium mb-1">
-                                {url.split("/").pop() || `File ${index + 1}`}
-                              </h4>
-                              <p className="text-[#667085]">
-                                Attachment {index + 1}
-                              </p>
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => setImageModalUrl(url)}
-                            className="text-primary font-medium text-base hover:underline cursor-pointer"
-                          >
-                            View
-                          </button>
-                        </div>
-                      ))}
+                        )
+                      )}
                     </div>
                     <div className="flex items-center gap-4 justify-between mt-4 mb-2">
-                      <button className="w-6/12 btn bg-[#EBECF3] text-[#0D142C] ">
+                      <button
+                        className="w-6/12 btn bg-[#EBECF3] text-[#0D142C]"
+                        onClick={() => setShowMessageModal(true)}
+                      >
                         Send a message
                       </button>
-                      <button className="w-6/12 btn btn-primary text-white">
-                        Send
+                      <button
+                        className="w-6/12 btn btn-primary text-white"
+                        onClick={handleSendMessage}
+                        disabled={createMessageMutation.isLoading}
+                      >
+                        {createMessageMutation.isLoading
+                          ? "Sending..."
+                          : "Send"}
                       </button>
                     </div>
                   </div>
@@ -425,6 +523,73 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      {/* Toaster */}
+      {toaster.show && (
+        <Toaster
+          message={toaster.message}
+          type={toaster.type}
+          onClose={() => setToaster({ ...toaster, show: false })}
+        />
+      )}
+
+      {/* Message Modal */}
+      {showMessageModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+          <div className="relative bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <button
+              className="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl"
+              onClick={() => setShowMessageModal(false)}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <h3 className="text-lg font-semibold mb-4">Send Message</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Title
+                </label>
+                <input
+                  type="text"
+                  value={messageTitle}
+                  onChange={(e) => setMessageTitle(e.target.value)}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter message title"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Message
+                </label>
+                <textarea
+                  value={messageContent}
+                  onChange={(e) => setMessageContent(e.target.value)}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary h-32 resize-none"
+                  placeholder="Enter your message"
+                />
+              </div>
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={() => setShowMessageModal(false)}
+                  className="flex-1 btn bg-gray-300 text-gray-700 hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSendMessage}
+                  disabled={createMessageMutation.isLoading}
+                  className="flex-1 btn btn-primary text-white"
+                >
+                  {createMessageMutation.isLoading
+                    ? "Sending..."
+                    : "Send Message"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

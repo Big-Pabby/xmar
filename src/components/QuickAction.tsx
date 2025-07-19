@@ -8,31 +8,38 @@ import {
   TbTicket,
   TbReceipt2,
 } from "react-icons/tb";
+import Link from "next/link";
 
 const QuickAction = () => {
   const actions = [
     {
       name: "Notification",
+      link: '/admin/notification',
       icon: <TbCreditCardPay />,
     },
     {
       name: "Escrow",
+      link: '/admin/escrow',
       icon: <TbCreditCardRefund />,
     },
     {
       name: "Transaction",
+      link: '/admin/transactions',
       icon: <TbFileDollar />,
     },
     {
       name: "Disputes",
+      link: '/admin/dispute',
       icon: <TbShoppingCart />,
     },
     {
       name: "Users Log",
+      link: '/admin/users',
       icon: <TbTicket />,
     },
     {
       name: "Kyc",
+      link: '/admin/kyc',
       icon: <TbReceipt2 />,
     },
   ];
@@ -45,12 +52,12 @@ const QuickAction = () => {
       <p className="text-accent mt-1 text-[14px]">Quick actions list</p>
       <div className="flex justify-around flex-wrap mt-4">
         {actions.map((item, index) => (
-          <div key={index} className="flex flex-col gap-2 items-center">
+          <Link href={`${item.link}`} key={index} className="flex flex-col gap-2 items-center">
             <div className="btn btn-secondary bg-none p-[14px] border-[1px] border-[#E8E8E9] rounded-[8px] text-[24px] text-accent">
               {item.icon}
             </div>
             <p className="text-accent font-semibold">{item.name}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

@@ -4,6 +4,12 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 import Image from "next/image";
+import { useQuery } from "react-query";
+import { get_blogs } from "@/services/apiService";
+import { Blog } from "@/types/blog";
+import SkeletonCard from "@/components/Skeleton";
+import Link from "next/link";
+import { useBlogStore } from "@/store/useStore";
 
 const categories = [
   "All",
@@ -21,41 +27,52 @@ const categories = [
   "Remote Work",
 ];
 
-const dummyBlogs = [
-  {
-    id: 1,
-    image: "/images/blog-image.png",
-    title: "How Xmarr is Changing Finance",
-    desc: "Discover how Xmarr is revolutionizing the way people manage their finances with innovative solutions.",
-    category: "Product Updates",
-    authorName: "Jane Doe",
-    authorImage: "/images/avatar.svg",
-    date: "2024-06-01",
-  },
-  {
-    id: 2,
-    image: "/images/blog-image.png",
-    title: "5 Tips for Secure Online Payments",
-    desc: "Learn essential tips to keep your online transactions safe and secure in today's digital world.",
-    category: "Finance Tips",
-    authorName: "John Smith",
-    authorImage: "/images/avatar.svg",
-    date: "2024-05-28",
-  },
-  {
-    id: 3,
-    image: "/images/blog-hero.png",
-    title: "Meet Our Team: Behind the Scenes",
-    desc: "Get to know the passionate team members who are building the future of finance at Xmarr.",
-    category: "User Stories",
-    authorName: "Alice Lee",
-    authorImage: "/images/avatar.svg",
-    date: "2024-05-20",
-  },
-];
-
 const Page = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const { blogs, setBlogs, isStale } = useBlogStore();
+
+  const {
+    data: fetchedBlogs,
+    isLoading,
+    error,
+  } = useQuery<Blog[]>({
+    queryKey: ["blogs"],
+    queryFn: get_blogs,
+    enabled: blogs.length === 0 || isStale(), // Only fetch if no cached data or cache is stale
+    onSuccess: (data) => {
+      setBlogs(data); // Cache the fetched blogs
+    },
+  });
+
+  // Use cached blogs if available, otherwise use fetched blogs
+  const displayBlogs = blogs.length > 0 ? blogs : fetchedBlogs || [];
+
+  // Filter blogs based on selected category
+  const filteredBlogs =
+    displayBlogs?.filter((blog) => {
+      if (selectedCategory === "All") return true;
+      return blog.category === selectedCategory;
+    }) || [];
+
+  if (error) {
+    return (
+      <>
+        <NavBar />
+        <div className="min-h-screen pt-[100px] flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-red-600 mb-4">
+              Error Loading Blogs
+            </h2>
+            <p className="text-gray-600">
+              Failed to load blog posts. Please try again later.
+            </p>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <NavBar />
@@ -99,52 +116,73 @@ const Page = () => {
 
       {/* Blog Card Grid */}
       <div className="w-full bg-[#F0F0F0] md:pl-36 pl-5 md:pr-36 pr-5 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {dummyBlogs.map((blog) => (
-            <div
-              key={blog.id}
-              className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full"
-            >
-              <div className="relative w-full h-48">
-                <Image
-                  src={blog.image}
-                  alt={blog.title}
-                  fill
-                  className="object-cover"
-                />
+        {isLoading ? (
+          <SkeletonCard />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredBlogs.length > 0 ? (
+              filteredBlogs.map((blog) => (
+                <Link
+                  href={`/blogs/${blog.id}`}
+                  key={blog.id}
+                  className="bg-white rounded-xl cursor-pointer shadow-md overflow-hidden flex flex-col h-full"
+                >
+                  <div className="relative w-full h-48">
+                    <Image
+                      src={blog.image || "/images/blog-image.png"}
+                      alt={blog.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-5 flex flex-col flex-1">
+                    {/* Category Badge */}
+                    <span className="inline-block bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-2 w-fit">
+                      {blog.category}
+                    </span>
+                    <h3 className="font-bold text-lg mb-2">{blog.title}</h3>
+                    <div
+                      className="text-gray-600 text-sm flex-1 mb-4 line-clamp-3"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          blog.message
+                            ?.replace(/<[^>]*>/g, "")
+                            .substring(0, 150) + "..." || "",
+                      }}
+                    />
+                    {/* Author and Date */}
+                    <div className="flex items-center gap-2 mt-auto">
+                      <Image
+                        src={blog.admin?.profile_photo || "/images/avatar.svg"}
+                        alt={`${blog.admin?.first_name} ${blog.admin?.last_name}`}
+                        width={28}
+                        height={28}
+                        className="rounded-full object-cover"
+                      />
+                      <span className="text-xs text-gray-700 font-medium">
+                        {blog.admin
+                          ? `${blog.admin.first_name} ${blog.admin.last_name}`
+                          : "Admin"}
+                      </span>
+                      <span className="text-xs text-gray-400 ml-2">
+                        • {blog.date_updated}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <h3 className="text-xl font-semibold text-gray-600 mb-2">
+                  No blogs found
+                </h3>
+                <p className="text-gray-500">
+                  No blog posts available for the selected category.
+                </p>
               </div>
-              <div className="p-5 flex flex-col flex-1">
-                {/* Category Badge */}
-                <span className="inline-block bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-2 w-fit">
-                  {blog.category}
-                </span>
-                <h3 className="font-bold text-lg mb-2">{blog.title}</h3>
-                <p className="text-gray-600 text-sm flex-1 mb-4">{blog.desc}</p>
-                {/* Author and Date */}
-                <div className="flex items-center gap-2 mt-auto">
-                  <Image
-                    src={blog.authorImage}
-                    alt={blog.authorName}
-                    width={28}
-                    height={28}
-                    className="rounded-full object-cover"
-                  />
-                  <span className="text-xs text-gray-700 font-medium">
-                    {blog.authorName}
-                  </span>
-                  <span className="text-xs text-gray-400 ml-2">
-                    •{" "}
-                    {new Date(blog.date).toLocaleDateString(undefined, {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+            )}
+          </div>
+        )}
       </div>
       {/* Newsletter Section */}
       <div className="w-full flex justify-center bg-white py-16 md:px-36 px-5 ">

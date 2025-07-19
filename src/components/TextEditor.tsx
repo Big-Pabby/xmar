@@ -1,5 +1,6 @@
 "use client";
 import { useEditor, EditorContent } from "@tiptap/react";
+import { useEffect } from "react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
@@ -68,6 +69,13 @@ const TextEditor = ({
       onContentChange?.(html);
     },
   });
+
+  // Update editor content when initialContent prop changes
+  useEffect(() => {
+    if (editor && initialContent !== editor.getHTML()) {
+      editor.commands.setContent(initialContent);
+    }
+  }, [editor, initialContent]);
   const addImage = () => {
     const url = prompt("Enter image URL");
     if (url) {

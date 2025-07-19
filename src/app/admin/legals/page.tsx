@@ -7,6 +7,7 @@ import { get_admin_legals } from "@/services/apiService";
 import { Blog } from "@/types/blog";
 import Pagination from "@/components/Pagination";
 import Image from "next/image";
+import { useLegalStore } from "@/store/useStore";
 
 const Page = () => {
   const [currentNav, setCurrentNav] = useState<string>("Consent Agreement");
@@ -19,11 +20,20 @@ const Page = () => {
     "Privacy Policy",
     "Anti-money laundering",
   ];
+  const { legals, setLegals, isStale } = useLegalStore();
+
   // Fetch legals using React Query
-  const { data: legalsData, isLoading } = useQuery<Blog[]>({
+  const { data: fetchedLegals, isLoading } = useQuery<Blog[]>({
     queryKey: ["legals"],
     queryFn: get_admin_legals,
+    enabled: legals.length === 0 || isStale(), // Only fetch if no cached data or cache is stale
+    onSuccess: (data) => {
+      setLegals(data); // Cache the fetched legals
+    },
   });
+
+  // Use cached legals if available, otherwise use fetched legals
+  const legalsData = legals.length > 0 ? legals : fetchedLegals || [];
 
   // Filter legals by current navigation
   const filteredLegals =

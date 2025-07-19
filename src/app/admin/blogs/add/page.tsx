@@ -9,6 +9,7 @@ import Toaster from "@/components/Toaster";
 import { useBlogMutation } from "@/hooks/useBlogMutation";
 import UploadFile from "@/components/UploadFile";
 import { get_blog_by_id, edit_blog } from "@/services/apiService";
+import { useBlogStore } from "@/store/useStore";
 
 function BlogPageContent() {
   const router = useRouter();
@@ -29,6 +30,7 @@ function BlogPageContent() {
 
   const { uploadMutation, blogMutation } = useBlogMutation();
   const [loading, setLoading] = useState(false);
+  const { blogs } = useBlogStore();
 
   const handleContentChange = (content: string) => {
     setForm((prev) => ({ ...prev, message: content }));
@@ -84,18 +86,29 @@ function BlogPageContent() {
   useEffect(() => {
     if (blogId) {
       setForm((prev) => ({ ...prev, id: blogId }));
-      setLoading(true);
-      get_blog_by_id(blogId)
-        .then((data) => setForm(data))
-        .catch(() =>
-          setToaster({
-            message: "Failed to fetch blog data",
-            type: "error",
-          })
-        )
-        .finally(() => setLoading(false));
+
+      // First try to get blog from store
+      const blogFromStore = blogs.find((blog) => blog.id === blogId);
+
+      if (blogFromStore) {
+        setForm(blogFromStore);
+        setLoading(false);
+      } else {
+        // If not in store, fetch from API
+        setLoading(true);
+        get_blog_by_id(blogId)
+          .then((data) => setForm(data))
+          .catch((error) =>
+            setToaster({
+              message:
+                error.response?.data?.message ?? "Failed to fetch blog data",
+              type: "error",
+            })
+          )
+          .finally(() => setLoading(false));
+      }
     }
-  }, [blogId]);
+  }, [blogId, blogs]);
 
   return (
     <div className="min-h-screen w-full pt-[100px] pb-10">
@@ -151,16 +164,17 @@ function BlogPageContent() {
               </select>
             </div>
           </div>
-
           <div className="bg-secondary border-[1px] border-[#E8E8E9] rounded-[12px] p-[24px]">
-            <UploadFile handleImage={handleImage} />
+            <UploadFile
+              handleImage={handleImage}
+              initialImageUrl={form.image}
+            />
           </div>
 
           <TextEditor
-            initialContent="<p>Initial content</p>"
+            initialContent={form.message || "<p>Initial content</p>"}
             onContentChange={handleContentChange}
           />
-
           <button
             type="submit"
             className={`btn btn-primary text-white rounded-[10px] ${

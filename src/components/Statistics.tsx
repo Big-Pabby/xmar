@@ -48,9 +48,9 @@ const Statistics = () => {
             className="pr-6"
           >
             <div className="flex items-center gap-2 text-accent font-medium">
-              {item.title === "Income" ? (
+              {item.title === "Expenses" ? (
                 <TbArrowBarToDown className="text-primary text-[20px]" />
-              ) : item.title === "Expenses" ? (
+              ) : item.title === "Income" ? (
                 <TbArrowBarUp className="text-[#FE5B65] text-[20px]" />
               ) : (
                 <TbArrowsExchange className="text-primary text-[20px]" />
@@ -71,7 +71,7 @@ const Statistics = () => {
                 } flex gap-1 items-center font-bold text-sm`}
               >
                 {calculatePercentageChange(item.prevRate, item.newRate)}{" "}
-                {item.newRate > item.prevRate ? <FaArrowUp /> : <FaArrowDown />}
+                {item.newRate > item.prevRate ? <FaArrowDown /> : <FaArrowUp />}
               </span>
             </div>
           </div>

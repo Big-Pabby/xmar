@@ -1,31 +1,38 @@
 "use client";
-// import { useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 import Image from "next/image";
 import React from "react";
+import { useBlogStore } from "@/store/useStore";
 
-const dummyBlog = {
-  image: "/images/blog-image.png",
-  title: "How Xmarr is Changing Finance",
-  desc: "Discover how Xmarr is revolutionizing the way people manage their finances with innovative solutions.",
-  category: "Product Updates",
-  authorName: "Jane Doe",
-  authorImage: "/images/avatar.svg",
-  date: "2024-06-01",
-  content: `
-    <p>
-      In South Africa, more freelancers are choosing flexible, independent careers across fields like design, writing, digital marketing, tech, and consulting. As this shift continues, one of the most common pain points they face is sending professional invoices and receiving payments in foreign currencies like USD, GBP, or EUR. Between complicated banking systems, slow international transfers, and unclear exchange rates, many freelancers find themselves frustrated and underpaid. However, the solution to this is easier than you think. With digital solutions like Grey, you can create and send professional invoices, receive payments in major currencies, and withdraw your money smoothly into your South African bank account. Also read: How South African freelancers can receive payments from the US, UK & EU clients Why South African freelancers must invoice the right way Legitimacy: Sending an invoice shows that you're a professional, not just doing "a side gig." It helps you buildtrust and long-term relationships with your clients. Compliance: Proper invoicing supports your business documentation, especially when it comes to tax reporting with SARS (South African Revenue Service). Clear expectations: Your invoice lays out exactly what you delivered, how much you're owed, and when you're expecting payment—removing confusion on both ends. Paper trail: If there's ever a dispute, your invoice serves as evidence of the terms agreed upon and the work completed. Also read:  How to manage freelance income and taxes in South Africa Top platforms to send professional invoices across borders Grey: Grey allows you to create invoices in USD, GBP, or EUR and receive payments into your foreign bank  accounts. From there, you can convert and withdraw funds to your South African bank account—no paperwork, no fuss. Grey: Grey allows you to create invoices in USD, GBP, or EUR and receive payments into your foreign bank  accounts.</p>
-    <p>
-      In this article, we explore the latest updates to our product, share insights from our team, and provide tips for making the most of your Xmarr experience. Stay tuned for more stories and updates from the Xmarr team!</p>
-  `,
-};
 
 const BlogSlugPage = () => {
-  // const params = useParams();
-  // In a real app, fetch blog by params.slug
-  const blog = dummyBlog;
+  const params = useParams();
+  const blogId = params.slug as string;
+  const { blogs } = useBlogStore();
+
+  // Find blog from store
+  const blog = blogs.find((b) => b.id === blogId);
+
+  if (!blog) {
+    return (
+      <>
+        <NavBar />
+        <div className="min-h-screen pt-[120px] flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-red-600 mb-4">
+              Blog Not Found
+            </h2>
+            <p className="text-gray-600">
+              The blog post you are looking for does not exist.
+            </p>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -38,11 +45,8 @@ const BlogSlugPage = () => {
             </span>
             <span className="text-xs text-gray-400">
               •{" "}
-              {new Date(blog.date).toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
+              {blog.date_updated
+                }
             </span>
           </div>
 
@@ -61,14 +65,16 @@ const BlogSlugPage = () => {
             <div className="md:w-1/4 flex flex-col gap-2 mb-8">
               <div className="flex items-center gap-2">
                 <Image
-                  src={blog.authorImage}
-                  alt={blog.authorName}
+                  src={blog.admin?.profile_photo || "/images/avatar.svg"}
+                  alt={`${blog.admin?.first_name} ${blog.admin?.last_name}`}
                   width={32}
                   height={32}
                   className="rounded-full object-cover"
                 />
                 <span className="text-sm text-gray-700 font-medium">
-                  {blog.authorName}
+                  {blog.admin
+                    ? `${blog.admin.first_name} ${blog.admin.last_name}`
+                    : "Admin"}
                 </span>
               </div>
               <div className="mt-6 w-full flex flex-col">
@@ -169,7 +175,7 @@ const BlogSlugPage = () => {
             </div>
             <div
               className="prose prose-lg flex-1 text-[#410D00]"
-              dangerouslySetInnerHTML={{ __html: blog.content }}
+              dangerouslySetInnerHTML={{ __html: blog.message }}
             />
           </div>
         </div>
