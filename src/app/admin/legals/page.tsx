@@ -20,7 +20,7 @@ const Page = () => {
     "Privacy Policy",
     "Anti-money laundering",
   ];
-  const { legals, setLegals, isStale } = useLegalStore();
+  const { legals, setLegals } = useLegalStore();
 
   // Fetch legals using React Query
   const { data: fetchedLegals, isLoading } = useQuery<Blog[]>({
