@@ -65,19 +65,34 @@ const Footer = () => {
         </div>
         <div className="flex flex-col gap-4">
           <h4 className="font-semibold text-xl mb-6">Legals</h4>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link
+            href={"/legals?legal=Anti-money laundering"}
+            className="text-[#E1E1E1] text-[15px] "
+          >
             AML Policy
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link
+            href={"/legals?legal=Terms and Condition"}
+            className="text-[#E1E1E1] text-[15px] "
+          >
             Terms of Service
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link
+            href={"/legals?legal=Privacy Policy"}
+            className="text-[#E1E1E1] text-[15px] "
+          >
             Privacy Policy
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link
+            href={"/legals?legal=Consent Agreement"}
+            className="text-[#E1E1E1] text-[15px] "
+          >
             Consent Agreement
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link
+            href={"/legals?legal=Dispute Resolution"}
+            className="text-[#E1E1E1] text-[15px] "
+          >
             Dispute Resolution
           </Link>
         </div>

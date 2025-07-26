@@ -2,16 +2,21 @@ import React from "react";
 import Image from "next/image";
 import { IoChevronDown } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa6";
+import Link from "next/link";
 
 const NavBar = () => {
   return (
     <header className="fixed bg-[#FFEAE4] w-full z-[120] top-0 left-0  py-4 md:px-20 px-5 flex justify-between items-center">
-      <Image
-        src="/images/Logo.svg"
-        alt="Hairsby logo"
-        width={200}
-        height={32}
-      />
+      <Link href={"/"}>
+        {" "}
+        <Image
+          src="/images/Logo.svg"
+          alt="Hairsby logo"
+          width={200}
+          height={32}
+        />
+      </Link>
+
       <div className="md:flex hidden items-center gap-8 text-[#3D3D3D] font-medium text-[15px]">
         <p className="flex items-center gap-2">
           Why Xmarr <IoChevronDown />
