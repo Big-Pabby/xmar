@@ -9,7 +9,7 @@ const Page = () => {
   return (
     <>
       <NavBar />
-      <div className=" bg-[#FFEACD] pt-[100px] md:px-36 px-5 flex items-center justify-center gap-6 pb-16  flex-col">
+      <div className=" min-h-[75vh] bg-[#FFEACD] pt-[100px] md:px-36 px-5 flex items-center justify-center gap-6 pb-16  flex-col">
         <div className="flex items-center gap-3 my-8">
           <Image
             src="/images/landing/virtual-icon.svg"

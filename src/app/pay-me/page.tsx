@@ -9,7 +9,7 @@ const Page = () => {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-[#FFEAE4CE] md:px-20 px-5 py-20 flex items-center justify-center gap-6  flex-col">
+      <div className="min-h-[70vh] bg-[#FFEAE4CE] md:px-20 px-5 py-20 flex items-center justify-center gap-6  flex-col">
         <div className="flex items-center gap-4">
           <Image
             src="/images/landing/pay.svg"

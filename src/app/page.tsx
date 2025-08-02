@@ -49,7 +49,7 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-[#FFEAE4CE] md:px-20 px-5 py-20 flex items-center justify-between gap-6 md:flex-row flex-col-reverse">
+      <div className="min-h-screen bg-[#FFEAE4CE] md:px-32 px-5 py-20 flex items-center justify-between gap-6 md:flex-row flex-col-reverse">
         <div className="md:w-5/12 ">
           <h1 className="font-bold text-[#410D00] md:text-[50px] mb-4 md:leading-[68px] text-3xl">
             The Gold Standard of Secure Transactions.
@@ -103,7 +103,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className=" md:px-20 px-5 py-16">
+      <div className=" md:px-32 px-5 py-16">
         <div className="md:w-7/12 w-full mx-auto">
           <h2 className="md:text-[50px] md:leading-[55px] text-2xl text-center font-medium">
             Picture a world where every <br />
@@ -170,7 +170,7 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className=" md:px-20 px-5 py-16 flex gap-4 md:flex-row flex-col justify-between">
+      <div className=" md:px-32 px-5 py-16 flex gap-4 md:flex-row flex-col justify-between">
         <div className="md:w-4/12 w-full">
           <h3 className="text-4xl font-semibold mb-4">
             Who can use <span className="text-primary">Escrow</span>
@@ -208,7 +208,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div className="md:px-20 px-5 py-16">
+      <div className="md:px-32 px-5 py-16">
         <div className="bg-[#FFF0DA] md:px-20 px-5 py-16">
           <div className="md:w-8/12 w-full mx-auto">
             <h2 className="md:text-[50px] text-3xl md:leading-[55px] text-center mb-4 font-bold">
@@ -229,7 +229,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="mt-20 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-12">
+          <div className="mt-20 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
             <div className="bg-white rounded-[10px] p-8">
               <div className="w-[60px] h-[60px] flex justify-center items-center bg-primary rounded-full">
                 <BsBoxSeamFill className="text-white text-4xl" />
@@ -405,7 +405,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="md:px-20 px-5 py-16">
+      <div className="md:px-32 px-5 py-16">
         <div className="md:w-6/12 w-full">
           <h3 className="text-5xl font-semibold mb-4">
             Powerd by

@@ -65,7 +65,7 @@ const WhyXmarr = () => {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-[#FFEAE4CE] md:px-20 px-5 py-20 flex items-center justify-center gap-6  flex-col">
+      <div className="min-h-[70vh] bg-[#FFEAE4CE] md:px-20 px-5 py-20 flex items-center justify-center gap-6  flex-col">
         <div className="md:w-6/12 w-full mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary">
             <span className="text-[#410D00]">Why do 300+</span> business love
@@ -83,7 +83,7 @@ const WhyXmarr = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className=" p-8 flex flex-col justify-center items-center text-center border-r-[1.5px] border-[#E6E6E6]"
+              className=" p-8 flex mb-6 flex-col justify-center items-center text-center border-r-[1.5px] border-[#E6E6E6]"
             >
               <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
               <p className=" mb-4">{feature.description}</p>

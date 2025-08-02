@@ -8,7 +8,7 @@ const Page = () => {
   return (
     <>
       <NavBar />
-      <div className=" bg-[#FFEACD] pt-[100px] md:px-36 px-5 flex items-center justify-center gap-6 pb-16  flex-col">
+      <div className=" min-h-[75vh] bg-[#FFEACD] pt-[100px] md:px-36 px-5 flex items-center justify-center gap-6 pb-16  flex-col">
         <div className="md:w-6/12 w-full mx-auto text-center mt-12">
           <h1 className="md:text-5xl font-black text-[#410D00] text-3xl mb-8">
             Inclusive{" "}

@@ -29,7 +29,7 @@ const Page = () => {
           alt="Wallet icon"
           width={600}
           height={300}
-          className="md:w-[600px] w-[300px]"
+          className="md:w-[300px] w-[300px]"
         ></Image>
       </div>
       <div className="md:px-36 px-5  bg-white py-20">
@@ -48,7 +48,7 @@ const Page = () => {
           </button>
         </div>
       </div>
-      <div className="md:px-36 px-5  bg-[#FFEACD] py-20">
+      <div className="md:px-36 px-5  bg-[#FFEACD] py-28">
         <div className="md:w-6/12 mb-8 mx-auto w-full flex flex-col items-center gap-4 text-center">
           <h3 className="font-extrabold md:text-5xl text-2xl">
             Put Your <span className="text-primary">Money to Work</span>

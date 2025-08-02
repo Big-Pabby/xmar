@@ -9,7 +9,7 @@ const Page = () => {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-[#FFEAE4CE] pt-[100px] md:px-20 px-5 py-20 flex items-center justify-center gap-6  flex-col">
+      <div className="min-h-[70vh] bg-[#FFEAE4CE] pt-[100px] md:px-20 px-5 py-20 flex items-center justify-center gap-6  flex-col">
         <div className="flex items-center gap-2">
           <p className="text-[15px]">Pricing for </p>
           <button className="btn bg-[#FFE8E2] border-none h-[28px] rounded-[5px] text-[15px]">
@@ -226,7 +226,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className="md:px-20 px-5 py-20 bg-[#FFF9ED] flex justify-between items-center">
+      <div className="md:px-32 px-5 py-20 bg-[#FFF9ED] flex justify-between items-center">
         <div className="md:w-4/12 w-full">
           <h2 className="text-4xl font-semibold mb-4">Escrow Calculator</h2>
           <p>

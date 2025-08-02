@@ -11,55 +11,51 @@ const Footer = () => {
       <div className="flex justify-between gap-6 flex-wrap mb-20">
         <div className="flex flex-col gap-4">
           <h4 className="font-semibold text-xl mb-6">Products</h4>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
             Payme
           </Link>
           <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
             Transfer
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/wallet"} className="text-[#E1E1E1] text-[15px] ">
             Wallet
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/virtual-card"} className="text-[#E1E1E1] text-[15px] ">
             Virtual Cards
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
             Bill Payment
           </Link>
         </div>
         <div className="flex flex-col gap-4">
           <h4 className="font-semibold text-xl mb-6">Quick Actions</h4>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/why-xmarr"} className="text-[#E1E1E1] text-[15px] ">
             Why Choose Xmarr
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/pricing"} className="text-[#E1E1E1] text-[15px] ">
             Pricing
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
             See Demo
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
             Use Cases
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
             Tutorials
           </Link>
         </div>
         <div className="flex flex-col gap-4">
           <h4 className="font-semibold text-xl mb-6">Company</h4>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/about-us"} className="text-[#E1E1E1] text-[15px] ">
             About Us
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
-            Stories
-          </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          
+          <Link href={"/blogs"} className="text-[#E1E1E1] text-[15px] ">
             Blog
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
-            FAQ
-          </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+         
+          <Link href={"/contact-us"} className="text-[#E1E1E1] text-[15px] ">
             Contact Us
           </Link>
         </div>

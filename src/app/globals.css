@@ -10,11 +10,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #f8f8f9;
-  --foreground: #14181f;
-}
-
 /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -111,8 +106,6 @@ h6 {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
   font-family: "Inter", sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -222,3 +215,5 @@ body {
   outline: none;
   box-shadow: none;
 }
+
+

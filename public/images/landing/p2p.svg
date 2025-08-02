@@ -9,27 +9,27 @@
 <circle cx="155.287" cy="40.5141" r="33.6898" fill="url(#pattern2_174_43132)"/>
 <circle cx="155.29" cy="40.5133" r="31.3356" fill="#D9D9D9"/>
 <circle cx="155.29" cy="40.5133" r="31.3356" fill="url(#pattern3_174_43132)"/>
-<circle cx="155.29" cy="40.5133" r="31.3356" stroke="#F9F9F9" stroke-width="1.5"/>
+<circle cx="155.29" cy="40.5133" r="31.3356" stroke="#F9F9F9" strokeWidth="1.5"/>
 <circle cx="117.69" cy="100.69" r="33.6898" fill="#D9D9D9"/>
 <circle cx="117.69" cy="100.69" r="33.6898" fill="url(#pattern4_174_43132)"/>
 <circle cx="117.692" cy="100.689" r="31.3356" fill="#D9D9D9"/>
 <circle cx="117.692" cy="100.689" r="31.3356" fill="url(#pattern5_174_43132)"/>
-<circle cx="117.692" cy="100.689" r="31.3356" stroke="#F9F9F9" stroke-width="1.5"/>
+<circle cx="117.692" cy="100.689" r="31.3356" stroke="#F9F9F9" strokeWidth="1.5"/>
 <circle cx="196.12" cy="100.69" r="33.6898" fill="#D9D9D9"/>
 <circle cx="196.12" cy="100.69" r="33.6898" fill="url(#pattern6_174_43132)"/>
 <circle cx="196.122" cy="100.689" r="31.3356" fill="#D9D9D9"/>
 <circle cx="196.122" cy="100.689" r="31.3356" fill="url(#pattern7_174_43132)"/>
-<circle cx="196.122" cy="100.689" r="31.3356" stroke="#F9F9F9" stroke-width="1.5"/>
+<circle cx="196.122" cy="100.689" r="31.3356" stroke="#F9F9F9" strokeWidth="1.5"/>
 <circle cx="80.6898" cy="38.9086" r="33.6898" fill="#D9D9D9"/>
 <circle cx="80.6898" cy="38.9086" r="33.6898" fill="url(#pattern8_174_43132)"/>
 <circle cx="80.6898" cy="38.9086" r="33.6898" fill="#D9D9D9"/>
 <circle cx="80.6898" cy="38.9086" r="33.6898" fill="url(#pattern9_174_43132)"/>
 <circle cx="80.692" cy="38.9078" r="31.3356" fill="#D9D9D9"/>
 <circle cx="80.692" cy="38.9078" r="31.3356" fill="url(#pattern10_174_43132)"/>
-<circle cx="80.692" cy="38.9078" r="31.3356" stroke="#F9F9F9" stroke-width="1.5"/>
+<circle cx="80.692" cy="38.9078" r="31.3356" stroke="#F9F9F9" strokeWidth="1.5"/>
 <circle cx="230.238" cy="39.2613" r="31.3356" fill="#D9D9D9"/>
 <circle cx="230.238" cy="39.2613" r="31.3356" fill="url(#pattern11_174_43132)"/>
-<circle cx="230.238" cy="39.2613" r="31.3356" stroke="#F9F9F9" stroke-width="1.5"/>
+<circle cx="230.238" cy="39.2613" r="31.3356" stroke="#F9F9F9" strokeWidth="1.5"/>
 <g filter="url(#filter0_d_174_43132)">
 <rect x="32" y="78" width="69.1914" height="20.8592" rx="10.4296" fill="white"/>
 </g>
