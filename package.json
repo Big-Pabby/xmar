@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@radix-ui/react-navigation-menu": "^1.2.13",
+    "@radix-ui/react-separator": "^1.1.7",
+    "@radix-ui/react-slot": "^1.2.3",
     "@tiptap/extension-code-block-lowlight": "^2.11.7",
     "@tiptap/extension-highlight": "^2.11.7",
     "@tiptap/extension-horizontal-rule": "^2.11.7",

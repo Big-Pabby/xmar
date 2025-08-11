@@ -79,11 +79,11 @@ const WhyXmarr = () => {
         </div>
       </div>
       <div className="md:px-20 px-5 py-16">
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-x-8 gap-y-12 divide-x-[1.5px] divider-[#E6E6E6]">
           {features.map((feature, index) => (
             <div
               key={index}
-              className=" p-8 flex mb-6 flex-col justify-center items-center text-center border-r-[1.5px] border-[#E6E6E6]"
+              className=" p-8 flex mb-6 flex-col justify-center items-center text-center "
             >
               <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
               <p className=" mb-4">{feature.description}</p>

@@ -14,7 +14,7 @@ const Footer = () => {
           <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
             Payme
           </Link>
-          <Link href={"/payme"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"/transfer"} className="text-[#E1E1E1] text-[15px] ">
             Transfer
           </Link>
           <Link href={"/wallet"} className="text-[#E1E1E1] text-[15px] ">
@@ -23,7 +23,7 @@ const Footer = () => {
           <Link href={"/virtual-card"} className="text-[#E1E1E1] text-[15px] ">
             Virtual Cards
           </Link>
-          <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"#"} className="text-[#E1E1E1] text-[15px] ">
             Bill Payment
           </Link>
         </div>
@@ -35,13 +35,13 @@ const Footer = () => {
           <Link href={"/pricing"} className="text-[#E1E1E1] text-[15px] ">
             Pricing
           </Link>
-          <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"#"} className="text-[#E1E1E1] text-[15px] ">
             See Demo
           </Link>
-          <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"#"} className="text-[#E1E1E1] text-[15px] ">
             Use Cases
           </Link>
-          <Link href={"/pay-me"} className="text-[#E1E1E1] text-[15px] ">
+          <Link href={"#"} className="text-[#E1E1E1] text-[15px] ">
             Tutorials
           </Link>
         </div>
@@ -50,11 +50,11 @@ const Footer = () => {
           <Link href={"/about-us"} className="text-[#E1E1E1] text-[15px] ">
             About Us
           </Link>
-          
+
           <Link href={"/blogs"} className="text-[#E1E1E1] text-[15px] ">
             Blog
           </Link>
-         
+
           <Link href={"/contact-us"} className="text-[#E1E1E1] text-[15px] ">
             Contact Us
           </Link>

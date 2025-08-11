@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import NavBar from "@/components/NavBar";
 import { FaArrowRight } from "react-icons/fa6";
@@ -6,8 +7,11 @@ import { BsBoxSeamFill } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import { useState } from "react";
 
 export default function Home() {
+  const [audience, setAudience] = useState<"business" | "buyer">("business");
+
   const ecrow_users = [
     {
       name: "E-Commerce Platforms",
@@ -39,15 +43,141 @@ export default function Home() {
     {
       name: "Exporter & Importer",
       features: [
-        "Use XMARR to power and secure your international trade",
-        "Use XMARR to Simplify Customs & Compliance",
-        "Use XMARR to Build Borderless Business Trust no matter the currency.",
+        "Use Xmarr to Secure Cross-Border Deals with Escrow",
+        "Use Xmarr to Minimize Risk in International Trade",
+        "Use Xmarr to Guarantee Safe Payments for Goods and Services",
       ],
-      id: "ecommerce",
+      id: "exporter",
     },
   ];
+
+  const buyer_steps = [
+    {
+      icon: <BsBoxSeamFill className="text-white text-4xl" />,
+      title: "Receive Escrow Request",
+      text: "Get an email with transaction details and a secure payment request from the business.",
+    },
+    {
+      icon: (
+        <Image
+          src="/images/landing/send-icon.svg"
+          alt="send"
+          width={30}
+          height={30}
+        />
+      ),
+      title: "Accept Deal & Transfer",
+      text: "Receive an email and review all escrow details and accept by making the payment. ",
+    },
+    {
+      icon: (
+        <Image
+          src="/images/landing/pro-check.svg"
+          alt="pro-check"
+          width={30}
+          height={30}
+        />
+      ),
+      title: "Await Project Completion",
+      text: "The business completes the transaction as per the agreed terms.",
+    },
+    {
+      icon: <MdVerified className="text-3xl text-white" />,
+      title: "Confirm the Transaction",
+      text: "Confirm and verify that the transaction terms have been met",
+    },
+    {
+      icon: (
+        <Image
+          src="/images/landing/verifies-icon.svg"
+          alt="verify"
+          width={30}
+          height={30}
+        />
+      ),
+      title: "Xmarr Verifies",
+      text: "We confirm the transaction status to ensure the project is complete and all terms are met",
+    },
+    {
+      icon: (
+        <Image
+          src="/images/landing/release-icon.svg"
+          alt="release"
+          width={30}
+          height={30}
+        />
+      ),
+      title: "Payment Release",
+      text: "Once verified, funds are released to the business, and the transaction is finalized.",
+    },
+  ];
+
+  // Optionally you could have a different set for business; reusing buyer_steps for demo
+  const business_steps = [
+    {
+      icon: <BsBoxSeamFill className="text-white text-4xl" />,
+      title: "Create Escrow Request",
+      text: "Use Xmarr to provide transaction details and send an escrow transaction request to your customers.",
+    },
+    {
+      icon: (
+        <Image
+          src="/images/landing/send-icon.svg"
+          alt="send"
+          width={30}
+          height={30}
+        />
+      ),
+      title: "Accept Deal & Transfer",
+      text: "Customers receive an email with escrow details and accept by making the payment.",
+    },
+    {
+      icon: (
+        <Image
+          src="/images/landing/pro-check.svg"
+          alt="pro-check"
+          width={30}
+          height={30}
+        />
+      ),
+      title: "Complete the Project",
+      text: "Fulfill the transaction as agreed and notify Xmarr when done.",
+    },
+    {
+      icon: <MdVerified className="text-3xl text-white" />,
+      title: "Customer Confirmation",
+      text: "The customer verifies that the terms have been met.",
+    },
+    {
+      icon: (
+        <Image
+          src="/images/landing/verifies-icon.svg"
+          alt="verify"
+          width={30}
+          height={30}
+        />
+      ),
+      title: "Xmarr Verifies",
+      text: "Confirm the transaction status before marking it as completed.",
+    },
+    {
+      icon: (
+        <Image
+          src="/images/landing/release-icon.svg"
+          alt="release"
+          width={30}
+          height={30}
+        />
+      ),
+      title: "Payment Release",
+      text: "Once verified, funds are instantly released to your Xmarr wallet.",
+    },
+  ];
+
+  const steps = audience === "business" ? business_steps : buyer_steps;
+
   return (
-    <>
+    <div>
       <NavBar />
       <div className="min-h-screen bg-[#FFEAE4CE] md:px-32 px-5 py-20 flex items-center justify-between gap-6 md:flex-row flex-col-reverse">
         <div className="md:w-5/12 ">
@@ -220,100 +350,42 @@ export default function Home() {
               transparent, and built for trust.
             </p>
             <div className="rounded-[5px] border-[2px] border-[#D7D7D7] bg-white p-4 flex md:w-7/12 mx-auto gap-4">
-              <button className="btn hover:btn-primary btn-white hover:text-white rounded-[5px] flex-1  text-[#323232] font-medium">
+              <button
+                onClick={() => setAudience("business")}
+                className={`btn rounded-[5px] flex-1 font-medium ${
+                  audience === "business"
+                    ? "btn-primary text-white"
+                    : "btn-white hover:btn-primary hover:text-white text-[#323232]"
+                }`}
+              >
                 For Businesses
               </button>
-              <div className="w-[1.5px] bg-[#D7D7D7]"></div>
-              <button className="btn flex-1 hover:btn-primary btn-white hover:text-white rounded-[5px]  text-[#323232] font-medium">
+              <div className="w-[1.5px] bg-[#D7D7D7]" />
+              <button
+                onClick={() => setAudience("buyer")}
+                className={`btn rounded-[5px] flex-1 font-medium ${
+                  audience === "buyer"
+                    ? "btn-primary text-white"
+                    : "btn-white hover:btn-primary hover:text-white text-[#323232]"
+                }`}
+              >
                 For Buyers
               </button>
             </div>
           </div>
+
           <div className="mt-20 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
-            <div className="bg-white rounded-[10px] p-8">
-              <div className="w-[60px] h-[60px] flex justify-center items-center bg-primary rounded-full">
-                <BsBoxSeamFill className="text-white text-4xl" />
+            {steps.map((step, idx) => (
+              <div key={idx} className="bg-white rounded-[10px] p-8">
+                <div className="w-[60px] h-[60px] flex justify-center items-center bg-primary rounded-full">
+                  {step.icon}
+                </div>
+                <h3 className="text-[22px] font-bold my-4">{step.title}</h3>
+                <p>{step.text}</p>
               </div>
-              <h3 className="text-[22px] font-bold my-4">
-                Create Escrow Request
-              </h3>
-              <p>
-                Use Xmarr to provide tansaction details and send an escrow
-                tansaction request to your customers.
-              </p>
-            </div>
-            <div className="bg-white rounded-[10px] p-8">
-              <div className="w-[60px] h-[60px] flex justify-center items-center bg-primary rounded-full">
-                <Image
-                  src="/images/landing/send-icon.svg"
-                  alt="brand1"
-                  width={30}
-                  height={30}
-                />
-              </div>
-              <h3 className="text-[22px] font-bold my-4">
-                Accept Deal & Transfer
-              </h3>
-              <p>
-                Customers receive an email with escrow details and accept by
-                making the payment.
-              </p>
-            </div>
-            <div className="bg-white rounded-[10px] p-8">
-              <div className="w-[60px] h-[60px] flex justify-center items-center bg-primary rounded-full">
-                <Image
-                  src="/images/landing/pro-check.svg"
-                  alt="brand1"
-                  width={30}
-                  height={30}
-                />
-              </div>
-              <h3 className="text-[22px] font-bold my-4">
-                Complete the Project
-              </h3>
-              <p>
-                Fulfill the transaction as agreed and notify Xmarr when done.
-              </p>
-            </div>
-            <div className="bg-white rounded-[10px] p-8">
-              <div className="w-[60px] h-[60px] flex justify-center items-center bg-primary rounded-full">
-                <MdVerified className="text-3xl text-white" />
-              </div>
-              <h3 className="text-[22px] font-bold my-4">
-                Customer Confirmation
-              </h3>
-              <p>The customer verifies that the terms have been met</p>
-            </div>
-            <div className="bg-white rounded-[10px] p-8">
-              <div className="w-[60px] h-[60px] flex justify-center items-center bg-primary rounded-full">
-                <Image
-                  src="/images/landing/verifies-icon.svg"
-                  alt="brand1"
-                  width={30}
-                  height={30}
-                />
-              </div>
-              <h3 className="text-[22px] font-bold my-4">Xmarr Verifies</h3>
-              <p>
-                confirm the transaction status before marking it as completed.
-              </p>
-            </div>
-            <div className="bg-white rounded-[10px] p-8">
-              <div className="w-[60px] h-[60px] flex justify-center items-center bg-primary rounded-full">
-                <Image
-                  src="/images/landing/release-icon.svg"
-                  alt="brand1"
-                  width={30}
-                  height={30}
-                />
-              </div>
-              <h3 className="text-[22px] font-bold my-4">Payment Release</h3>
-              <p>
-                Once verified, funds are instantly released to your Pandascrow
-                wallet.
-              </p>
-            </div>
+            ))}
           </div>
+
           <div className="md:w-8/12 mt-36 w-full mx-auto">
             <h2 className="md:text-[50px] text-3xl md:leading-[55px] text-center mb-4 font-bold">
               Everything You Need to Unlock
@@ -460,6 +532,6 @@ export default function Home() {
       </div>
       <CTASection />
       <Footer />
-    </>
+    </div>
   );
 }

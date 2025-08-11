@@ -173,7 +173,7 @@ const NavBar = () => {
                       </p>
                     </div>
                   </Link>
-                  <div className="flex items-center gap-4">
+                  <Link href={"/transfer"} className="flex items-center gap-4">
                     <Image
                       src="/images/landing/product-icon-3.svg"
                       alt="product1"
@@ -188,7 +188,7 @@ const NavBar = () => {
                         Send Money across countries
                       </p>
                     </div>
-                  </div>
+                  </Link>
                   <Link
                     href={"/virtual-card"}
                     className="flex items-center gap-4"
@@ -317,7 +317,9 @@ const NavBar = () => {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <p className="flex items-center gap-2">Contact Us</p>
+        <Link href={"/contact-us"} className="flex items-center gap-2">
+          Contact Us
+        </Link>
       </div>
       <div className="flex items-center gap-4">
         <button className="btn btn-primary py-[12px] px-[18px] text-white">
