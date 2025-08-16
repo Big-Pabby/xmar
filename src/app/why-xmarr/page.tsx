@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import Image from "next/image";
 import NavBar from "@/components/NavBar";
@@ -79,7 +81,7 @@ const WhyXmarr = () => {
         </div>
       </div>
       <div className="md:px-20 px-5 py-16">
-        <div className="grid md:grid-cols-3 gap-x-8 gap-y-12 divide-x-[1.5px] divider-[#E6E6E6]">
+        <div className="grid md:grid-cols-3 gap-x-8 gap-y-12 features-grid">
           {features.map((feature, index) => (
             <div
               key={index}
@@ -93,6 +95,23 @@ const WhyXmarr = () => {
             </div>
           ))}
         </div>
+        <style jsx>{`
+          .features-grid > div {
+            border-right: 1.5px solid #E6E6E6;
+          }
+          /* remove right border at the end of each 3-column row */
+          @media (min-width: 768px) {
+            .features-grid > div:nth-child(3n) {
+              border-right: 0;
+            }
+          }
+          /* remove borders on small screens (single column) */
+          @media (max-width: 767px) {
+            .features-grid > div {
+              border-right: 0;
+            }
+          }
+        `}</style>
       </div>
       <div className="md:px-20 px-5 py-16">
         <div className="bg-gradient-to-br from-[#B825C9] via-[#CA629C] to-[#C985A4] rounded-[10px] pt-16 px-16 flex md:flex-row flex-col w-full justify-between gap-4">

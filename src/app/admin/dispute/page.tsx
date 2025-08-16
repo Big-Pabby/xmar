@@ -326,6 +326,20 @@ const Page = () => {
                 </div>
                 {userNav === "User Details" ? (
                   <div>
+                  <div  className="bg-[#F8F8F8] rounded-[14px] p-[18px] mt-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-[#707070] text-base">Name:</p>
+                      <h4 className="font-medium text-[#101828] text-base">
+                        {selectedDispute.disputer_user_name || "N/A"}
+                      </h4>
+                    </div>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-[#707070] text-base">Email:</p>
+                      <h4 className="font-medium text-[#101828] text-base">
+                        {selectedDispute.disputer_email || "N/A"}
+                      </h4>
+                    </div>
+                  </div>
                     <div className="bg-[#F8F8F8] rounded-[14px] p-[18px] mt-6">
                       <div className="flex items-center justify-between mb-2">
                         <p className="text-[#707070] text-base">Status</p>
@@ -445,11 +459,74 @@ const Page = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-[#F8F8F8] rounded-[14px] p-[18px] mt-6">
-                    <h2 className="text-base font-medium mb-2 mt-6">
-                      Provided details
-                    </h2>
-                    <textarea
+                  <div>
+                     <div  className="bg-[#F8F8F8] rounded-[14px] p-[18px] mt-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-[#707070] text-base">Name:</p>
+                      <h4 className="font-medium text-[#101828] text-base">
+                        {selectedDispute.recipient_user_name || "N/A"}
+                      </h4>
+                    </div>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-[#707070] text-base">Email:</p>
+                      <h4 className="font-medium text-[#101828] text-base">
+                        {selectedDispute.recipient_email || "N/A"}
+                      </h4>
+                    </div>
+                  </div>
+                   <div className="bg-[#F8F8F8] rounded-[14px] p-[18px] mt-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-[#707070] text-base">Status</p>
+                        <h4 className="font-medium text-[#F69E1E] text-base">
+                          {selectedDispute.dispute_status}
+                        </h4>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-[#707070] text-base">
+                          Transaction ID
+                        </p>
+                        <h4 className="font-medium text-base">
+                          {selectedDispute.transaction_id}
+                        </h4>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-[#707070] text-base">
+                          Transaction Title
+                        </p>
+                        <h4 className="font-medium text-base">
+                          {selectedDispute.transaction_title}
+                        </h4>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-[#707070] text-base">Recipient</p>
+                        <h4 className="font-medium text-base">
+                          {selectedDispute.recipient_user_name || "N/A"}
+                        </h4>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-[#707070] text-base">Amount</p>
+                        <h4 className="font-medium text-primary text-base">
+                          {selectedDispute.amount}
+                        </h4>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-[#707070] text-base">
+                          Transaction Fee
+                        </p>
+                        <h4 className="font-medium text-base">
+                          ${selectedDispute.charge}
+                        </h4>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-[#707070] text-base">Date</p>
+                        <h4 className="font-medium text-base">
+                          {selectedDispute.created_at}
+                        </h4>
+                      </div>
+                      <h2 className="text-base font-medium mb-2 mt-6">
+                        Provided details
+                      </h2>
+                     <textarea
                       value={
                         selectedDispute.recipient_details ||
                         "No details provided"
@@ -460,61 +537,65 @@ const Page = () => {
                       name="description"
                       className="w-full h-[230px] bg-white border-[1px] border-[#A2A1A833] rounded-[8px] p-[16px] outline-none"
                     />
-                    <div className="mt-4">
-                      <h4 className="text-base font-medium text-[#344054] mb-2">
-                        Attached Documents
-                      </h4>
-                      {selectedDispute.recipient_attachment.map(
-                        (url: string, index: number) => (
-                          <div
-                            key={index}
-                            className="border-[1px] border-[#D0D5DD] rounded-[8px] bg-white flex items-center gap-8 p-4 justify-between mb-2"
-                          >
-                            <div className="flex items-center gap-4">
-                              <div className="w-[30px] h-[38px] bg-[#ccc] flex items-center justify-center">
-                                <img
-                                  src={url}
-                                  alt={`attachment ${index + 1}`}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <div>
-                                <h4 className="text-base text-[#101828] font-medium mb-1">
-                                  {url.split("/").pop() || `File ${index + 1}`}
-                                </h4>
-                                <p className="text-[#667085]">
-                                  Attachment {index + 1}
-                                </p>
-                              </div>
-                            </div>
-                            <button
-                              onClick={() => setImageModalUrl(url)}
-                              className="text-primary font-medium text-base hover:underline cursor-pointer"
+
+                      <div className="mt-4">
+                        <h4 className="text-base font-medium text-[#344054] mb-2">
+                          Attached Documents
+                        </h4>
+                        {selectedDispute.recipient_attachment.map(
+                          (url: string, index: number) => (
+                            <div
+                              key={index}
+                              className="border-[1px] border-[#D0D5DD] rounded-[8px] bg-white flex items-center gap-8 p-4 justify-between mb-2"
                             >
-                              View
-                            </button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                    <div className="flex items-center gap-4 justify-between mt-4 mb-2">
-                      <button
-                        className="w-6/12 btn bg-[#EBECF3] text-[#0D142C]"
-                        onClick={() => setShowMessageModal(true)}
-                      >
-                        Send a message
-                      </button>
-                      <button
-                        className="w-6/12 btn btn-primary text-white"
-                        onClick={handleSendMessage}
-                        disabled={createMessageMutation.isLoading}
-                      >
-                        {createMessageMutation.isLoading
-                          ? "Sending..."
-                          : "Send"}
-                      </button>
+                              <div className="flex items-center gap-4">
+                                <div className="w-[30px] h-[38px] bg-[#ccc] flex items-center justify-center">
+                                  <img
+                                    src={url}
+                                    alt={`attachment ${index + 1}`}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                <div>
+                                  <h4 className="text-base text-[#101828] font-medium mb-1">
+                                    {url.split("/").pop() ||
+                                      `File ${index + 1}`}
+                                  </h4>
+                                  <p className="text-[#667085]">
+                                    Attachment {index + 1}
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => setImageModalUrl(url)}
+                                className="text-primary font-medium text-base hover:underline cursor-pointer"
+                              >
+                                View
+                              </button>
+                            </div>
+                          )
+                        )}
+                      </div>
+                      <div className="flex items-center gap-4 justify-between mt-4 mb-2">
+                        <button
+                          className="w-6/12 btn bg-[#EBECF3] text-[#0D142C]"
+                          onClick={() => setShowMessageModal(true)}
+                        >
+                          Send a message
+                        </button>
+                        <button
+                          className="w-6/12 btn btn-primary text-white"
+                          onClick={handleSendMessage}
+                          disabled={createMessageMutation.isLoading}
+                        >
+                          {createMessageMutation.isLoading
+                            ? "Sending..."
+                            : "Send"}
+                        </button>
+                      </div>
                     </div>
                   </div>
+                 
                 )}
               </div>
             ) : (
