@@ -10,7 +10,7 @@ interface KYCQueryParams {
 }
 
 const api = axios.create({
-  baseURL: "https://api.xmarr.com/", // Replace with your API base URL
+  baseURL: "https://api.xmarr.com", // Replace with your API base URL
   headers: {
     "Content-Type": "application/json",
   },
@@ -154,7 +154,7 @@ export const create_blog = async (blog: Blog) => {
   return response.data.data;
 };
 export const get_blog_by_id = async (id: string) => {
-  console.log(id)
+  console.log(id);
   const response = await api.get(`api/v2/admin/blogs/edit/`, {
     data: { id: id },
   });
@@ -166,6 +166,10 @@ export const edit_blog = async (data: Blog) => {
 };
 export const get_blogs = async () => {
   const response = await api.get("api/v2/admin/blogs/admin-blogs/");
+  return response.data.data;
+};
+export const get_all_blogs = async () => {
+  const response = await api.get("api/v2/admin/blogs/all/");
   return response.data.data;
 };
 export const delete_blog = async (id: string) => {
@@ -199,6 +203,10 @@ export const edit_legals = async (data: Blog) => {
 };
 export const get_admin_legals = async () => {
   const response = await api.get("api/v2/admin/legals/admin-legals/");
+  return response.data.data;
+};
+export const get_legals = async () => {
+  const response = await api.get("api/v2/admin/legals/all/");
   return response.data.data;
 };
 export const get_escrow_fee = async () => {

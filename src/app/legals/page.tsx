@@ -3,7 +3,7 @@ import React, { useState, Suspense } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { useQuery } from "react-query";
-import { get_admin_legals } from "@/services/apiService";
+import { get_legals } from "@/services/apiService";
 import { Blog } from "@/types/blog";
 import { useLegalStore } from "@/store/useStore";
 import { useSearchParams } from "next/navigation";
@@ -35,7 +35,7 @@ const PageContent = () => {
   // Fetch legals using React Query
   const { data: fetchedLegals, isLoading } = useQuery<Blog[]>({
     queryKey: ["legals"],
-    queryFn: get_admin_legals,
+    queryFn: get_legals,
     // Only fetch if no cached data or cache is stale
     onSuccess: (data) => {
       setLegals(data); // Cache the fetched legals

@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 import Image from "next/image";
 import { useQuery } from "react-query";
-import { get_blogs } from "@/services/apiService";
+import { get_all_blogs } from "@/services/apiService";
 import { Blog } from "@/types/blog";
 import SkeletonCard from "@/components/Skeleton";
 import Link from "next/link";
@@ -38,7 +38,7 @@ const Page = () => {
     error,
   } = useQuery<Blog[]>({
     queryKey: ["blogs"],
-    queryFn: get_blogs,
+    queryFn: get_all_blogs,
     enabled: blogs.length === 0 || isStale(), // Only fetch if no cached data or cache is stale
     onSuccess: (data) => {
       setBlogs(data); // Cache the fetched blogs
