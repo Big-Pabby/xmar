@@ -46,7 +46,7 @@ const Page = () => {
         </button>
       </div>
       <div className="md:px-32 px-5 md:w-9/12 py-24 mx-auto w-full flex flex-col gap-2 items-center text-center">
-        <div className="relative">
+        <div className="relative md:block hidden">
           <Image
             src="/Vector-6.svg"
             alt="Wallet icon"
@@ -127,7 +127,7 @@ const Page = () => {
               alt="Wallet icon"
               width={55}
               height={55}
-              className="md:w-[55px] w-[55px]"
+              className="md:w-[55px] md:block hidden"
             />
           </div>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 mt-5 grid-cols-1 gap-3">
@@ -154,7 +154,7 @@ const Page = () => {
             />
           </div>
           <div className="mt-28 text-center">
-            <h4 className="md:text-5xl font-semibold mb-8">
+            <h4 className="md:text-5xl text-xl font-semibold mb-8">
               Why Should You Make <br />
               Money <span className="text-primary">Transfers with Xmarr?</span>
             </h4>
@@ -162,7 +162,7 @@ const Page = () => {
               {featureBadges.map((item, index) => (
                 <div
                   key={index}
-                  className="border border-[#D1CFCF] rounded-full flex gap-2 items-center p-4 text-[#666666] text-lg"
+                  className="border border-[#D1CFCF] rounded-full flex gap-2 items-center p-4 text-[#666666] md:text-lg"
                 >
                   <Image
                     src={item.icon}
@@ -181,7 +181,7 @@ const Page = () => {
       <div className="md:px-32 px-5   py-24">
         <div className="md:w-11/12 bg-[#FFE0ED] rounded-[20px] p-12 flex md:flex-row flex-col items-center gap-10 mx-auto w-full">
           <div className="md:w-6/12 ">
-            <h3 className="text-[#3E1100] text-5xl font-semibold mb-4">
+            <h3 className="text-[#3E1100] md:text-5xl text-3xl font-semibold mb-4">
               Making a difference together
             </h3>
             <p className="">

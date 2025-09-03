@@ -70,7 +70,7 @@ const Page = () => {
       <div className="md:px-20 px-5 py-20">
         <div className="md:w-10/12 mx-auto w-full mb-16">
           <h3 className="font-semibold text-3xl mb-8">Transfers</h3>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -81,7 +81,7 @@ const Page = () => {
             </div>
             <h5 className=" text-lg font-semibold">NGN 10 per Transfer</h5>
           </div>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -92,7 +92,7 @@ const Page = () => {
             </div>
             <h5 className=" text-lg font-semibold">NGN 25 per Transfer</h5>
           </div>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -106,7 +106,7 @@ const Page = () => {
         </div>
         <div className="md:w-10/12 mx-auto w-full mb-16">
           <h3 className="font-semibold text-3xl mb-8">Escrow</h3>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -117,7 +117,7 @@ const Page = () => {
             </div>
             <h5 className=" text-lg font-semibold">1.5% Capped at NGN 750</h5>
           </div>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -128,7 +128,7 @@ const Page = () => {
             </div>
             <h5 className=" text-lg font-semibold">1.0% Capped at NGN 5,000</h5>
           </div>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -141,7 +141,7 @@ const Page = () => {
               Transfers above NGN 50,000
             </h5>
           </div>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -155,7 +155,7 @@ const Page = () => {
         </div>
         <div className="md:w-10/12 mx-auto w-full mb-16">
           <h3 className="font-semibold text-3xl mb-8">E-wallet</h3>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -166,7 +166,7 @@ const Page = () => {
             </div>
             <h5 className=" text-lg font-semibold">Free</h5>
           </div>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -180,7 +180,7 @@ const Page = () => {
         </div>
         <div className="md:w-10/12 mx-auto w-full mb-16">
           <h3 className="font-semibold text-3xl mb-8">Bill Payment</h3>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -191,7 +191,7 @@ const Page = () => {
             </div>
             <h5 className=" text-lg font-semibold">NGN 0 per Purchase</h5>
           </div>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -202,7 +202,7 @@ const Page = () => {
             </div>
             <h5 className=" text-lg font-semibold">NGN 0 per Purchase</h5>
           </div>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -213,7 +213,7 @@ const Page = () => {
             </div>
             <h5 className=" text-lg font-semibold">NGN 100 per Purchase</h5>
           </div>
-          <div className="flex justify-between gap-6 items-center mb-6">
+          <div className="flex md:flex-row flex-wrap justify-between gap-6 md:items-center items-start mb-6">
             <div className="flex items-center gap-3">
               <div className="w-[27px] h-[27px] rounded-full bg-[#FFCFC3] flex justify-center items-center text-primary">
                 <IoMdPricetag />
@@ -226,7 +226,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className="md:px-32 px-5 py-20 bg-[#FFF9ED] flex justify-between items-center">
+      <div className="md:px-32 px-5 py-20 bg-[#FFF9ED] flex justify-between md:flex-row flex-col gap-6 items-center">
         <div className="md:w-4/12 w-full">
           <h2 className="text-4xl font-semibold mb-4">Escrow Calculator</h2>
           <p>

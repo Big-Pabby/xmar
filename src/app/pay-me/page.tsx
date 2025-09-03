@@ -16,6 +16,7 @@ const Page = () => {
             alt="brand1"
             width={175}
             height={160}
+            className="md:w-[175px] w-[100px]"
           />
           <h2 className="font-bold text-[#410D00] md:text-9xl text-3xl">
             PayMe
@@ -27,11 +28,11 @@ const Page = () => {
       </div>
       <div className="md:px-20 px-5 py-20">
         <div className="md:w-8/12 w-full mx-auto">
-          <h3 className="text-primary text-center font-bold text-6xl mb-8">
+          <h3 className="text-primary text-center font-bold md:text-6xl mb-8 text-3xl">
             XMARR PayMe <br />
             One Link. Every Customer.
           </h3>
-          <p className="text-center text-2xl font-normal">
+          <p className="text-center md:text-2xl text-lg font-normal">
             Why keep sending bank details every time a customer wants to pay?
             With Xmarr PayMe, you get one secure, professional link that never
             changes. Share it anywhere—Instagram, WhatsApp, your online
@@ -40,7 +41,7 @@ const Page = () => {
             matters: selling.
           </p>
         </div>
-        <div className="flex justify-between items-center mt-20 gap-4">
+        <div className="flex md:flex-row flex-col justify-between items-center mt-20 gap-4">
           <div className="md:w-5/12 w-full">
             <Image
               src="/images/landing/alert.svg"
@@ -51,10 +52,10 @@ const Page = () => {
             />
           </div>
           <div className="md:w-6/12 w-full">
-            <h3 className="font-semibold text-[#434343] text-4xl mb-4">
+            <h3 className="font-semibold text-[#434343] md:text-4xl mb-4 text-2xl">
               Instant Notification on Payment.
             </h3>
-            <p className="text-lg">
+            <p className="md:text-lg">
               With XMARR, you will know the moment a payment is made—no delays,
               no guesswork. Funds move into escrow within 60 seconds, and you
               receive instant notifications in under 5. Whether you are a
@@ -67,7 +68,7 @@ const Page = () => {
       </div>
       <div className="md:px-20 px-5 py-20 bg-[#FDFBF7]">
         <div className="md:w-8/12 w-full mx-auto flex flex-col items-center justify-center">
-          <h3 className=" text-center font-semibold text-5xl mb-4">
+          <h3 className=" text-center font-semibold md:text-5xl text-3xl mb-4">
             How Xmarr <span className="text-primary">PayMe Works</span>
           </h3>
           <div className="font-semibold mb-4 flex gap-2 items-center">
@@ -86,7 +87,7 @@ const Page = () => {
           <div className="flex flex-col items-center justify-center border-r-[1px] border-[#E6E6E6] p-8">
             <h3 className="font-bold text-[#C9C9C9] text-4xl mb-4">1</h3>
             <h2 className="font-medium text-3xl mb-6">Create PayMe Link</h2>
-            <p className="mb-8">
+            <p className="mb-8 md:text-left text-center">
               Set up your personalized, secure payment link in seconds—no code,
               no hassle. Just you, your business, and a professional way to get
               paid.
@@ -99,7 +100,7 @@ const Page = () => {
           <div className="flex flex-col items-center justify-center border-r-[1px] border-[#E6E6E6] p-8">
             <h3 className="font-bold text-[#C9C9C9] text-4xl mb-4">2</h3>
             <h2 className="font-medium text-3xl mb-6">Share Link Anywhere</h2>
-            <p className="mb-8">
+            <p className="mb-8 md:text-left text-center">
               Send your link via DM, bio, website, or even on your business
               card. However you hustle, XMARR moves with you.
             </p>
@@ -111,7 +112,7 @@ const Page = () => {
           <div className="flex flex-col items-center justify-center p-8">
             <h3 className="font-bold text-[#C9C9C9] text-4xl mb-4">3</h3>
             <h2 className="font-medium text-3xl mb-6">Get Paid, Instantly</h2>
-            <p className="mb-8">
+            <p className="mb-8 md:text-left text-center">
               Say goodbye to payment delays. With XMARR, your funds are
               protected, verified, and settled in real-time.
             </p>

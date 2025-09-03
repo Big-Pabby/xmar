@@ -70,7 +70,7 @@ const Page = () => {
               />
             </div>
           </div>
-          <div className="flex gap-4 mt-4">
+          <div className="flex md:flex-row flex-col gap-4 mt-4">
             <div className="md:w-4/12 w-full bg-[#FFD4B9] border-[2px] border-[#FFDAC3] rounded-[20px] px-4 pt-8">
               <h3 className="font-black md:text-4xl text-2xl mb-24">
                 Shop and Spend Globally
@@ -98,7 +98,7 @@ const Page = () => {
                   </p>
                 </div>
                 <div>
-                  <button className=" btn bg-gradient-to-br from-[#D73F18] via-[#FF823F] to-[#FD9909] text-white inline-block rounded-full mb-8">
+                  <button className=" btn bg-gradient-to-br from-[#D73F18] via-[#FF823F] to-[#FD9909] text-white inline-block rounded-full md:mt-0 mt-6 mb-8">
                     Get your virtual card now!
                   </button>
                 </div>
@@ -108,7 +108,7 @@ const Page = () => {
                 alt="brand1"
                 width={553}
                 height={382}
-                className="h-auto absolute bottom-0 -right-8 object-cover"
+                className="h-auto md:block hidden absolute bottom-0 -right-8 object-cover"
               />
             </div>
           </div>
